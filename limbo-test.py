@@ -1,10 +1,18 @@
 from flask import Flask, request
+from flask.ext.sqlalchemy import SQLAlchemy
 import json
 import requests
+import os
+import urlparse
 
 app = Flask(__name__)
 
 PAT = 'EAACI4GIIx08BAHwR6J1cOROTpYbE9QceOhxR08JBywhdAV6t24J70RG28YaZCzQxJGinIB6v0xy7Y7gdTVQUZCmgRwm1EVBQd05kMYCwikkTAtmHbxVhTUvvpMGYM9vcTKD2qPXmwcZCDgOVX1eZCUGNfzJpyifuocmDXIMElQZDZD'
+
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
+db = SQLAlchemy(app)
+
+
 
 @app.route('/', methods=['GET'])
 def handle_verification():
