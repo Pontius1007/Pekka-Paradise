@@ -2,24 +2,21 @@
 import requests
 
 base_url = "http://www.ime.ntnu.no/api/course/en/"
-searchcode = "-"
-
-allCourses = requests.get(base_url + searchcode).json()
 
 # print(allCourses["course"][0]["code"])
 
 # method for checking if a subject exists at NTNU
 
 
-def subject_exists(code, courses):
-    exists = False
+def subject_exists(code):
 
-    for i in range(0, len(courses["course"])):
-        if courses["course"][i]["code"] == code:
-            exists = True
-            print(i)
-            break
+    try:
+        course = requests.get(base_url + code).json()
+        code = course['course']['code']
+        name = course['course']['name']
+    except TypeError:
+        return 'Subject does not exist'
 
-    return exists
+    return ''.join(code + ': ' + name)
 
-print(subject_exists("AM304016", allCourses))
+print (subject_exists('876544'))
