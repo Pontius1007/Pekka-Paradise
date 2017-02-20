@@ -18,5 +18,3 @@ def subject_exists(code):
         return 'Subject does not exist'
 
     return ''.join(code + ': ' + name)
-
-print (subject_exists('876544'))
