@@ -41,8 +41,8 @@ def handle_messages():
     print "Handling Messages"
     payload = request.get_data()
     print payload
-    for sender, incomming_message in messaging_events(payload):
-        outgoing_message = ime_data_test.subject_exists(incomming_message.split()[0])
+    for sender, incoming_message in messaging_events(payload):
+        outgoing_message = ime_data_test.subject_exists(incoming_message.split()[0])
         send_message(PAT, sender, outgoing_message)
     return "ok"
 

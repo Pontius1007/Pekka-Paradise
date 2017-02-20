@@ -1,10 +1,8 @@
 
 import requests
 
+
 base_url = "http://www.ime.ntnu.no/api/course/en/"
-
-# print(allCourses["course"][0]["code"])
-
 # method for checking if a subject exists at NTNU
 
 
@@ -16,5 +14,7 @@ def subject_exists(code):
         name = course['course']['name']
     except TypeError:
         return 'Subject does not exist'
+    except ValueError:
+        return 'Not valid'
 
     return ''.join(code + ': ' + name)
