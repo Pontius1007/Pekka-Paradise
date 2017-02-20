@@ -5,6 +5,7 @@ import requests
 import os
 import urlparse
 import psycopg2
+import ime_data_test
 
 app = Flask(__name__)
 
@@ -40,9 +41,10 @@ def handle_messages():
     print "Handling Messages"
     payload = request.get_data()
     print payload
-    for sender, message in messaging_events(payload):
-        print "Incoming from %s: %s" % (sender, message)
-        send_message(PAT, sender, message)
+    for sender, incomming_message in messaging_events(payload):
+        print "Incoming from %s: %s" % (sender, incomming_message)
+        outgoing_message = ime_data_test.subject_exists(incomming_message)
+        send_message(PAT, sender, outgoing_message)
     return "ok"
 
 
