@@ -1,1 +1,1 @@
-web: gunicorn limbo-test:app
+web: gunicorn app:app
