@@ -23,26 +23,26 @@ conn = psycopg2.connect(
     user=url.username,
     password=url.password,
     host=url.hostname,
-    port=url.port
+    port=url.ports
 )
 
 
 @app.route('/', methods=['GET'])
 def handle_verification():
-    print "Handling Verification: ->"
+    print("Handling Verification: ->")
     if request.args.get('hub.verify_token', '') == 'Heisann32141221':
-        print "Verification successful!"
+        print("Verification successful!")
         return request.args.get('hub.challenge', '')
     else:
-        print "Verification failed!"
+        print("Verification failed!")
         return 'Error, wrong validation token'
 
 
 @app.route('/', methods=['POST'])
 def handle_messages():
-    print "Handling Messages"
+    print ("Handling Messages")
     payload = request.get_data()
-    print payload
+    print(payload)
     for sender, incoming_message in messaging_events(payload):
         outgoing_message = ime_data_test.subject_exists(incoming_message.split()[0])
         send_message(PAT, sender, outgoing_message)
@@ -55,9 +55,9 @@ def messaging_events(payload):
     """
     data = json.loads(payload)
     messaging_events = data["entry"][0]["messaging"]
-    #Testing to see what message is
-    print messaging_events
-    #EndTest
+    # Testing to see what message is
+    print(messaging_events)
+    # EndTest
     for event in messaging_events:
         if "message" in event and "text" in event["message"]:
             yield event["sender"]["id"], event["message"]["text"].encode('unicode_escape')
@@ -75,7 +75,7 @@ def send_message(token, recipient, text):
         }),
         headers={'Content-type': 'application/json'})
     if r.status_code != requests.codes.ok:
-        print r.text
+        print(r.text)
 
 if __name__ == '__main__':
-  app.run()
+    app.run()

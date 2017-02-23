@@ -16,5 +16,4 @@ def subject_exists(code):
         return 'Subject does not exist'
     except ValueError:
         return 'Not valid'
-
     return ''.join(code + ': ' + name)
