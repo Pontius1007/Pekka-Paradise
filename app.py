@@ -3,7 +3,6 @@ from flask.ext.sqlalchemy import SQLAlchemy
 import json
 import requests
 import os
-import urlparse
 import psycopg2
 import ime_data_test
 
@@ -13,9 +12,6 @@ db = SQLAlchemy(app)
 
 PAT = 'EAACI4GIIx08BAHwR6J1cOROTpYbE9QceOhxR08JBywhdAV6t24J70RG28YaZCzQxJGinIB6v0xy7Y7gdTVQUZCmgRwm1EVBQd05kMYCwi' \
       'kkTAtmHbxVhTUvvpMGYM9vcTKD2qPXmwcZCDgOVX1eZCUGNfzJpyifuocmDXIMElQZDZD'
-
-urlparse.uses_netloc.append("postgres")
-url = urlparse.urlparse(os.environ["DATABASE_URL"])
 
 
 conn = psycopg2.connect(
