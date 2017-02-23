@@ -46,11 +46,6 @@ def handle_messages():
     for sender, incoming_message in messaging_events(payload):
         outgoing_message = ime_data_test.subject_exists(incoming_message.split()[0])
         send_message(PAT, sender, outgoing_message)
-        #TestTest
-        user = User(sender, outgoing_message)
-        db.session.add(user)
-        db.session.commit()
-        #EndTest
     return "ok"
 
 
@@ -81,18 +76,6 @@ def send_message(token, recipient, text):
         headers={'Content-type': 'application/json'})
     if r.status_code != requests.codes.ok:
         print r.text
-
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(80), unique=True)
-    fag = db.Column(db.String(200), unique=True)
-
-    def __init__(self, name, email):
-        self.name = name
-        self.email = email
-
-    def __repr__(self):
-        return '<Name %r>' % self.name
 
 if __name__ == '__main__':
   app.run()
