@@ -5,6 +5,7 @@ import requests
 import os
 import psycopg2
 import ime_data_test
+from app import app
 
 
 PAT = 'EAACI4GIIx08BAHwR6J1cOROTpYbE9QceOhxR08JBywhdAV6t24J70RG28YaZCzQxJGinIB6v0xy7Y7gdTVQUZCmgRwm1EVBQd05kMYCwi' \
