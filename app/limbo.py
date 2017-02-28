@@ -1,7 +1,7 @@
 from flask import request
 import json
 import requests
-import ime_data_test
+import ime_data_fetch
 from app import app
 
 
@@ -26,7 +26,7 @@ def handle_messages():
     payload = request.get_data()
     print(payload)
     for sender, incoming_message in messaging_events(payload):
-        outgoing_message = ime_data_test.subject_exists(incoming_message.split()[0])
+        outgoing_message = ime_data_fetch.subject_exists(incoming_message.split()[0])
         send_message(PAT, sender, outgoing_message)
     return "ok"
 
