@@ -1,9 +1,6 @@
 from flask import request
-from flask.ext.sqlalchemy import SQLAlchemy
 import json
 import requests
-import os
-import psycopg2
 import ime_data_test
 from app import app
 
