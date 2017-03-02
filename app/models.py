@@ -3,7 +3,7 @@ from app import db
 
 class User(db.Model):
     user_id = db.Column(db.Integer, primary_key=True)
-    course_id = db.Column(db.String(10), db.foreignKey(''))
+    course_id = db.Column(db.String(15), db.foreignKey(''))
 
     def __init__(self, user_id):
         self.user_id = user_id
