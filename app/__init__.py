@@ -6,6 +6,7 @@ app = Flask(__name__)
 app.config.from_object('config')
 db = SQLAlchemy(app)
 
+# The following could possibly be removed
 if os.environ.get('HEROKU') is not None:
     import logging
     stream_handler = logging.StreamHandler()
