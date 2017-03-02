@@ -4,7 +4,7 @@ from app import db
 class User(db.Model):
     __tablename__ = 'userInformation'
     user_id = db.Column(db.Integer, primary_key=True)
-    course_id = db.Column(db.String(15), db.foreignKey(''))
+    course_id = db.Column(db.String(15), db.ForeignKey('courseInformation.course_id'))
 
     def __init__(self, user_id):
         self.user_id = user_id
