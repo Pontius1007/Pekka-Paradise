@@ -27,30 +27,7 @@ def handle_messages():
     print(payload)
     for sender, incoming_message in messaging_events(payload):
         # outgoing_message = ime_data_fetch.subject_exists(incoming_message.split()[0])
-        outgoing_message = {
-              "message": {
-                "attachment": {
-                  "type": "template",
-                  "payload": {
-                    "template_type": "button",
-                    "text": "What do you want to do next?",
-                    "buttons": [
-                      {
-                        "type": "web_url",
-                        "url": "https://petersapparel.parseapp.com",
-                        "title": "Show Website"
-                      },
-                      {
-                        "type": "postback",
-                        "title": "Start Chatting",
-                        "payload": "USER_DEFINED_PAYLOAD"
-                      }
-                    ]
-                  }
-                }
-              }
-            }
-        send_message(PAT, sender, outgoing_message)
+        send_message(PAT, sender)
     return "ok"
 
 
@@ -70,13 +47,33 @@ def messaging_events(payload):
             yield event["sender"]["id"], "I can't echo this"
 
 
-def send_message(token, recipient, text):
+def send_message(token, recipient):  # param text
     """Send the message text to recipient with id recipient.
     """
 
     r = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token}, data=json.dumps({
         "recipient": {"id": recipient},
-        "message": {"text": text}
+        "message": {
+                "attachment":{
+                  "type":"template",
+                  "payload":{
+                    "template_type":"button",
+                    "text":"What do you want to do next?",
+                    "buttons":[
+                      {
+                        "type":"web_url",
+                        "url":"https://petersapparel.parseapp.com",
+                        "title":"Show Website"
+                      },
+                      {
+                        "type":"postback",
+                        "title":"Start Chatting",
+                        "payload":"USER_DEFINED_PAYLOAD"
+                      }
+                    ]
+                  }
+                }
+              }
         }),
         headers={'Content-type': 'application/json'})
     if r.status_code != requests.codes.ok:
