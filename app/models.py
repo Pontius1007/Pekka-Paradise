@@ -2,6 +2,7 @@ from app import db
 
 
 class User(db.Model):
+    __tablename__ = 'userInformation'
     user_id = db.Column(db.Integer, primary_key=True)
     course_id = db.Column(db.String(15), db.foreignKey(''))
 
@@ -13,7 +14,8 @@ class User(db.Model):
 
 
 class Course(db.Model):
-    course_id = db.Column(db.String(10), primary_key=True)
+    __tablename__ = 'courseInformation'
+    course_id = db.Column(db.String(15), primary_key=True)
     course_name = db.Column(db.String(50), unique=True)
 
     def __init__(self, course_id):
