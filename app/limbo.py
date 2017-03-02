@@ -26,8 +26,8 @@ def handle_messages():
     payload = request.get_data()
     print(payload)
     for sender, incoming_message in messaging_events(payload):
-        # outgoing_message = ime_data_fetch.subject_exists(incoming_message.split()[0])
-        send_message(PAT, sender)
+        outgoing_message = ime_data_fetch.subject_exists(incoming_message.split()[0])
+        send_message(PAT, sender, outgoing_message)
     return "ok"
 
 
@@ -47,11 +47,11 @@ def messaging_events(payload):
             yield event["sender"]["id"], "I can't echo this"
 
 
-def send_message(token, recipient):  # param text
+def send_message(token, recipient, text):
     """Send the message text to recipient with id recipient.
     """
 
-    r = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token}, data=json.dumps({
+    test_message = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token}, data=json.dumps({
         "recipient": {"id": recipient},
         "message": {
                 "attachment": {
@@ -74,7 +74,14 @@ def send_message(token, recipient):  # param text
                   }
                 }
               }
+        }))
+
+    r = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token}, data=json.dumps({
+        "recipient": {"id": recipient},
+        "message": {"text": text}
         }),
         headers={'Content-type': 'application/json'})
+
     if r.status_code != requests.codes.ok:
-        print(r.text)
+        # print(r.text)
+        print(test_message.text)
