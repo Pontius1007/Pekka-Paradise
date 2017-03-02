@@ -26,7 +26,30 @@ def handle_messages():
     payload = request.get_data()
     print(payload)
     for sender, incoming_message in messaging_events(payload):
-        outgoing_message = ime_data_fetch.subject_exists(incoming_message.split()[0])
+        # outgoing_message = ime_data_fetch.subject_exists(incoming_message.split()[0])
+        outgoing_message = {
+              "message": {
+                "attachment": {
+                  "type": "template",
+                  "payload": {
+                    "template_type": "button",
+                    "text": "What do you want to do next?",
+                    "buttons": [
+                      {
+                        "type": "web_url",
+                        "url": "https://petersapparel.parseapp.com",
+                        "title": "Show Website"
+                      },
+                      {
+                        "type": "postback",
+                        "title": "Start Chatting",
+                        "payload": "USER_DEFINED_PAYLOAD"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
         send_message(PAT, sender, outgoing_message)
     return "ok"
 
