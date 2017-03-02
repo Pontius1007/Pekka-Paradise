@@ -57,6 +57,8 @@ def send_button_test(token, recipient):
         "message": {"text": "This is a response"}
     }), headers={'Content-type': 'application/json'})
 
+    t = "Hello"
+
     test_message = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token}, data=json.dumps({
          "recipient": {"id": recipient},
          "message": {
@@ -74,7 +76,7 @@ def send_button_test(token, recipient):
                          {
                              "type": "postback",
                              "title": "Start Chatting",
-                             "payload": txt
+                             "payload": t
                          },
                      ]
                  }
