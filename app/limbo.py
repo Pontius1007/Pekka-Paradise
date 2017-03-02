@@ -58,7 +58,7 @@ def send_message(token, recipient):  # param text
                   "type": "template",
                   "payload": {
                     "template_type": "button",
-                    "text": "What ca I do for you today?",
+                    "text": "What can I do for you today?",
                     "buttons": [
                         {
                             "type": "web_url",
@@ -70,13 +70,6 @@ def send_message(token, recipient):  # param text
                             "title": "Start Chatting",
                             "payload": "USER_DEFINED_PAYLOAD"
                         },
-                        {
-                            "type": "image",
-                            "title": "This is an image :S?",
-                            "payload": {
-                                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Apple_Computer_Logo_rainbow.svg/931px-Apple_Computer_Logo_rainbow.svg.png"
-                              }
-                        }
                     ]
                   }
                 }
