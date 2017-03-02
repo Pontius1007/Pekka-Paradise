@@ -22,38 +22,41 @@ def handle_verification():
 
 @app.route('/', methods=['POST'])
 def handle_messages():
-    print ("Handling Messages")
+    print("Handling Messages")
     payload = request.get_data()
-    print(payload)
     for sender, incoming_message in messaging_events(payload):
+        # Uses the ime api with the course code
         outgoing_message = ime_data_fetch.subject_exists(incoming_message.split()[0])
+        # Sends the message
         send_message(PAT, sender, outgoing_message)
     return "ok"
 
 
 def messaging_events(payload):
-    """Generate tuples of (sender_id, message_text) from the
+    """
+    Generate tuples of (sender_id, message_text) from the
     provided payload.
     """
     data = json.loads(payload)
-    messaging_events = data["entry"][0]["messaging"]
+    message = data["entry"][0]["messaging"]
     # Testing to see what message is
-    print(messaging_events)
+    print(message)
     # EndTest
-    for event in messaging_events:
+    for event in message:
         if "message" in event and "text" in event["message"]:
-            yield event["sender"]["id"], event["message"]["text"] #.encode('unicode_escape')
+            yield event["sender"]["id"], event["message"]["text"]
         else:
             yield event["sender"]["id"], "I can't echo this"
 
 
 def send_message(token, recipient, text):
-    """Send the message text to recipient with id recipient.
+    """
+    Send the message text to recipient with id recipient.
     """
 
     r = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token}, data=json.dumps({
         "recipient": {"id": recipient},
-        "message": {"text": text} # .decode('unicode_escape')
+        "message": {"text": text}
         }),
         headers={'Content-type': 'application/json'})
     if r.status_code != requests.codes.ok:
