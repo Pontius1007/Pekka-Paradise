@@ -22,7 +22,7 @@ def handle_verification():
 
 @app.route('/', methods=['POST'])
 def handle_messages():
-    print ("Handling Messages")
+    print("Handling Messages")
     payload = request.get_data()
     print(payload)
     for sender, incoming_message in messaging_events(payload):
