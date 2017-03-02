@@ -30,6 +30,7 @@ def handle_messages():
         # outgoing_message = ime_data_fetch.subject_exists(incoming_message.split()[0])
         # Sends Course name to correct user
         # send_message(PAT, sender, outgoing_message)
+        # launches button test
         send_button_test(PAT, sender)
     return "ok"
 
@@ -51,6 +52,11 @@ def messaging_events(payload):
 
 
 def send_button_test(token, recipient):
+    txt = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token}, data=json.dumps({
+        "recipient": {"id": recipient},
+        "message": {"text": "This is a response"}
+    }), headers={'Content-type': 'application/json'})
+
     test_message = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token}, data=json.dumps({
          "recipient": {"id": recipient},
          "message": {
@@ -68,7 +74,7 @@ def send_button_test(token, recipient):
                          {
                              "type": "postback",
                              "title": "Start Chatting",
-                             "payload": "USER_DEFINED_PAYLOAD"
+                             "payload": txt
                          },
                      ]
                  }
