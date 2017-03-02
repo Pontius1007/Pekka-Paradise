@@ -54,22 +54,29 @@ def send_message(token, recipient):  # param text
     r = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token}, data=json.dumps({
         "recipient": {"id": recipient},
         "message": {
-                "attachment":{
-                  "type":"template",
-                  "payload":{
-                    "template_type":"button",
-                    "text":"What do you want to do next?",
-                    "buttons":[
-                      {
-                        "type":"web_url",
-                        "url":"https://petersapparel.parseapp.com",
-                        "title":"Show Website"
-                      },
-                      {
-                        "type":"postback",
-                        "title":"Start Chatting",
-                        "payload":"USER_DEFINED_PAYLOAD"
-                      }
+                "attachment": {
+                  "type": "template",
+                  "payload": {
+                    "template_type": "button",
+                    "text": "What ca I do for you today?",
+                    "buttons": [
+                        {
+                            "type": "web_url",
+                            "url": "https://google.com",
+                            "title": "Show Google"
+                        },
+                        {
+                            "type": "postback",
+                            "title": "Start Chatting",
+                            "payload": "USER_DEFINED_PAYLOAD"
+                        },
+                        {
+                            "type": "image",
+                            "title": "This is an image :S?",
+                            "payload": {
+                                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Apple_Computer_Logo_rainbow.svg/931px-Apple_Computer_Logo_rainbow.svg.png"
+                              }
+                        }
                     ]
                   }
                 }
