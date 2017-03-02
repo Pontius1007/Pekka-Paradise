@@ -26,8 +26,11 @@ def handle_messages():
     payload = request.get_data()
     print(payload)
     for sender, incoming_message in messaging_events(payload):
-        outgoing_message = ime_data_fetch.subject_exists(incoming_message.split()[0])
-        send_message(PAT, sender, outgoing_message)
+        # Checks if subject exists
+        # outgoing_message = ime_data_fetch.subject_exists(incoming_message.split()[0])
+        # Sends Course name to correct user
+        # send_message(PAT, sender, outgoing_message)
+        send_button_test(PAT, sender)
     return "ok"
 
 
@@ -47,34 +50,39 @@ def messaging_events(payload):
             yield event["sender"]["id"], "I can't echo this"
 
 
+def send_button_test(token, recipient):
+    test_message = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token}, data=json.dumps({
+         "recipient": {"id": recipient},
+         "message": {
+             "attachment": {
+                 "type": "template",
+                 "payload": {
+                     "template_type": "button",
+                     "text": "What can I do for you today?",
+                     "buttons": [
+                         {
+                             "type": "web_url",
+                             "url": "https://google.com",
+                             "title": "Show Google"
+                         },
+                         {
+                             "type": "postback",
+                             "title": "Start Chatting",
+                             "payload": "USER_DEFINED_PAYLOAD"
+                         },
+                     ]
+                 }
+             }
+         }
+    }), headers={'Content-type': 'application/json'})
+
+    if test_message.status_code != requests.codes.ok:
+        print(test_message.text)
+
+
 def send_message(token, recipient, text):
     """Send the message text to recipient with id recipient.
     """
-
-    test_message = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token}, data=json.dumps({
-        "recipient": {"id": recipient},
-        "message": {
-                "attachment": {
-                  "type": "template",
-                  "payload": {
-                    "template_type": "button",
-                    "text": "What can I do for you today?",
-                    "buttons": [
-                        {
-                            "type": "web_url",
-                            "url": "https://google.com",
-                            "title": "Show Google"
-                        },
-                        {
-                            "type": "postback",
-                            "title": "Start Chatting",
-                            "payload": "USER_DEFINED_PAYLOAD"
-                        },
-                    ]
-                  }
-                }
-              }
-        }))
 
     r = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token}, data=json.dumps({
         "recipient": {"id": recipient},
@@ -83,5 +91,4 @@ def send_message(token, recipient, text):
         headers={'Content-type': 'application/json'})
 
     if r.status_code != requests.codes.ok:
-        # print(r.text)
-        print(test_message.text)
+        print(r.text)
