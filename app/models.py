@@ -1,25 +1,19 @@
 from app import db
 
-
 class User(db.Model):
-    __tablename__ = 'userInformation'
-    user_id = db.Column(db.Integer, primary_key=True)
-    course_id = db.Column(db.String(15), db.ForeignKey('courseInformation.course_id'))
-
-    def __init__(self, user_id):
-        self.user_id = user_id
+    id = db.Column(db.Integer, primary_key=True)
+    nickname = db.Column(db.String(64), index=True, unique=True)
+    email = db.Column(db.String(120), index=True, unique=True)
+    posts = db.relationship('Post', backref='author', lazy='dynamic')
 
     def __repr__(self):
-        return '<User %r>' % self.user_id
+        return '<User %r>' % (self.nickname)
 
-
-class Course(db.Model):
-    __tablename__ = 'courseInformation'
-    course_id = db.Column(db.String(15), primary_key=True)
-    course_name = db.Column(db.String(50), unique=True)
-
-    def __init__(self, course_id):
-        self.course_id = course_id
+class Post(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    body = db.Column(db.String(140))
+    timestamp = db.Column(db.DateTime)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __repr__(self):
-        return '<Course %r>' % self.course_id
+        return '<Post %r>' % (self.body)
