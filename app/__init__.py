@@ -15,5 +15,5 @@ if os.environ.get('HEROKU') is not None:
     app.logger.info('pekkp startup')
 
 # Import at the end to prevent circular import error with limbo.py
-from app import limbo
+from app import limbo, models
 
