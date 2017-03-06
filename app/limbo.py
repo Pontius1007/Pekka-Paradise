@@ -74,7 +74,8 @@ def test_get_full_name(sender):
     url = "https://graph.facebook.com/v2.6/" + sender + "?fields=first_name,last_name&access_token=" + PAT
     headers = {'content-type': 'application/json'}
     response = requests.get(url, headers=headers)
-    data = response.content
+    data = json.dumps(response, ensure_ascii=False).encode('utf8')
     print(data)
+    print('' + data['first_name'] + data['last_name'])
 
 
