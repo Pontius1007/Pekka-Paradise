@@ -68,5 +68,3 @@ def print_course_info(course):
            course['assessment'][0]['date']))
     return info_string
 
-print_course_info(get_course_json("tdt4145"))
-
