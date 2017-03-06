@@ -2,6 +2,7 @@ from flask import request
 import json
 import requests
 import ime_data_fetch
+import sub_info
 from app import app
 from app import Responses
 
@@ -47,6 +48,18 @@ def handle_messages():
                 response_handler.quick_reply(PAT, sender)
         # launches button test
         # send_button_test(PAT, sender)
+            #TODO FIX THIS DOES NOT WORK m80
+            in_message = incoming_message.split()
+            if len(in_message) > 1:
+                if in_message[1] == "schedule":
+                    print(sub_info.print_schedule(sub_info.get_schedule(in_message[0])))
+                    outgoing_message = sub_info.printable_schedule(sub_info.get_schedule(in_message[0]))
+                elif in_message[1] == "info":
+                    outgoing_message = sub_info.printable_course_info(sub_info.get_course_json(in_message[0]))
+            else:
+                outgoing_message = ime_data_fetch.subject_exists(incoming_message.split()[0])
+            send_message(PAT, sender, outgoing_message)
+
     return "ok"
 
 
