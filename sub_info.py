@@ -56,15 +56,22 @@ def get_course_json(sub_code):
     return course
 
 
-# TODO ikke alle fag har eksamensdato fordi de har annen vurdering, fikse kræsj knyttet til dette
 # TODO fullføre metode, hente mer info fro API
 # TODO feilteste/bughunt 2017
-def print_course_info(course):
+def printable_course_info(course):
     course = course['course']
-    info_string = ("%s %s\nStudiepoeng: %s\nStudienivå: %s\nVurderingsordning: %s\nKarakter: %s\nEksamensdato: %s" %
-          (course['code'], course['name'],
-           course['credit'], course['studyLevelName'],
-           course['assessment'][0]['codeName'], course['assessment'][0]['gradeRuleSchemeName'],
-           course['assessment'][0]['date']))
+    if(course['assessment'][0]['codeName'] == 'Skriftlig eksamen'):
+        info_string = ("%s %s\nStudiepoeng: %s\nStudienivå: %s\nVurderingsordning: %s\nKarakter: %s\nEksamensdato: %s" %
+                       (course['code'], course['name'],
+                        course['credit'], course['studyLevelName'],
+                        course['assessment'][0]['codeName'], course['assessment'][0]['gradeRuleSchemeName'],
+                        course['assessment'][0]['date']))
+    else:
+        info_string = ("%s %s\nStudiepoeng: %s\nStudienivå: %s\nVurderingsordning: %s\nKarakter: %s" %
+                       (course['code'], course['name'],
+                        course['credit'], course['studyLevelName'],
+                        course['assessment'][0]['codeName'], course['assessment'][0]['gradeRuleSchemeName']))
     return info_string
+
+print(printable_course_info(get_course_json("tdt4140")))
 

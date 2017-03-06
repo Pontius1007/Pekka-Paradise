@@ -33,7 +33,7 @@ def handle_messages():
                 print(sub_info.print_schedule(sub_info.get_schedule(in_message[0])))
                 outgoing_message = sub_info.printable_schedule(sub_info.get_schedule(in_message[0]))
             elif in_message[1] == "info":
-                outgoing_message = sub_info.print_course_info(sub_info.get_course_json(in_message[0]))
+                outgoing_message = sub_info.printable_course_info(sub_info.get_course_json(in_message[0]))
         else:
             outgoing_message = ime_data_fetch.subject_exists(incoming_message.split()[0])
         send_message(PAT, sender, outgoing_message)
