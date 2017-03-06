@@ -36,29 +36,18 @@ def handle_messages():
             # response_handler.course_info(PAT, sender, outgoing_message)
             if "hei" in incoming_message.lower() or "hallo" in incoming_message.lower():
                 response_handler.greeting_message(PAT, sender)
-            elif incoming_message == "Red":
-                response_handler.text_message(PAT, sender, "You picked RED BRRAH")
+            elif incoming_message == "Schedule":
+                response_handler.text_message(PAT, sender, sub_info.printable_schedule(sub_info.get_schedule("tdt4145")))
 
-            elif incoming_message == "Green":
-                response_handler.text_message(PAT, sender, "You picked GREEN BRRAH")
+            elif incoming_message == "Info":
+                response_handler.text_message(PAT, sender, sub_info.printable_course_info(sub_info.get_course_json("tdt4145")))
 
-            elif incoming_message == "Blue":
-                response_handler.text_message(PAT, sender, "You picked BLUE BRRAH")
+            elif incoming_message == "Secret":
+                response_handler.text_message(PAT, sender, "Pekka is love, Pekka is life")
             else:
                 response_handler.quick_reply(PAT, sender)
         # launches button test
         # send_button_test(PAT, sender)
-            #TODO FIX THIS DOES NOT WORK m80
-            in_message = incoming_message.split()
-            if len(in_message) > 1:
-                if in_message[1] == "schedule":
-                    print(sub_info.print_schedule(sub_info.get_schedule(in_message[0])))
-                    outgoing_message = sub_info.printable_schedule(sub_info.get_schedule(in_message[0]))
-                elif in_message[1] == "info":
-                    outgoing_message = sub_info.printable_course_info(sub_info.get_course_json(in_message[0]))
-            else:
-                outgoing_message = ime_data_fetch.subject_exists(incoming_message.split()[0])
-            send_message(PAT, sender, outgoing_message)
 
     return "ok"
 
