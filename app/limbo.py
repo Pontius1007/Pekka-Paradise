@@ -33,7 +33,19 @@ def handle_messages():
             # outgoing_message = ime_data_fetch.subject_exists(incoming_message.split()[0])
         # Sends Course name to correct user
             # response_handler.course_info(PAT, sender, outgoing_message)
-            response_handler.quick_reply(PAT, sender)
+            if incoming_message.lower().contains == "hei" or incoming_message.lower().contains == "hallo":
+                response_handler.greeting_message(PAT, sender)
+
+            if incoming_message == "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED":
+                response_handler.text_message(PAT, sender, "You picked RED BRRAH")
+
+            if incoming_message == "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_GREEN":
+                response_handler.text_message(PAT, sender, "You picked GREEN BRRAH")
+
+            if incoming_message == "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_BLUE":
+                response_handler.text_message(PAT, sender, "You picked GREEN BRRAH")
+            else:
+                response_handler.quick_reply(PAT, sender)
         # launches button test
         # send_button_test(PAT, sender)
     return "ok"
