@@ -3,10 +3,12 @@ import json
 import requests
 import ime_data_fetch
 from app import app
+from app import Responses
 
 
 PAT = 'EAACI4GIIx08BAHwR6J1cOROTpYbE9QceOhxR08JBywhdAV6t24J70RG28YaZCzQxJGinIB6v0xy7Y7gdTVQUZCmgRwm1EVBQd05kMYCwi' \
       'kkTAtmHbxVhTUvvpMGYM9vcTKD2qPXmwcZCDgOVX1eZCUGNfzJpyifuocmDXIMElQZDZD'
+response_handler = Responses
 
 
 @app.route('/', methods=['GET'])
@@ -20,6 +22,7 @@ def handle_verification():
         return 'Error, wrong validation token'
 
 
+# The wonderful logic that decides which response is sent should be placed in this function
 @app.route('/', methods=['POST'])
 def handle_messages():
     print("Handling Messages")
@@ -27,11 +30,11 @@ def handle_messages():
     print(payload)
     for sender, incoming_message in messaging_events(payload):
         # Checks if subject exists
-        # outgoing_message = ime_data_fetch.subject_exists(incoming_message.split()[0])
+            outgoing_message = ime_data_fetch.subject_exists(incoming_message.split()[0])
         # Sends Course name to correct user
-        # send_message(PAT, sender, outgoing_message)
+            response_handler.course_info(PAT, sender, outgoing_message)
         # launches button test
-        send_button_test(PAT, sender)
+        # send_button_test(PAT, sender)
     return "ok"
 
 
@@ -50,54 +53,3 @@ def messaging_events(payload):
         else:
             yield event["sender"]["id"], "I can't echo this"
 
-
-def send_button_test(token, recipient):
-    txt = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token}, data=json.dumps({
-        "recipient": {"id": recipient},
-        "message": {"text": "This is a response"}
-    }), headers={'Content-type': 'application/json'})
-    # I wonder if each separate message to be sent must be in its own method
-    # As of now the bot seems to send all JSON objects in this method
-    t = "Hello"
-
-    test_message = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token}, data=json.dumps({
-         "recipient": {"id": recipient},
-         "message": {
-             "attachment": {
-                 "type": "template",
-                 "payload": {
-                     "template_type": "button",
-                     "text": "What can I do for you today?",
-                     "buttons": [
-                         {
-                             "type": "web_url",
-                             "url": "https://google.com",
-                             "title": "Show Google"
-                         },
-                         {
-                             "type": "postback",
-                             "title": "Start Chatting",
-                             "payload": t
-                         },
-                     ]
-                 }
-             }
-         }
-    }), headers={'Content-type': 'application/json'})
-
-    if test_message.status_code != requests.codes.ok:
-        print(test_message.text)
-
-
-def send_message(token, recipient, text):
-    """Send the message text to recipient with id recipient.
-    """
-
-    r = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token}, data=json.dumps({
-        "recipient": {"id": recipient},
-        "message": {"text": text}
-        }),
-        headers={'Content-type': 'application/json'})
-
-    if r.status_code != requests.codes.ok:
-        print(r.text)
