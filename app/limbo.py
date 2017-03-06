@@ -38,6 +38,10 @@ def messaging_events(payload):
     provided payload.
     """
     data = json.loads(payload)
+    #TESTTEST
+    print("This is the data in the message:")
+    print(data)
+    #ENDTEST
     message = data["entry"][0]["messaging"]
     # Testing to see what message is
     print(message)
