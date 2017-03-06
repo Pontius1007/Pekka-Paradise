@@ -27,6 +27,36 @@ def course_info(token, recipient, message):
         print(r.text)
 
 
+def quick_reply(token, recipient):
+    quick_message = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
+                      data=json.dumps({
+                          "recipient": {"id": recipient},
+                          "message": {
+                            "text": "Pick a color:",
+                            "quick_replies": [
+                                {
+                                "content_type": "text",
+                                "title": "Red",
+                                "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED"
+                                },
+                                {
+                                "content_type": "text",
+                                "title": "Green",
+                                "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_GREEN"
+                                },
+                                {
+                                "content_type": "text",
+                                "title": "Green",
+                                "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_GREEN"
+                                }
+                            ]
+                            }
+                      }),
+                      headers={'Content-type': 'application/json'})
+    if quick_message.status_code != requests.codes.ok:
+        print(quick_message.text)
+
+
 def send_button_test(token, recipient):
     # I wonder if each separate message to be sent must be in its own method
     # As of now the bot seems to send all JSON objects in this method

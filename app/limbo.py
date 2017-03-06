@@ -30,9 +30,10 @@ def handle_messages():
     print(payload)
     for sender, incoming_message in messaging_events(payload):
         # Checks if subject exists
-            outgoing_message = ime_data_fetch.subject_exists(incoming_message.split()[0])
+            # outgoing_message = ime_data_fetch.subject_exists(incoming_message.split()[0])
         # Sends Course name to correct user
-            response_handler.course_info(PAT, sender, outgoing_message)
+            # response_handler.course_info(PAT, sender, outgoing_message)
+            response_handler.quick_reply(PAT, sender)
         # launches button test
         # send_button_test(PAT, sender)
     return "ok"
