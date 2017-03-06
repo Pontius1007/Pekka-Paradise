@@ -40,15 +40,15 @@ def handle_messages():
                 response_handler.greeting_message(PAT, sender)
             elif incoming_message == "Schedule":
                 response_handler.text_message(PAT, sender, sub_info.printable_schedule(sub_info.get_schedule("tdt4145")))
-                response_handler.sup_message(PAT, sender)
+                response_handler.supp_message(PAT, sender)
 
             elif incoming_message == "Info":
                 response_handler.text_message(PAT, sender, sub_info.printable_course_info(sub_info.get_course_json("tdt4145")))
-                response_handler.sup_message(PAT, sender)
+                response_handler.supp_message(PAT, sender)
 
             elif incoming_message == "Secret":
                 response_handler.text_message(PAT, sender, "Pekka is love, Pekka is life")
-                response_handler.sup_message(PAT, sender)
+                response_handler.supp_message(PAT, sender)
             else:
                 response_handler.quick_reply(PAT, sender)
         # launches button test
