@@ -62,17 +62,17 @@ def quick_reply(token, recipient):
                                           "quick_replies": [
                                               {
                                                   "content_type": "text",
-                                                  "title": "Red",
+                                                  "title": "Schedule",
                                                   "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED"
                                               },
                                               {
                                                   "content_type": "text",
-                                                  "title": "Green",
+                                                  "title": "Info",
                                                   "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_GREEN"
                                               },
                                               {
                                                   "content_type": "text",
-                                                  "title": "Blue",
+                                                  "title": "Secret",
                                                   "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_GREEN"
                                               }
                                           ]
