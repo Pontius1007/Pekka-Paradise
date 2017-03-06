@@ -72,7 +72,7 @@ def quick_reply(token, recipient):
                                               },
                                               {
                                                   "content_type": "text",
-                                                  "title": "Green",
+                                                  "title": "Blue",
                                                   "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_GREEN"
                                               }
                                           ]

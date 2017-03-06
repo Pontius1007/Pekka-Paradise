@@ -35,15 +35,14 @@ def handle_messages():
             # response_handler.course_info(PAT, sender, outgoing_message)
             if "hei" in incoming_message.lower() or "hallo" in incoming_message.lower():
                 response_handler.greeting_message(PAT, sender)
-
-            if incoming_message == "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED":
+            elif incoming_message == "Red":
                 response_handler.text_message(PAT, sender, "You picked RED BRRAH")
 
-            if incoming_message == "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_GREEN":
+            elif incoming_message == "Green":
                 response_handler.text_message(PAT, sender, "You picked GREEN BRRAH")
 
-            if incoming_message == "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_BLUE":
-                response_handler.text_message(PAT, sender, "You picked GREEN BRRAH")
+            elif incoming_message == "Blue":
+                response_handler.text_message(PAT, sender, "You picked BLUE BRRAH")
             else:
                 response_handler.quick_reply(PAT, sender)
         # launches button test
