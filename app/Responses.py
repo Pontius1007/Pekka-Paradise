@@ -35,7 +35,31 @@ def text_message(token, recipient, message):
 #                          }), headers={'Content-type': 'application/json'})
 #    if greet.status_code != requests.codes.ok:
 #        print(greet.text)
-#
+
+
+def supp_message(token, recipient):
+    supp = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
+                                  data=json.dumps({
+                                      "recipient": {"id": recipient},
+                                      "message": {
+                                          "text": "Pick a color:",
+                                          "quick_replies": [
+                                              {
+                                                  "content_type": "text",
+                                                  "title": "Yes",
+                                                  "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED"
+                                              },
+                                              {
+                                                  "content_type": "text",
+                                                  "title": "Quit Course",
+                                                  "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_GREEN"
+                                              }
+                                          ]
+                                      }
+                                  }),
+                                  headers={'Content-type': 'application/json'})
+    if supp.status_code != requests.codes.ok:
+        print(supp.text)
 
 
 def course_info(token, recipient, message):
