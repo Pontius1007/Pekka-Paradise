@@ -34,16 +34,21 @@ def handle_messages():
             # outgoing_message = ime_data_fetch.subject_exists(incoming_message.split()[0])
         # Sends Course name to correct user
             # response_handler.course_info(PAT, sender, outgoing_message)
+            if "yes" in incoming_message.lower():
+                response_handler.quick_reply(PAT, sender)
             if "hei" in incoming_message.lower() or "hallo" in incoming_message.lower():
                 response_handler.greeting_message(PAT, sender)
             elif incoming_message == "Schedule":
                 response_handler.text_message(PAT, sender, sub_info.printable_schedule(sub_info.get_schedule("tdt4145")))
+                response_handler.sup_message(PAT, sender)
 
             elif incoming_message == "Info":
                 response_handler.text_message(PAT, sender, sub_info.printable_course_info(sub_info.get_course_json("tdt4145")))
+                response_handler.sup_message(PAT, sender)
 
             elif incoming_message == "Secret":
                 response_handler.text_message(PAT, sender, "Pekka is love, Pekka is life")
+                response_handler.sup_message(PAT, sender)
             else:
                 response_handler.quick_reply(PAT, sender)
         # launches button test

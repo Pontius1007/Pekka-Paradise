@@ -82,7 +82,7 @@ def quick_reply(token, recipient):
                                   data=json.dumps({
                                       "recipient": {"id": recipient},
                                       "message": {
-                                          "text": "Pick a color:",
+                                          "text": "What do you need?",
                                           "quick_replies": [
                                               {
                                                   "content_type": "text",
