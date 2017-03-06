@@ -56,7 +56,8 @@ def send_button_test(token, recipient):
         "recipient": {"id": recipient},
         "message": {"text": "This is a response"}
     }), headers={'Content-type': 'application/json'})
-
+    # I wonder if each separate message to be sent must be in its own method
+    # As of now the bot seems to send all JSON objects in this method
     t = "Hello"
 
     test_message = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token}, data=json.dumps({
