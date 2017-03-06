@@ -71,9 +71,12 @@ def send_message(token, recipient, text):
 
 
 def test_get_full_name(sender):
-    test_url = "https://graph.facebook.com/v2.6/" + sender + "?fields=first_name,last_name&access_token=" + PAT
-    full_name_get = requests.get(test_url)
-    data = json.loads(full_name_get)
+    url = "https://graph.facebook.com/v2.6/" + sender + "?fields=first_name,last_name&access_token=" + PAT
+    headers = {'content-type': 'application/json'}
+    response = requests.post(url, headers=headers)
+    data = response.content
+    if data.status_code != requests.codes.ok:
+        print(data.text)
     print(data)
 
 
