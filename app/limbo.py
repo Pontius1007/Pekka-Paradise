@@ -27,15 +27,15 @@ def handle_messages():
     payload = request.get_data()
     print(payload)
     for sender, incoming_message in messaging_events(payload):
-        # Checks if subject exists
         in_message = incoming_message.split()
-        if in_message[1] == "schedule":
-            outgoing_message = sub_info.print_schedule(sub_info.get_schedule(in_message[0]))
-        elif in_message[1] == "info":
-            outgoing_message = sub_info.print_course_info(sub_info.get_course_json(in_message[0]))
+        if(len(in_message) > 1):
+            if in_message[1] == "schedule":
+                print(sub_info.print_schedule(sub_info.get_schedule(in_message[0])))
+                outgoing_message = sub_info.print_schedule(sub_info.get_schedule(in_message[0]))
+            elif in_message[1] == "info":
+                outgoing_message = sub_info.print_course_info(sub_info.get_course_json(in_message[0]))
         else:
             outgoing_message = ime_data_fetch.subject_exists(incoming_message.split()[0])
-        # Sends Course name to correct user
         send_message(PAT, sender, outgoing_message)
         # launches button test
         #send_button_test(PAT, sender)
