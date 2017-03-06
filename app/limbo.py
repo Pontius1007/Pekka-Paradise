@@ -71,7 +71,10 @@ def send_message(token, recipient, text):
 
 
 def test_get_full_name(sender):
-    test = requests.get("https://graph.facebook.com/v2.6/" + sender + "fields=first_name,last_name&access_token=" + PAT)
+    print(sender)
+    test_url = "https://graph.facebook.com/v2.6/" + sender + "fields=first_name,last_name&access_token=" + PAT
+    print(test_url)
+    test = requests.get(test_url)
     print(test)
 
 
