@@ -18,6 +18,8 @@ def get_schedule(sub_code):
                             + sub_code.upper() + "&year=2017&version=1").json()
 
         return schedule
+    else:
+        return "Subject does not exist"
 
 
 # method that prints a courses schedule to the console from a JSON schedule file
@@ -59,12 +61,12 @@ def get_course_json(sub_code):
 # TODO feilteste/bughunt 2017
 def print_course_info(course):
     course = course['course']
-    print("%s %s\nStudiepoeng: %s\nStudienivå: %s\nVurderingsordning: %s\nKarakter: %s\nEksamensdato: %s" %
+    info_string = ("%s %s\nStudiepoeng: %s\nStudienivå: %s\nVurderingsordning: %s\nKarakter: %s\nEksamensdato: %s" %
           (course['code'], course['name'],
            course['credit'], course['studyLevelName'],
            course['assessment'][0]['codeName'], course['assessment'][0]['gradeRuleSchemeName'],
            course['assessment'][0]['date']))
+    return info_string
 
-
-# print_course_info(get_course_json("tdt4145"))
+print_course_info(get_course_json("tdt4145"))
 

@@ -2,6 +2,7 @@ from flask import request
 import json
 import requests
 import ime_data_fetch
+import sub_info
 from app import app
 
 
@@ -27,11 +28,17 @@ def handle_messages():
     print(payload)
     for sender, incoming_message in messaging_events(payload):
         # Checks if subject exists
-        # outgoing_message = ime_data_fetch.subject_exists(incoming_message.split()[0])
+        in_message = incoming_message.split()
+        if in_message[1] == "schedule":
+            outgoing_message = sub_info.print_schedule(sub_info.get_schedule(in_message[0]))
+        elif in_message[1] == "info":
+            outgoing_message = sub_info.print_course_info(sub_info.get_course_json(in_message[0]))
+        else:
+            outgoing_message = ime_data_fetch.subject_exists(incoming_message.split()[0])
         # Sends Course name to correct user
-        # send_message(PAT, sender, outgoing_message)
+        send_message(PAT, sender, outgoing_message)
         # launches button test
-        send_button_test(PAT, sender)
+        #send_button_test(PAT, sender)
     return "ok"
 
 
