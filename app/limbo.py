@@ -75,8 +75,6 @@ def test_get_full_name(sender):
     headers = {'content-type': 'application/json'}
     response = requests.post(url, headers=headers)
     data = response.content
-    if data.status_code != requests.codes.ok:
-        print(data.text)
     print(data)
 
 
