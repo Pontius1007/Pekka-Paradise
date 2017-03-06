@@ -33,7 +33,7 @@ def handle_messages():
             # outgoing_message = ime_data_fetch.subject_exists(incoming_message.split()[0])
         # Sends Course name to correct user
             # response_handler.course_info(PAT, sender, outgoing_message)
-            if incoming_message.lower().contains == "hei" or incoming_message.lower().contains == "hallo":
+            if "hei" in incoming_message.lower() or "hallo" in incoming_message.lower():
                 response_handler.greeting_message(PAT, sender)
 
             if incoming_message == "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED":

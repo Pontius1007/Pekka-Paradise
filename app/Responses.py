@@ -3,7 +3,7 @@ import requests
 
 
 def greeting_message(token, recipient):
-    message = "Hello! \n What can i do for you today?"
+    message = "Hello! \n What can I do for you today?"
     txt = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
                         data=json.dumps({
                             "recipient": {"id": recipient},
@@ -12,6 +12,15 @@ def greeting_message(token, recipient):
     if txt.status_code != requests.codes.ok:
         print(txt.text)
 
+
+def text_message(token, recipient, message):
+    txt = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
+                        data=json.dumps({
+                            "recipient": {"id": recipient},
+                            "message": {"text": message}
+                        }), headers={'Content-type': 'application/json'})
+    if txt.status_code != requests.codes.ok:
+        print(txt.text)
 
 # def greeting_message(token, recipient):
 #    greet = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
@@ -27,6 +36,7 @@ def greeting_message(token, recipient):
 #    if greet.status_code != requests.codes.ok:
 #        print(greet.text)
 #
+
 
 def course_info(token, recipient, message):
     """Send the message text to recipient with id recipient.
