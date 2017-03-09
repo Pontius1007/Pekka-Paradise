@@ -45,14 +45,8 @@ def handle_messages():
                     response_handler.no_course(PAT, sender)
             elif "Select Course" in incoming_message:
                 pass
-            elif ime_data_fetch.subject_exists_boolean(incoming_message.split()[0]):
-                if user_methods.has_user(user_name):
-                    user_methods.add_subject(user_name, incoming_message.split()[0])
-                else:
-                    user_methods.add_user(user_name, incoming_message.split()[0])
-                response_handler.has_course(PAT, sender, user_methods.get_subject(user_name))
 
-            if "yes" in incoming_message.lower():
+            elif "yes" in incoming_message.lower():
                 response_handler.quick_reply(PAT, sender)
 
             elif incoming_message == "Get schedule":
@@ -65,6 +59,13 @@ def handle_messages():
 
             elif incoming_message == "Change subject":
                 response_handler.text_message(PAT, sender, "Pekka is love, Pekka is life")
+
+            elif ime_data_fetch.subject_exists_boolean(incoming_message.split()[0]):
+                if user_methods.has_user(user_name):
+                    user_methods.add_subject(user_name, incoming_message.split()[0])
+                else:
+                    user_methods.add_user(user_name, incoming_message.split()[0])
+                response_handler.has_course(PAT, sender, user_methods.get_subject(user_name))
 
     return "ok"
 
