@@ -25,9 +25,8 @@ def handle_messages():
     print("Handling Messages")
     payload = request.get_data()
     for sender, incoming_message in messaging_events(payload):
-        #TEST
-        test_get_full_name(sender)
-        #ENDTEST
+        # Get full name of sender.
+        get_full_name(sender)
         # Uses the ime api with the course code
         outgoing_message = ime_data_fetch.subject_exists(incoming_message.split()[0])
         # Sends the message
@@ -70,7 +69,13 @@ def send_message(token, recipient, text):
         print(r.text)
 
 
-def test_get_full_name(sender):
+def get_full_name(sender):
+    """
+    Gets the full name of sender.
+    Uses a get request.
+    :param sender:
+    :return: full name. String
+    """
     url = "https://graph.facebook.com/v2.6/" + sender + "?fields=first_name,last_name&access_token=" + PAT
     headers = {'content-type': 'application/json'}
     response = requests.get(url, headers=headers)
