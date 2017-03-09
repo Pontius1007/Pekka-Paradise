@@ -105,6 +105,7 @@ def send_message(token, recipient, text):
     if r.status_code != requests.codes.ok:
         print(r.text)
 
+
 def get_full_name(sender, token):
     """
     Gets the full name of sender.
