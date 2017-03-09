@@ -24,8 +24,9 @@ def subject_exists_boolean(code):
 
     try:
         requests.get(base_url + code).json()
+        return True
     except TypeError:
         return False
     except ValueError:
         return False
-    return True
+    return False
