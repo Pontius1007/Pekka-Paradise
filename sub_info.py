@@ -21,7 +21,7 @@ def get_schedule(sub_code):
         try:
             noe = schedule['course']['summarized']
             return schedule
-        except ValueError:
+        except KeyError:
             return False
     else:
         return False
@@ -84,3 +84,4 @@ def printable_course_info(course):
                         course['assessment'][0]['codeName'], course['assessment'][0]['gradeRuleSchemeName']))
     return info_string
 
+print(printable_schedule(get_schedule("tdt4110")))
