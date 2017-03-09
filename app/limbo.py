@@ -1,12 +1,14 @@
+import requests
 from flask import request
 import json
-import requests
-import ime_data_fetch
+import sub_info
 from app import app
+from app import responses
 
 
 PAT = 'EAACI4GIIx08BAHwR6J1cOROTpYbE9QceOhxR08JBywhdAV6t24J70RG28YaZCzQxJGinIB6v0xy7Y7gdTVQUZCmgRwm1EVBQd05kMYCwi' \
       'kkTAtmHbxVhTUvvpMGYM9vcTKD2qPXmwcZCDgOVX1eZCUGNfzJpyifuocmDXIMElQZDZD'
+response_handler = responses
 
 
 @app.route('/', methods=['GET'])
@@ -20,17 +22,40 @@ def handle_verification():
         return 'Error, wrong validation token'
 
 
+# The wonderful logic that decides which response is sent should be placed in this function
 @app.route('/', methods=['POST'])
 def handle_messages():
     print("Handling Messages")
     payload = request.get_data()
+    # Remove this one day...
+    print(payload)
     for sender, incoming_message in messaging_events(payload):
-        # Get full name of sender.
-        get_full_name(sender)
-        # Uses the ime api with the course code
-        outgoing_message = ime_data_fetch.subject_exists(incoming_message.split()[0])
-        # Sends the message
-        send_message(PAT, sender, outgoing_message)
+        # TODO Figure out how to access payload content
+        # This solution is not very good, we must learn to use payload
+
+            # The following statements check which options the user selected
+            # Response handler contains "templates" for the various messages
+            if "yes" in incoming_message.lower():
+                response_handler.quick_reply(PAT, sender)
+            if "hei" in incoming_message.lower() or "hallo" in incoming_message.lower():
+                response_handler.greeting_message(PAT, sender)
+            elif incoming_message == "Schedule":
+                response_handler.text_message(PAT, sender, sub_info.printable_schedule(sub_info.get_schedule("tdt4145")))
+                response_handler.supp_message(PAT, sender)
+
+            elif incoming_message == "Info":
+                response_handler.text_message(PAT, sender, sub_info.printable_course_info(sub_info.get_course_json("tdt4145")))
+                response_handler.supp_message(PAT, sender)
+
+            elif incoming_message == "Secret":
+                response_handler.text_message(PAT, sender, "Pekka is love, Pekka is life")
+                response_handler.supp_message(PAT, sender)
+            else:
+                response_handler.quick_reply(PAT, sender)
+
+            # TEST
+            # get_full_name(sender)
+
     return "ok"
 
 
@@ -40,10 +65,10 @@ def messaging_events(payload):
     provided payload.
     """
     data = json.loads(payload)
-    #TESTTEST
+    # TESTTEST
     print("This is the data in the message:")
     print(data)
-    #ENDTEST
+    # ENDTEST
     message = data["entry"][0]["messaging"]
     # Testing to see what message is
     print(message)
@@ -83,5 +108,3 @@ def get_full_name(sender):
     print(data)
     print(''.join(data['first_name'] + ' ' + data['last_name']))
     return ''.join(data['first_name'] + ' ' + data['last_name'])
-
-
