@@ -3,7 +3,7 @@ import requests
 
 
 def greeting_message(token, recipient):
-    message = "Hello! \n What can I do for you today?"
+    message = "Hello !\n What can I do for you today?"
     txt = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
                         data=json.dumps({
                             "recipient": {"id": recipient},
@@ -37,27 +37,57 @@ def text_message(token, recipient, message):
 #        print(greet.text)
 
 
-def supp_message(token, recipient):
+def no_course(token, recipient):
     supp = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
-                                  data=json.dumps({
-                                      "recipient": {"id": recipient},
-                                      "message": {
-                                          "text": "Pick a color:",
-                                          "quick_replies": [
-                                              {
-                                                  "content_type": "text",
-                                                  "title": "Yes",
-                                                  "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED"
-                                              },
-                                              {
-                                                  "content_type": "text",
-                                                  "title": "Quit Course",
-                                                  "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_GREEN"
-                                              }
-                                          ]
-                                      }
-                                  }),
-                                  headers={'Content-type': 'application/json'})
+      data=json.dumps({
+          "recipient": {"id": recipient},
+          "message": {
+              "text": "You have not chosen a subject \n What would you like to do?:",
+              "quick_replies": [
+                  {
+                      "content_type": "text",
+                      "title": "Select Course",
+                      "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_Course"
+                  },
+                  {
+                      "content_type": "text",
+                      "title": "Something else?",
+                      "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_SOMETHING_ELSE"
+                  }
+              ]
+          }
+        }),
+        headers={'Content-type': 'application/json'})
+    if supp.status_code != requests.codes.ok:
+        print(supp.text)
+
+
+def has_course(token, recipient, subject):
+    supp = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
+      data=json.dumps({
+          "recipient": {"id": recipient},
+          "message": {
+              "text": "You have chosen: " + subject + "\n What would you like to do?:",
+              "quick_replies": [
+                  {
+                      "content_type": "text",
+                      "title": "Get info",
+                      "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_Course"
+                  },
+                  {
+                      "content_type": "text",
+                      "title": "Get schedule",
+                      "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_SOMETHING_ELSE"
+                  },
+                  {
+                      "content_type": "text",
+                      "title": "Change subject",
+                      "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_Course"
+                  }
+              ]
+          }
+        }),
+        headers={'Content-type': 'application/json'})
     if supp.status_code != requests.codes.ok:
         print(supp.text)
 
@@ -105,36 +135,3 @@ def quick_reply(token, recipient):
                                   headers={'Content-type': 'application/json'})
     if quick_message.status_code != requests.codes.ok:
         print(quick_message.text)
-
-
-def send_button_test(token, recipient):
-    # I wonder if each separate message to be sent must be in its own method
-    # As of now the bot seems to send all JSON objects in this method
-    test_message = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
-                                 data=json.dumps({
-                                     "recipient": {"id": recipient},
-                                     "message": {
-                                         "attachment": {
-                                             "type": "template",
-                                             "payload": {
-                                                 "template_type": "button",
-                                                 "text": "What can I do for you today?",
-                                                 "buttons": [
-                                                     {
-                                                         "type": "web_url",
-                                                         "url": "https://google.com",
-                                                         "title": "Show Google"
-                                                     },
-                                                     {
-                                                         "type": "postback",
-                                                         "title": "Press this button",
-                                                         "payload": "Herro? \n Herro? \n"
-                                                     },
-                                                 ]
-                                             }
-                                         }
-                                     }
-                                 }), headers={'Content-type': 'application/json'})
-
-    if test_message.status_code != requests.codes.ok:
-        print(test_message.text)

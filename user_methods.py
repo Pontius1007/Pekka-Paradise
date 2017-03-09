@@ -3,7 +3,7 @@ from app import db, models
 
 def has_user(user_name):
     """
-    check if user in userfacebook has subject
+    check if user in userfacebook exists
     :param user_name:
     :return:
     """
@@ -59,7 +59,6 @@ def get_subject(user_name):
     try:
         if models.UserFacebook.query.get(user_name) is not None:
             return models.UserFacebook.query.get(user_name).subject
-        else:
-            return None
     except Exception as e:
         print(e)
+    return None

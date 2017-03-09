@@ -1,4 +1,6 @@
 import requests
+import user_methods
+import ime_data_fetch
 from flask import request
 import json
 import sub_info
@@ -29,32 +31,40 @@ def handle_messages():
     payload = request.get_data()
     # Remove this one day...
     print(payload)
-    for sender, incoming_message in messaging_events(payload):
+    for sender, incoming_message in messaging_events(payload): # Use messaging events to complete tod o
         # TODO Figure out how to access payload content
         # This solution is not very good, we must learn to use payload
-
             # The following statements check which options the user selected
             # Response handler contains "templates" for the various messages
-            if "yes" in incoming_message.lower():
-                response_handler.quick_reply(PAT, sender)
+            user_name = get_full_name(sender, PAT)
             if "hei" in incoming_message.lower() or "hallo" in incoming_message.lower():
                 response_handler.greeting_message(PAT, sender)
-            elif incoming_message == "Schedule":
-                response_handler.text_message(PAT, sender, sub_info.printable_schedule(sub_info.get_schedule("tdt4145")))
-                response_handler.supp_message(PAT, sender)
+                if user_methods.has_user(user_name):
+                    response_handler.has_course(PAT, sender, user_methods.get_subject(user_name))
+                else:
+                    response_handler.no_course(PAT, sender)
+            elif "Select Course" in incoming_message:
+                pass
+            elif ime_data_fetch.subject_exists_boolean(incoming_message.split()[0]):
+                if user_methods.has_user(user_name):
+                    user_methods.add_subject(user_name, incoming_message.split()[0])
+                else:
+                    user_methods.add_user(user_name, incoming_message.split()[0])
+                response_handler.has_course(PAT, sender, user_methods.get_subject(user_name))
 
-            elif incoming_message == "Info":
-                response_handler.text_message(PAT, sender, sub_info.printable_course_info(sub_info.get_course_json("tdt4145")))
-                response_handler.supp_message(PAT, sender)
-
-            elif incoming_message == "Secret":
-                response_handler.text_message(PAT, sender, "Pekka is love, Pekka is life")
-                response_handler.supp_message(PAT, sender)
-            else:
+            if "yes" in incoming_message.lower():
                 response_handler.quick_reply(PAT, sender)
 
-            # TEST
-            # get_full_name(sender)
+            elif incoming_message == "Get schedule":
+                subject = user_methods.get_subject(user_name)
+                response_handler.text_message(PAT, sender, sub_info.printable_schedule(sub_info.get_schedule(subject)))
+
+            elif incoming_message == "Get info":
+                subject = user_methods.get_subject(user_name)
+                response_handler.text_message(PAT, sender, sub_info.printable_course_info(sub_info.get_course_json(subject)))
+
+            elif incoming_message == "Change subject":
+                response_handler.text_message(PAT, sender, "Pekka is love, Pekka is life")
 
     return "ok"
 
@@ -76,6 +86,7 @@ def messaging_events(payload):
     for event in message:
         if "message" in event and "text" in event["message"]:
             yield event["sender"]["id"], event["message"]["text"]
+            # Yield path to payload
         else:
             yield event["sender"]["id"], "I can't echo this"
 
@@ -93,15 +104,14 @@ def send_message(token, recipient, text):
     if r.status_code != requests.codes.ok:
         print(r.text)
 
-
-def get_full_name(sender):
+def get_full_name(sender, token):
     """
     Gets the full name of sender.
     Uses a get request.
     :param sender:
     :return: full name. String
     """
-    url = "https://graph.facebook.com/v2.6/" + sender + "?fields=first_name,last_name&access_token=" + PAT
+    url = "https://graph.facebook.com/v2.6/" + sender + "?fields=first_name,last_name&access_token=" + token
     headers = {'content-type': 'application/json'}
     response = requests.get(url, headers=headers)
     data = json.loads(response.content)
