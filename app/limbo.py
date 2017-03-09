@@ -2,12 +2,12 @@ from flask import request
 import json
 import sub_info
 from app import app
-from app import Responses
+from app import responses
 
 
 PAT = 'EAACI4GIIx08BAHwR6J1cOROTpYbE9QceOhxR08JBywhdAV6t24J70RG28YaZCzQxJGinIB6v0xy7Y7gdTVQUZCmgRwm1EVBQd05kMYCwi' \
       'kkTAtmHbxVhTUvvpMGYM9vcTKD2qPXmwcZCDgOVX1eZCUGNfzJpyifuocmDXIMElQZDZD'
-response_handler = Responses
+response_handler = responses
 
 
 @app.route('/', methods=['GET'])
