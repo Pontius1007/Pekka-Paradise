@@ -84,4 +84,3 @@ def printable_course_info(course):
                         course['assessment'][0]['codeName'], course['assessment'][0]['gradeRuleSchemeName']))
     return info_string
 
-print(printable_schedule(get_schedule("tdt4110")))
