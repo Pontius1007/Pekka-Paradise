@@ -52,10 +52,12 @@ def handle_messages():
             elif incoming_message == "Get schedule":
                 subject = user_methods.get_subject(user_name)
                 response_handler.text_message(PAT, sender, sub_info.printable_schedule(sub_info.get_schedule(subject)))
+                response_handler.has_course(PAT, sender, user_methods.get_subject(user_name))
 
             elif incoming_message == "Get info":
                 subject = user_methods.get_subject(user_name)
                 response_handler.text_message(PAT, sender, sub_info.printable_course_info(sub_info.get_course_json(subject)))
+                response_handler.has_course(PAT, sender, user_methods.get_subject(user_name))
 
             elif incoming_message == "Change subject":
                 response_handler.text_message(PAT, sender, "Pekka is love, Pekka is life")
