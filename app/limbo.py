@@ -1,7 +1,5 @@
 from flask import request
 import json
-import requests
-import ime_data_fetch
 import sub_info
 from app import app
 from app import Responses
@@ -28,12 +26,14 @@ def handle_verification():
 def handle_messages():
     print("Handling Messages")
     payload = request.get_data()
+    # Remove this one day...
     print(payload)
     for sender, incoming_message in messaging_events(payload):
-        # Checks if subject exists
-            # outgoing_message = ime_data_fetch.subject_exists(incoming_message.split()[0])
-        # Sends Course name to correct user
-            # response_handler.course_info(PAT, sender, outgoing_message)
+        # TODO Figure out how to access payload content
+        # This solution is not very good, we must learn to use payload
+
+            # The following statements check which options the user selected
+            # Response handler contains "templates" for the various messages
             if "yes" in incoming_message.lower():
                 response_handler.quick_reply(PAT, sender)
             if "hei" in incoming_message.lower() or "hallo" in incoming_message.lower():
@@ -51,8 +51,6 @@ def handle_messages():
                 response_handler.supp_message(PAT, sender)
             else:
                 response_handler.quick_reply(PAT, sender)
-        # launches button test
-        # send_button_test(PAT, sender)
 
     return "ok"
 
