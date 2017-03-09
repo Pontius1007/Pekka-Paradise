@@ -22,10 +22,8 @@ def subject_exists(code):
 # same as above but returns a boolean value instead
 def subject_exists_boolean(code):
 
-    try:
-        requests.get(base_url + code).json()
-    except TypeError:
-        return False
-    except ValueError:
-        return False
-    return True
+    if requests.get(base_url + code).json()["course"] is not None:
+        return True
+    return False
+
+
