@@ -19,6 +19,7 @@ def add_entry(user_name, subject_name, feedback):
         print(e)
 
 
+# TODO Fix this
 def check_entry(user_name, subject_name, feedback):
     try:
         # db.users.filter(or_(db.users.name=='Ryan', db.users.country=='England'))
