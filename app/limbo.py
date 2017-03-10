@@ -52,12 +52,12 @@ def handle_messages():
             # These options should have similar("The same??") feedback #
 
             elif payload == "lf":
-                # TODO? Check if there is an ongoing lecture somehow?
+                # TODO Check if there is an ongoing lecture somehow?
                 response_handler.lec_feed(PAT, sender)
 
             elif payload == "Fast" or payload == "Ok" or payload == "Slow":
-                response_handler.text_message(PAT, sender, "You chose " + payload + "\n Feedback Received!")
                 feedback_methods.add_entry(user_name, user_methods.get_subject(user_name), payload)
+                response_handler.text_message(PAT, sender, "You chose " + payload + "\n Feedback Received!")
                 response_handler.has_course(PAT, sender, user_methods.get_subject(user_name))
 
             elif payload == "gs":
