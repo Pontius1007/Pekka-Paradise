@@ -83,6 +83,11 @@ def has_course(token, recipient, subject):
                       "content_type": "text",
                       "title": "Change subject",
                       "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_Course"
+                  },
+                  {
+                      "content_type": "text",
+                      "title": "Lecture Feedback",
+                      "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_SOMETHING_ELSE"
                   }
               ]
           }
@@ -107,31 +112,36 @@ def course_info(token, recipient, message):
         print(r.text)
 
 
-def quick_reply(token, recipient):
-    quick_message = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
-                                  data=json.dumps({
-                                      "recipient": {"id": recipient},
-                                      "message": {
-                                          "text": "What do you need?",
-                                          "quick_replies": [
-                                              {
-                                                  "content_type": "text",
-                                                  "title": "Schedule",
-                                                  "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED"
-                                              },
-                                              {
-                                                  "content_type": "text",
-                                                  "title": "Info",
-                                                  "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_GREEN"
-                                              },
-                                              {
-                                                  "content_type": "text",
-                                                  "title": "Secret",
-                                                  "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_GREEN"
-                                              }
-                                          ]
-                                      }
-                                  }),
-                                  headers={'Content-type': 'application/json'})
-    if quick_message.status_code != requests.codes.ok:
-        print(quick_message.text)
+def lec_feed(token, recipient):
+    supp = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
+      data=json.dumps({
+          "recipient": {"id": recipient},
+          "message": {
+              "text": "You :",
+              "quick_replies": [
+                  {
+                      "content_type": "text",
+                      "title": "Get info",
+                      "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_Course"
+                  },
+                  {
+                      "content_type": "text",
+                      "title": "Get schedule",
+                      "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_SOMETHING_ELSE"
+                  },
+                  {
+                      "content_type": "text",
+                      "title": "Change subject",
+                      "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_Course"
+                  },
+                  {
+                      "content_type": "text",
+                      "title": "Lecture Feedback",
+                      "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_SOMETHING_ELSE"
+                  }
+              ]
+          }
+        }),
+        headers={'Content-type': 'application/json'})
+    if supp.status_code != requests.codes.ok:
+        print(supp.text)

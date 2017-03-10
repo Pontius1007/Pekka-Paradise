@@ -31,7 +31,7 @@ def handle_messages():
     payload = request.get_data()
     # Remove this one day...
     print(payload)
-    for sender, incoming_message in messaging_events(payload): # Use messaging events to complete tod o
+    for sender, incoming_message in messaging_events(payload):  # Use messaging events to complete tod o
         # TODO Figure out how to access payload content
         # This solution is not very good, we must learn to use payload
             # The following statements check which options the user selected
@@ -43,11 +43,17 @@ def handle_messages():
                     response_handler.has_course(PAT, sender, user_methods.get_subject(user_name))
                 else:
                     response_handler.no_course(PAT, sender)
+
+            # TODO Add some sort of feedback
             elif "Select Course" in incoming_message:
                 pass
 
-            elif "yes" in incoming_message.lower():
-                response_handler.quick_reply(PAT, sender)
+            elif incoming_message == "Change subject":
+                response_handler.text_message(PAT, sender, "Pekka is love, Pekka is life")
+            # These options should have similar("The same??") feedback
+
+            elif incoming_message == "Lecture Feedback":
+                response_handler.lec_feed(PAT,sender)
 
             elif incoming_message == "Get schedule":
                 subject = user_methods.get_subject(user_name)
@@ -76,10 +82,10 @@ def messaging_events(payload):
     provided payload.
     """
     data = json.loads(payload)
-    # TESTTEST
+    # TEST TEST
     print("This is the data in the message:")
     print(data)
-    # ENDTEST
+    # END TEST
     message = data["entry"][0]["messaging"]
     # Testing to see what message is
     print(message)
