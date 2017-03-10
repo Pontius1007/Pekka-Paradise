@@ -117,27 +117,22 @@ def lec_feed(token, recipient):
       data=json.dumps({
           "recipient": {"id": recipient},
           "message": {
-              "text": "You :",
+              "text": "How do you think this lecture is going:",
               "quick_replies": [
                   {
                       "content_type": "text",
-                      "title": "Get info",
-                      "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_Course"
+                      "title": "Too fast!!",
+                      "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_FAST"
                   },
                   {
                       "content_type": "text",
-                      "title": "Get schedule",
-                      "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_SOMETHING_ELSE"
+                      "title": "It's All Right",
+                      "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_OK"
                   },
                   {
                       "content_type": "text",
-                      "title": "Change subject",
-                      "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_Course"
-                  },
-                  {
-                      "content_type": "text",
-                      "title": "Lecture Feedback",
-                      "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_SOMETHING_ELSE"
+                      "title": "Too slow",
+                      "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_SLOW"
                   }
               ]
           }

@@ -53,18 +53,21 @@ def handle_messages():
             # These options should have similar("The same??") feedback
 
             elif incoming_message == "Lecture Feedback":
-                response_handler.lec_feed(PAT,sender)
+                # TODO? Check if there is an ongoing lecture somehow?
+                response_handler.lec_feed(PAT, sender)
+            elif incoming_message == "Too fast!!" or incoming_message == "It's All Right" or incoming_message == "Too slow":
+                response_handler.text_message(PAT, sender, "You chose " + incoming_message + "\n Feedback Received!")
+                # TODO add support for actually doing something with the lecture feedback
 
             elif incoming_message == "Get schedule":
                 subject = user_methods.get_subject(user_name)
                 response_handler.text_message(PAT, sender, sub_info.printable_schedule(sub_info.get_schedule(subject)))
+                response_handler.has_course(PAT, sender, user_methods.get_subject(user_name))
 
             elif incoming_message == "Get info":
                 subject = user_methods.get_subject(user_name)
                 response_handler.text_message(PAT, sender, sub_info.printable_course_info(sub_info.get_course_json(subject)))
-
-            elif incoming_message == "Change subject":
-                response_handler.text_message(PAT, sender, "Pekka is love, Pekka is life")
+                response_handler.has_course(PAT, sender, user_methods.get_subject(user_name))
 
             elif ime_data_fetch.subject_exists_boolean(incoming_message.split()[0]):
                 if user_methods.has_user(user_name):
@@ -91,6 +94,7 @@ def messaging_events(payload):
     print(message)
     # EndTest
     for event in message:
+        # if message in bla and text and payload bla yield payload as well
         if "message" in event and "text" in event["message"]:
             yield event["sender"]["id"], event["message"]["text"]
             # Yield path to payload
