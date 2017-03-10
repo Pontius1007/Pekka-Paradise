@@ -62,3 +62,13 @@ def get_subject(user_name):
     except Exception as e:
         print(e)
     return None
+
+
+def delete_user(user_name):
+    """
+    deletes a user in userfacebook
+    :param user_name:
+    """
+    if models.UserFacebook.query.get(user_name) is not None:
+        db.session.delete(models.UserFacebook.query.get(user_name))
+        db.session.commit()
