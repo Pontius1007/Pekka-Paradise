@@ -32,35 +32,32 @@ def handle_messages():
     payload = request.get_data()
     # Remove this one day...
     print(payload)
-    for sender, incoming_message in messaging_events(payload):  # Use messaging events to complete tod o
-        # TODO Figure out how to access payload content
-        # This solution is not very good, we must learn to use payload
+    for sender, incoming_message, payload in messaging_events(payload):
             # The following statements check which options the user selected
             # Response handler contains "templates" for the various messages
             user_name = get_full_name(sender, PAT)
-            if "hei" in incoming_message.lower() or "hallo" in incoming_message.lower():
+            if "hei" in incoming_message.lower() or "hallo" in incoming_message.lower() or "yo" in incoming_message.lower():
                 response_handler.greeting_message(PAT, sender)
                 if user_methods.has_user(user_name):
                     response_handler.has_course(PAT, sender, user_methods.get_subject(user_name))
                 else:
                     response_handler.no_course(PAT, sender)
 
-            # TODO Add some sort of feedback
+            # TODO Add some sort of feedback #
             elif "Select Course" in incoming_message:
                 pass
 
             elif incoming_message == "Change subject":
                 response_handler.text_message(PAT, sender, "Pekka is love, Pekka is life")
-            # These options should have similar("The same??") feedback
+            # These options should have similar("The same??") feedback #
 
             elif incoming_message == "Lecture Feedback":
                 # TODO? Check if there is an ongoing lecture somehow?
                 response_handler.lec_feed(PAT, sender)
-            elif incoming_message == "Too fast!!" or incoming_message == "It's All Right" or incoming_message == "Too slow":
-                response_handler.text_message(PAT, sender, "You chose " + incoming_message + "\n Feedback Received!")
-                feedback_methods.add_entry(user_name, user_methods.get_subject(user_name), incoming_message)
+            elif payload == "Fast" or payload == "Ok" or payload == "Slow":
+                response_handler.text_message(PAT, sender, "You chose " + payload + "\n Feedback Received!")
+                feedback_methods.add_entry(user_name, user_methods.get_subject(user_name), payload)
                 response_handler.has_course(PAT, sender, user_methods.get_subject(user_name))
-                # TODO add support for actually doing something with the lecture feedback
 
             elif incoming_message == "Get schedule":
                 subject = user_methods.get_subject(user_name)
@@ -98,8 +95,10 @@ def messaging_events(payload):
     # EndTest
     for event in message:
         # if message in bla and text and payload bla yield payload as well
+        if "message" in event and "quick_reply" in event["message"]:
+            yield event["sender"]["id"], event["message"]["text"], event["message"]["quick_reply"]["payload"]
         if "message" in event and "text" in event["message"]:
-            yield event["sender"]["id"], event["message"]["text"]
+            yield event["sender"]["id"], event["message"]["text"], None
             # Yield path to payload
         else:
             yield event["sender"]["id"], "I can't echo this"

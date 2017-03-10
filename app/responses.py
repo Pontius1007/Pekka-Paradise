@@ -122,17 +122,17 @@ def lec_feed(token, recipient):
                   {
                       "content_type": "text",
                       "title": "Too fast!!",
-                      "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_FAST"
+                      "payload": "Fast"
                   },
                   {
                       "content_type": "text",
                       "title": "It's All Right",
-                      "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_OK"
+                      "payload": "Ok"
                   },
                   {
                       "content_type": "text",
                       "title": "Too slow",
-                      "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_SLOW"
+                      "payload": "Slow"
                   }
               ]
           }
