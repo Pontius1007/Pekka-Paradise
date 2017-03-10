@@ -57,6 +57,7 @@ def handle_messages():
                 response_handler.lec_feed(PAT, sender)
             elif incoming_message == "Too fast!!" or incoming_message == "It's All Right" or incoming_message == "Too slow":
                 response_handler.text_message(PAT, sender, "You chose " + incoming_message + "\n Feedback Received!")
+                response_handler.has_course(PAT, sender, user_methods.get_subject(user_name))
                 # TODO add support for actually doing something with the lecture feedback
 
             elif incoming_message == "Get schedule":
