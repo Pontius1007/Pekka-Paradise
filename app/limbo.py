@@ -51,20 +51,21 @@ def handle_messages():
                 response_handler.text_message(PAT, sender, "Pekka is love, Pekka is life")
             # These options should have similar("The same??") feedback #
 
-            elif incoming_message == "Lecture Feedback":
+            elif payload == "lf":
                 # TODO? Check if there is an ongoing lecture somehow?
                 response_handler.lec_feed(PAT, sender)
+
             elif payload == "Fast" or payload == "Ok" or payload == "Slow":
                 response_handler.text_message(PAT, sender, "You chose " + payload + "\n Feedback Received!")
                 feedback_methods.add_entry(user_name, user_methods.get_subject(user_name), payload)
                 response_handler.has_course(PAT, sender, user_methods.get_subject(user_name))
 
-            elif incoming_message == "Get schedule":
+            elif payload == "gs":
                 subject = user_methods.get_subject(user_name)
                 response_handler.text_message(PAT, sender, sub_info.printable_schedule(sub_info.get_schedule(subject)))
                 response_handler.has_course(PAT, sender, user_methods.get_subject(user_name))
 
-            elif incoming_message == "Get info":
+            elif payload == "gi":
                 subject = user_methods.get_subject(user_name)
                 response_handler.text_message(PAT, sender, sub_info.printable_course_info(sub_info.get_course_json(subject)))
                 response_handler.has_course(PAT, sender, user_methods.get_subject(user_name))
@@ -75,6 +76,11 @@ def handle_messages():
                 else:
                     user_methods.add_user(user_name, incoming_message.split()[0])
                 response_handler.has_course(PAT, sender, user_methods.get_subject(user_name))
+
+            else:
+                response_handler.text_message(PAT, sender, "TIP! \n You can change course at any time simply by "
+                                                           "writing the course code on the form [TAG][CODE] \n "
+                                                           "ex. TDT4120")
 
     return "ok"
 

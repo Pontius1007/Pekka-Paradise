@@ -62,6 +62,7 @@ def no_course(token, recipient):
         print(supp.text)
 
 
+# If needed it is possible to send subject back to the user in the payload without saving in db
 def has_course(token, recipient, subject):
     supp = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
       data=json.dumps({
@@ -72,12 +73,12 @@ def has_course(token, recipient, subject):
                   {
                       "content_type": "text",
                       "title": "Get info",
-                      "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_Course"
+                      "payload": "gi"
                   },
                   {
                       "content_type": "text",
                       "title": "Get schedule",
-                      "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_SOMETHING_ELSE"
+                      "payload": "gs"
                   },
                   {
                       "content_type": "text",
@@ -87,7 +88,7 @@ def has_course(token, recipient, subject):
                   {
                       "content_type": "text",
                       "title": "Lecture Feedback",
-                      "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_SOMETHING_ELSE"
+                      "payload": "lf"
                   }
               ]
           }
