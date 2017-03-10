@@ -77,10 +77,11 @@ def handle_messages():
                     user_methods.add_user(user_name, incoming_message.split()[0])
                 response_handler.has_course(PAT, sender, user_methods.get_subject(user_name))
 
-            else:
-                response_handler.text_message(PAT, sender, "TIP! \n You can change course at any time simply by "
-                                                           "writing the course code on the form [TAG][CODE] \n "
-                                                           "ex. TDT4120")
+            # TODO Find out why this does not work
+            # else:
+            #    response_handler.text_message(PAT, sender, "TIP! \n You can change course at any time simply by "
+            #                                               "writing the course code on the form [TAG][CODE] \n "
+            #                                               "ex. TDT4120")
 
     return "ok"
 
