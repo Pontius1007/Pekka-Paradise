@@ -6,12 +6,10 @@ from datetime import date
 
 # a list of weekdays to use in printing course schedules
 week = ["mandag", "tirsdag", "onsdag", "torsdag", "fredag"]
+# Gets the current year
 current_year = str(date.today().year)
 
 # method that return a courses schedule in JSON format if the subject exists
-
-
-
 def get_schedule(sub_code):
     if ime_data_fetch.subject_exists_boolean(sub_code):
         schedule = requests.get("http://www.ntnu.no/web/studier/emner?p_p_id=coursedetailsportlet_WAR_"
