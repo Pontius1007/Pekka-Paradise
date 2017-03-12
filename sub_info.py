@@ -11,7 +11,7 @@ week = ["mandag", "tirsdag", "onsdag", "torsdag", "fredag"]
 
 
 def get_schedule(sub_code):
-
+    # year=2017 has to be changed to be dynamic and not locked to 2017
     if ime_data_fetch.subject_exists_boolean(sub_code):
         schedule = requests.get("http://www.ntnu.no/web/studier/emner?p_p_id=coursedetailsportlet_WAR_"
                                 "courselistportlet&p_p_lifecycle=2&p_p_resource_id=timetable&_coursedetailsportlet_WAR_"
