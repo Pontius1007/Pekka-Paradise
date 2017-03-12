@@ -53,7 +53,7 @@ def handle_messages():
                                                            "ex. TDT4120")
             # These options should have similar("The same??") feedback #
 
-            elif payload == "lf":
+            elif payload == "lecture_feedback":
                 # TODO Check if there is an ongoing lecture somehow?
                 response_handler.lec_feed(PAT, sender)
 
@@ -62,12 +62,12 @@ def handle_messages():
                 response_handler.text_message(PAT, sender, "You chose " + payload + "\n Feedback Received!")
                 response_handler.has_course(PAT, sender, user_methods.get_subject(user_name))
 
-            elif payload == "gs":
+            elif payload == "get_schedule":
                 subject = user_methods.get_subject(user_name)
                 response_handler.text_message(PAT, sender, sub_info.printable_schedule(sub_info.get_schedule(subject)))
                 response_handler.has_course(PAT, sender, user_methods.get_subject(user_name))
 
-            elif payload == "gi":
+            elif payload == "get_info":
                 subject = user_methods.get_subject(user_name)
                 response_handler.text_message(PAT, sender, sub_info.printable_course_info(sub_info.get_course_json(subject)))
                 response_handler.has_course(PAT, sender, user_methods.get_subject(user_name))
