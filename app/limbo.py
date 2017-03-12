@@ -48,7 +48,9 @@ def handle_messages():
                 pass
 
             elif incoming_message == "Change subject":
-                response_handler.text_message(PAT, sender, "Pekka is love, Pekka is life")
+                response_handler.text_message(PAT, sender, "TIP! \n You can change course at any time simply by "
+                                                           "writing the course code on the form [TAG][CODE] \n "
+                                                           "ex. TDT4120")
             # These options should have similar("The same??") feedback #
 
             elif payload == "lf":
