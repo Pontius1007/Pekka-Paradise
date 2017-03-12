@@ -1,4 +1,5 @@
 from app import db
+from sqlalchemy import PrimaryKeyConstraint
 
 
 class UserFacebook(db.Model):
@@ -33,6 +34,7 @@ class Lecture(db.Model):
     start_time = db.Column(db.String(5), primary_key=True)
     end_time = db.Column(db.String(5))
     room_name = db.Column(db.String(5), primary_key=True)
+    PrimaryKeyConstraint(subject, date, day_number, start_time, room_name)
 
     def __init__(self, subject, date, day_number, start_time, end_time, room_name):
         self.subject = subject
