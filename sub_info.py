@@ -2,21 +2,23 @@
 
 import requests
 import ime_data_fetch
+from datetime import date
 
 # a list of weekdays to use in printing course schedules
 week = ["mandag", "tirsdag", "onsdag", "torsdag", "fredag"]
-
+current_year = str(date.today().year)
 
 # method that return a courses schedule in JSON format if the subject exists
+
 
 
 def get_schedule(sub_code):
     if ime_data_fetch.subject_exists_boolean(sub_code):
         schedule = requests.get("http://www.ntnu.no/web/studier/emner?p_p_id=coursedetailsportlet_WAR_"
                                 "courselistportlet&p_p_lifecycle=2&p_p_resource_id=timetable&_coursedetailsportlet_WAR_"
-                                "courselistportlet_year=2017&_c"
+                                "courselistportlet_year=" + current_year + "&_c"
                                 "oursedetailsportlet_WAR_courselistportlet_courseCode="
-                                + sub_code.upper() + "&year=2017&version=1").json()
+                                + sub_code.upper() + "&year=" + current_year + "&version=1").json()
         try:
             trigger_key_error = schedule['course']['summarized']
             return schedule
