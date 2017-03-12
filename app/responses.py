@@ -73,12 +73,12 @@ def has_course(token, recipient, subject):
                   {
                       "content_type": "text",
                       "title": "Get info",
-                      "payload": "gi"
+                      "payload": "get_info"
                   },
                   {
                       "content_type": "text",
                       "title": "Get schedule",
-                      "payload": "gs"
+                      "payload": "get_schedule"
                   },
                   {
                       "content_type": "text",
@@ -88,7 +88,7 @@ def has_course(token, recipient, subject):
                   {
                       "content_type": "text",
                       "title": "Lecture Feedback",
-                      "payload": "lf"
+                      "payload": "lecture_feedback"
                   }
               ]
           }
