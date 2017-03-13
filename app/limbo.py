@@ -38,7 +38,7 @@ def handle_messages():
             # Response handler contains "templates" for the various messages
             user_name = get_full_name(sender, PAT)
             if "hei" in incoming_message.lower() or "hallo" in incoming_message.lower() or "yo" in incoming_message.lower():
-                response_handler.greeting_message(PAT, sender)
+                response_handler.greeting_message(PAT, sender, user_name)
                 if user_methods.has_user(user_name):
                     response_handler.has_course(PAT, sender, user_methods.get_subject(user_name))
                 else:
@@ -87,7 +87,7 @@ def handle_messages():
                     user_methods.add_user(user_name, incoming_message.split()[0])
                 response_handler.has_course(PAT, sender, user_methods.get_subject(user_name))
 
-            elif incoming_message not in titles or payload is None:
+            elif incoming_message not in titles:
                 response_handler.text_message(PAT, sender, "Type 'help' to see what you can do with L.I.M.B.O.")
 
     return "ok"
