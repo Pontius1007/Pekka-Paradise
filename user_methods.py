@@ -21,6 +21,7 @@ def add_user(user_name, subject_name):
     :param user_name:
     :param subject_name:
     """
+    subject_name = subject_name.upper()  # Subject names in the database should be uppercase
     try:
         if not has_user(user_name):
             new_user = models.UserFacebook(user_name, subject_name)
@@ -38,6 +39,7 @@ def add_subject(user_name, subject_name):
     :param user_name:
     :param subject_name:
     """
+    subject_name = subject_name.upper()  # Subject names in the database should be uppercase
     try:
         if models.UserFacebook.query.get(user_name) is None:
             add_user(user_name, subject_name)
