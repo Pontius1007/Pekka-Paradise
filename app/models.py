@@ -29,12 +29,12 @@ class Subject(db.Model):
 class Lecture(db.Model):
     __tablename__ = 'lecture'
     subject = db.Column(db.String(20), db.ForeignKey('subject.subject_id'), primary_key=True)
-    date = db.Column(db.String(10), primary_key=True)
-    day_number = db.Column(db.Integer, primary_key=True)
-    start_time = db.Column(db.String(5), primary_key=True)
-    end_time = db.Column(db.String(5))
+    date = db.Column(db.String(10), primary_key=True) # Format: YYYY-MM-DD
+    day_number = db.Column(db.Integer, primary_key=True) # Format: int from 1-7
+    start_time = db.Column(db.String(5), primary_key=True) # Format: HH.MM
+    end_time = db.Column(db.String(5)) # Format: HH.MM
     room_name = db.Column(db.String(5), primary_key=True)
-    PrimaryKeyConstraint(subject, date, day_number, start_time, room_name)
+    PrimaryKeyConstraint(subject, date, day_number, start_time, room_name, name='lecture_pk')
 
     def __init__(self, subject, date, day_number, start_time, end_time, room_name):
         self.subject = subject
