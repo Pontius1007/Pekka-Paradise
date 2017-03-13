@@ -5,8 +5,10 @@ import ime_data_fetch
 from flask import request
 import json
 import sub_info
+import lecture_methods
 from app import app
 from app import responses
+
 
 
 PAT = 'EAACI4GIIx08BAHwR6J1cOROTpYbE9QceOhxR08JBywhdAV6t24J70RG28YaZCzQxJGinIB6v0xy7Y7gdTVQUZCmgRwm1EVBQd05kMYCwi' \
@@ -53,17 +55,30 @@ def handle_messages():
                 response_handler.text_message(PAT, sender, "You can change course at any time simply by "
                                                            "writing the course code on the form [TAG][CODE] \n "
                                                            "ex. TDT4120")
+                response_handler.text_message(PAT, sender, "If you want to see your currently selected course"
+                                                           "and other information type 'Status' ")
                 response_handler.text_message(PAT, sender, "You can also type hei or hallo at any time "
                                                            "to receive a greeting that shows your options")
+            elif incoming_message == "status":
+                if user_methods.has_user(user_name):
+                    sub = user_methods.get_subject(user_name) + " : " + sub_info.course_name(user_methods.get_subject(user_name))
+                else:
+                    sub = "no subject"
+                response_handler.user_info(PAT, sender, user_name, sub)
 
+            # Checks if the subject has lectures in the database, adds them if not.
             elif payload == "lecture feedback":
-                # TODO Check if there is an ongoing lecture somehow?
-                #subject = user_methods.get_subject(user_name)
-                #schedule = sub_info.get_schedule(subject)
-                #database_entry = sub_info.gather_lecture_information(schedule)
-                # TODO Connect it to lecture_methods and add it to the database. Also need to check if it already
-                # Exists
-                response_handler.lec_feed(PAT, sender)
+                subject = user_methods.get_subject(user_name)
+
+                if (lecture_methods.check_lecture_in_db(subject) != True):
+                    schedule = sub_info.get_schedule(subject)
+                    database_entry = sub_info.gather_lecture_information(schedule)
+                    lecture_methods.add_lecture_information_db(database_entry)
+                    response_handler.text_message(PAT, sender, "Lectures for the subject " + subject +
+                                                  " were not in the database. It is now added")
+                    response_handler.lec_feed(PAT, sender)
+                else:
+                    response_handler.lec_feed(PAT, sender)
 
             elif payload == "fast" or payload == "ok" or payload == "slow":
                 feedback_methods.add_entry(user_name, user_methods.get_subject(user_name), payload)
@@ -76,7 +91,7 @@ def handle_messages():
                 response_handler.has_course(PAT, sender, user_methods.get_subject(user_name))
 
             elif payload == "get info":
-                subject = user_methods.get_subject(user_name)
+                subject = user_methods.get_subject(user_name) + " : " + sub_info.course_name(user_methods.get_subject(user_name))
                 response_handler.text_message(PAT, sender, sub_info.printable_course_info(sub_info.get_course_json(subject)))
                 response_handler.has_course(PAT, sender, user_methods.get_subject(user_name))
 

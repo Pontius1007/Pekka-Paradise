@@ -56,6 +56,10 @@ def printable_schedule(schedule):
 # Method for gathering raw data so we can add the lecture to the database
 
 def gather_lecture_information(schedule):
+    """
+    :param schedule:
+    :return: Return lecture information from IMEs API.
+    """
     lecture_information = []
 
     if not schedule:
@@ -100,3 +104,8 @@ def printable_course_info(course):
                         course['credit'], course['studyLevelName'],
                         course['assessment'][0]['codeName'], course['assessment'][0]['gradeRuleSchemeName']))
     return info_string
+
+
+def course_name(code):
+    c = get_course_json(code)
+    return c['course']['name']
