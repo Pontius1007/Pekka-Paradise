@@ -5,6 +5,7 @@ import ime_data_fetch
 from flask import request
 import json
 import sub_info
+import re
 from app import app
 from app import responses
 
@@ -54,7 +55,7 @@ def handle_messages():
                                                            "ex. TDT4120")
                 response_handler.text_message(PAT, sender, "You can also type hi or hello at any time \n"
                                                            "to receive a greeting that shows your options")
-            elif incoming_message.matches(".*"):
+            elif re.match(r'.*', incoming_message):
                 response_handler.text_message(PAT, sender, "Type 'help' to see what you can do with L.I.M.B.O.")
 
             elif payload == "lecture_feedback":
