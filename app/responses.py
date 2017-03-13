@@ -69,22 +69,22 @@ def has_course(token, recipient, subject):
                   {
                       "content_type": "text",
                       "title": "Get info",
-                      "payload": "get_info"
+                      "payload": "get info"
                   },
                   {
                       "content_type": "text",
                       "title": "Get schedule",
-                      "payload": "get_schedule"
+                      "payload": "get schedule"
                   },
                   {
                       "content_type": "text",
                       "title": "Change subject",
-                      "payload": "Change subject"
+                      "payload": "change subject"
                   },
                   {
                       "content_type": "text",
                       "title": "Lecture Feedback",
-                      "payload": "lecture_feedback"
+                      "payload": "lecture feedback"
                   }
               ]
           }
@@ -104,17 +104,17 @@ def lec_feed(token, recipient):
                   {
                       "content_type": "text",
                       "title": "Too fast!!",
-                      "payload": "Fast"
+                      "payload": "fast"
                   },
                   {
                       "content_type": "text",
                       "title": "It's All Right",
-                      "payload": "Ok"
+                      "payload": "ok"
                   },
                   {
                       "content_type": "text",
                       "title": "Too slow",
-                      "payload": "Slow"
+                      "payload": "slow"
                   }
               ]
           }
