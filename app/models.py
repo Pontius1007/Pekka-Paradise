@@ -9,7 +9,7 @@ class UserFacebook(db.Model):
 
     def __init__(self, user_id, subject_name):
         self.user_id = user_id
-        self.subject = subject_name
+        self.subject = subject_name.upper()
 
     def __repr__(self):
         return '<User %r>' % self.user_id
@@ -20,7 +20,7 @@ class Subject(db.Model):
     subject_id = db.Column(db.String(20), primary_key=True)
 
     def __init__(self, subject_id):
-        self.subject_id = subject_id
+        self.subject_id = subject_id.upper()
 
     def __repr__(self):
         return '<Subject %r>' % self.subject_id
@@ -37,7 +37,7 @@ class Lecture(db.Model):
     room_name = db.Column(db.String(5), primary_key=True)
 
     def __init__(self, subject, year, week_number, day_number, start_time, end_time, room_name):
-        self.subject = subject
+        self.subject = subject.upper()
         self.year = year
         self.week_number = week_number
         self.day_number = day_number
@@ -57,7 +57,7 @@ class LectureFeedback(db.Model):
 
     def __init__(self, user_id, subject_name, feedback):
         self.user_id = user_id
-        self.subject = subject_name
+        self.subject = subject_name.upper()
         self.feedback = feedback
 
     def __repr__(self):
