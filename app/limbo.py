@@ -43,15 +43,11 @@ def handle_messages():
                 else:
                     response_handler.no_course(PAT, sender)
 
-            # TODO Add some sort of feedback #
-            elif "Select Course" in incoming_message:
-                pass
-
-            elif incoming_message == "Change subject":
+            elif payload == "Change subject":
                 response_handler.text_message(PAT, sender, "TIP! \n You can change course at any time simply by "
                                                            "writing the course code on the form [TAG][CODE] \n "
                                                            "ex. TDT4120")
-            # These options should have similar("The same??") feedback #
+            # TODO add help method
 
             elif payload == "lecture_feedback":
                 # TODO Check if there is an ongoing lecture somehow?

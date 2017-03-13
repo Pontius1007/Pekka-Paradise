@@ -98,21 +98,6 @@ def has_course(token, recipient, subject):
         print(supp.text)
 
 
-def course_info(token, recipient, message):
-    """Send the message text to recipient with id recipient.
-    """
-
-    r = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
-                      data=json.dumps({
-                          "recipient": {"id": recipient},
-                          "message": {"text": message}
-                      }),
-                      headers={'Content-type': 'application/json'})
-
-    if r.status_code != requests.codes.ok:
-        print(r.text)
-
-
 def lec_feed(token, recipient):
     supp = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
       data=json.dumps({
