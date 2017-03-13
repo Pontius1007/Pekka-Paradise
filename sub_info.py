@@ -9,8 +9,13 @@ week = ["mandag", "tirsdag", "onsdag", "torsdag", "fredag"]
 # Gets the current year
 current_year = str(date.today().year)
 
-# method that return a courses schedule in JSON format if the subject exists
+
 def get_schedule(sub_code):
+    """
+    method that return a courses schedule in JSON format if the subject exists
+    :param sub_code: a string subject code such as TDT4145
+    :return: a schedule JSON
+    """
     if ime_data_fetch.subject_exists_boolean(sub_code):
         schedule = requests.get("http://www.ntnu.no/web/studier/emner?p_p_id=coursedetailsportlet_WAR_"
                                 "courselistportlet&p_p_lifecycle=2&p_p_resource_id=timetable&_coursedetailsportlet_WAR_"
@@ -26,8 +31,12 @@ def get_schedule(sub_code):
         return False
 
 
-# method that prints a courses schedule to the console from a JSON schedule file
 def print_schedule(schedule):
+    """
+     method that prints a courses schedule to the console from a JSON schedule file
+    :param schedule: a schedule JSON file
+    :return:
+    """
     if not schedule:
         print("No schedule available")
 
@@ -39,8 +48,12 @@ def print_schedule(schedule):
               " til " + schedule['course']['summarized'][i]['to'])
 
 
-# pretty much the same as print_schedule except that it returns a formatted string instead of printing it
 def printable_schedule(schedule):
+    """
+    pretty much the same as print_schedule except that it returns a formatted string instead of printing it
+    :param schedule: a schedule JSON file
+    :return: a string with the schedule
+    """
     if not schedule:
         return "No schedule available"
 
@@ -53,11 +66,10 @@ def printable_schedule(schedule):
     return schedule_string
 
 
-# Method for gathering raw data so we can add the lecture to the database
-
 def gather_lecture_information(schedule):
     """
-    :param schedule:
+    Method for gathering raw data so we can add the lecture to the database
+    :param schedule: a schedule JSON
     :return: Return lecture information from IMEs API.
     """
     lecture_information = []
@@ -77,8 +89,13 @@ def gather_lecture_information(schedule):
 
     return lecture_information
 
-# method that fetches the information about a subject from IMEs api in a json file
+
 def get_course_json(sub_code):
+    """
+    method that fetches the information about a subject from IMEs api in a json file
+    :param sub_code: a string subject code such as TDT4145
+    :return: course info JSON file
+    """
     try:
         course = requests.get("http://www.ime.ntnu.no/api/course/" + sub_code).json()
     except TypeError:
@@ -88,9 +105,12 @@ def get_course_json(sub_code):
     return course
 
 
-# method that returns information about a subject as a printable formatted string.
-# TODO fullføre metode, hente mer info fra API
 def printable_course_info(course):
+    """
+    method that returns information about a subject as a printable formatted string.
+    :param course: A course JSON from the ime API
+    :return: a string with course info
+    """
     course = course['course']
     if course['assessment'][0]['codeName'] == 'Skriftlig eksamen':
         info_string = ("%s %s\nStudiepoeng: %s\nStudienivå: %s\nVurderingsordning: %s\nKarakter: %s\nEksamensdato: %s" %
@@ -107,5 +127,10 @@ def printable_course_info(course):
 
 
 def course_name(code):
+    """
+    A method that fetches the name of a course
+    :param code: a string subject code such as TDT4145
+    :return: a course name string
+    """
     c = get_course_json(code)
     return c['course']['name']
