@@ -2,6 +2,7 @@ import json
 import requests
 
 
+
 def greeting_message(token, recipient):
     message = "Hello !\n What can I do for you today?"
     txt = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
@@ -22,6 +23,7 @@ def text_message(token, recipient, message):
     if txt.status_code != requests.codes.ok:
         print(txt.text)
 
+# To be used later
 # def greeting_message(token, recipient):
 #    greet = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
 #                          data=json.dumps({
@@ -83,7 +85,7 @@ def has_course(token, recipient, subject):
                   {
                       "content_type": "text",
                       "title": "Change subject",
-                      "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_Course"
+                      "payload": "Change subject"
                   },
                   {
                       "content_type": "text",

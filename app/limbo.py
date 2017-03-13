@@ -44,10 +44,18 @@ def handle_messages():
                     response_handler.no_course(PAT, sender)
 
             elif payload == "Change subject":
-                response_handler.text_message(PAT, sender, "TIP! \n You can change course at any time simply by "
+                response_handler.text_message(PAT, sender, "You can change course at any time simply by "
                                                            "writing the course code on the form [TAG][CODE] \n "
                                                            "ex. TDT4120")
-            # TODO add help method
+            elif payload == "help":
+                response_handler.text_message(PAT, sender, "HELP ")
+                response_handler.text_message(PAT, sender, "You can change course at any time simply by "
+                                                           "writing the course code on the form [TAG][CODE] \n "
+                                                           "ex. TDT4120")
+                response_handler.text_message(PAT, sender, "You can also type hi or hello at any time \n"
+                                                           "to receive a greeting that shows your options")
+            elif incoming_message.matches(".*"):
+                response_handler.text_message(PAT, sender, "Type 'help' to see what you can do with L.I.M.B.O.")
 
             elif payload == "lecture_feedback":
                 # TODO Check if there is an ongoing lecture somehow?
