@@ -157,18 +157,18 @@ def lec_feed(token, recipient):
               "quick_replies": [
                   {
                       "content_type": "text",
-                      "title": "Too fast!!",
-                      "payload": "fast"
+                      "title": "Too slow",
+                      "payload": "slow"
                   },
                   {
                       "content_type": "text",
-                      "title": "It's All Right",
+                      "title": " 'It's All Right' ",
                       "payload": "ok"
                   },
                   {
                       "content_type": "text",
-                      "title": "Too slow",
-                      "payload": "slow"
+                      "title": "Too fast",
+                      "payload": "fast"
                   }
               ]
           }
