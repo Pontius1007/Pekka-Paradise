@@ -95,7 +95,7 @@ def handle_messages():
                 response_handler.text_message(PAT, sender, sub_info.printable_course_info(sub_info.get_course_json(subject)))
                 response_handler.has_course(PAT, sender, user_methods.get_subject(user_name))
 
-            elif ime_data_fetch.subject_exists_boolean(incoming_message.split()[0]):
+            elif ime_data_fetch.subject_exists_boolean(incoming_message.upper().split()[0]):
                 if user_methods.has_user(user_name):
                     user_methods.add_subject(user_name, incoming_message.split()[0])
                 else:
