@@ -29,15 +29,16 @@ def handle_verification():
 @app.route('/', methods=['POST'])
 def handle_messages():
     print("Handling Messages")
+    # IMPORTANT remember to add all new quick-reply titles to this list!
     titles = ["Change subject", "Get info", "Select Course", "Get schedule", "Lecture Feedback", "Too fast!!",
-              "It's All Right", "Too slow",]
+              "It's All Right", "Too slow"]
     payload = request.get_data()
     for sender, incoming_message, payload in messaging_events(payload):
             # The following statements check which options the user selected
             # Response handler contains "templates" for the various messages
             user_name = get_full_name(sender, PAT)
             if "hei" in incoming_message.lower() or "hallo" in incoming_message.lower() or "yo" in incoming_message.lower():
-                response_handler.greeting_message(PAT, sender)
+                response_handler.greeting_message(PAT, sender, user_name)
                 if user_methods.has_user(user_name):
                     response_handler.has_course(PAT, sender, user_methods.get_subject(user_name))
                 else:
@@ -48,7 +49,7 @@ def handle_messages():
                                                            "writing the course code on the form [TAG][CODE] \n "
                                                            "ex. TDT4120")
             elif incoming_message == "help":
-                response_handler.text_message(PAT, sender, "HELP ")
+                response_handler.text_message(PAT, sender, "Are you lost ...? ")
                 response_handler.text_message(PAT, sender, "You can change course at any time simply by "
                                                            "writing the course code on the form [TAG][CODE] \n "
                                                            "ex. TDT4120")
@@ -86,9 +87,7 @@ def handle_messages():
                     user_methods.add_user(user_name, incoming_message.split()[0])
                 response_handler.has_course(PAT, sender, user_methods.get_subject(user_name))
 
-            elif incoming_message.lower not in titles:
-                print("Message : " + incoming_message)
-                print("Payload : " + payload)
+            elif incoming_message not in titles:
                 response_handler.text_message(PAT, sender, "Type 'help' to see what you can do with L.I.M.B.O.")
 
     return "ok"

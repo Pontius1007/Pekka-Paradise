@@ -2,8 +2,8 @@ import json
 import requests
 
 
-def greeting_message(token, recipient):
-    message = "Hello !\n What can I do for you today?"
+def greeting_message(token, recipient, user_name):
+    message = "Hello" + user_name.split()[0] + "!\n What can I do for you today?"
     txt = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
                         data=json.dumps({
                             "recipient": {"id": recipient},
