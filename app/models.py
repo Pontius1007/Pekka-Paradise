@@ -29,23 +29,22 @@ class Subject(db.Model):
 class Lecture(db.Model):
     __tablename__ = 'lecture'
     subject = db.Column(db.String(20), db.ForeignKey('subject.subject_id'), primary_key=True)
-    week_number = db.Column(db.String(10), primary_key=True) # Format: 1-52
-    day_number = db.Column(db.Integer, primary_key=True) # Format: int from 1-7
-    start_time = db.Column(db.String(5), primary_key=True) # Format: HH.MM
-    end_time = db.Column(db.String(5)) # Format: HH.MM
+    week_number = db.Column(db.Integer, primary_key=True)  # Format: 1-52
+    day_number = db.Column(db.Integer, primary_key=True)  # Format: int from 1-7
+    start_time = db.Column(db.String(5), primary_key=True)  # Format: HH.MM
+    end_time = db.Column(db.String(5))  # Format: HH.MM
     room_name = db.Column(db.String(5), primary_key=True)
-    PrimaryKeyConstraint(subject, week_number, day_number, start_time, room_name, name='lecture_pk')
 
-    def __init__(self, subject, date, day_number, start_time, end_time, room_name):
+    def __init__(self, subject, week_number, day_number, start_time, end_time, room_name):
         self.subject = subject
-        self.date = date
+        self.week_number = week_number
         self.day_number = day_number
         self.start_time = start_time
         self.end_time = end_time
         self.room_name = room_name
 
     def __repr__(self):
-        return '<Lecture %r>' % self.date
+        return '<Lecture %r>' % self.week_number
 
 
 class LectureFeedback(db.Model):
