@@ -48,7 +48,7 @@ def handle_messages():
                 response_handler.text_message(PAT, sender, "You can change course at any time simply by "
                                                            "writing the course code on the form [TAG][CODE] \n "
                                                            "ex. TDT4120")
-            elif payload == "help":
+            elif incoming_message == "help":
                 response_handler.text_message(PAT, sender, "HELP ")
                 response_handler.text_message(PAT, sender, "You can change course at any time simply by "
                                                            "writing the course code on the form [TAG][CODE] \n "
