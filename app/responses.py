@@ -39,6 +39,24 @@ def text_message(token, recipient, message):
     if txt.status_code != requests.codes.ok:
         print(txt.text)
 
+
+def user_info(token, recipient, user_name, sub):
+    """
+    Shows our information about the user to the user
+    :param token:
+    :param recipient:
+    :param user_name:
+    :return:
+    """
+    message = "Hello " + user_name + " !\n You currently have " + sub + "selected"
+    txt = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
+                        data=json.dumps({
+                            "recipient": {"id": recipient},
+                            "message": {"text": message}
+                        }), headers={'Content-type': 'application/json'})
+    if txt.status_code != requests.codes.ok:
+        print(txt.text)
+
 # This is a greeting message for first time users and will be a part of later user stories
 # We will probably use it as is, so we let it stay as a comment for now
 # def greeting_message(token, recipient):
