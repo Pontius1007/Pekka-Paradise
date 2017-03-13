@@ -67,18 +67,19 @@ def handle_messages():
                 response_handler.user_info(PAT, sender, user_name, sub)
 
             # Checks if the subject has lectures in the database, adds them if not.
-            elif payload == "lecture feedback":
-                subject = user_methods.get_subject(user_name)
 
-                if lecture_methods.check_lecture_in_db(subject) != True:
-                    schedule = sub_info.get_schedule(subject)
-                    database_entry = sub_info.gather_lecture_information(schedule)
-                    lecture_methods.add_lecture_information_db(database_entry)
-                    response_handler.text_message(PAT, sender, "Lectures for the subject " + subject +
-                                                  " were not in the database. It is now added")
-                    response_handler.lec_feed(PAT, sender)
-                else:
-                    response_handler.lec_feed(PAT, sender)
+            # elif payload == "lecture feedback":
+            #    subject = user_methods.get_subject(user_name)
+            #
+            #    if lecture_methods.check_lecture_in_db(subject) != True:
+            #        schedule = sub_info.get_schedule(subject)
+            #        database_entry = sub_info.gather_lecture_information(schedule)
+            #        lecture_methods.add_lecture_information_db(database_entry)
+            #        response_handler.text_message(PAT, sender, "Lectures for the subject " + subject +
+            #                                      " were not in the database. It is now added")
+            #        response_handler.lec_feed(PAT, sender)
+            #    else:
+            #        response_handler.lec_feed(PAT, sender)
 
             elif payload == "fast" or payload == "ok" or payload == "slow":
                 feedback_methods.add_entry(user_name, user_methods.get_subject(user_name), payload)
