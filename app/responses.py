@@ -48,7 +48,7 @@ def user_info(token, recipient, user_name, sub):
     :param user_name:
     :return:
     """
-    message = "Hello " + user_name + " !\n You currently have " + sub + "selected"
+    message = "Hello " + user_name + " !\n You currently have " + sub + " selected"
     txt = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
                         data=json.dumps({
                             "recipient": {"id": recipient},
