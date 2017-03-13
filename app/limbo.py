@@ -31,6 +31,8 @@ def handle_verification():
 def handle_messages():
     print("Handling Messages")
     payload = request.get_data()
+
+    pattern = re.compile(".*")
     # Remove this one day...
     print(payload)
     for sender, incoming_message, payload in messaging_events(payload):
@@ -82,7 +84,7 @@ def handle_messages():
                     user_methods.add_user(user_name, incoming_message.split()[0])
                 response_handler.has_course(PAT, sender, user_methods.get_subject(user_name))
 
-            elif re.match(r'.*', incoming_message and payload is None):
+            elif pattern.match(incoming_message) and payload is None:
                 response_handler.text_message(PAT, sender, "Type 'help' to see what you can do with L.I.M.B.O.")
 
     return "ok"
