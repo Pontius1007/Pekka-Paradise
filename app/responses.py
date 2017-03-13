@@ -22,6 +22,7 @@ def text_message(token, recipient, message):
     if txt.status_code != requests.codes.ok:
         print(txt.text)
 
+# To be used later
 # def greeting_message(token, recipient):
 #    greet = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
 #                          data=json.dumps({
@@ -47,12 +48,7 @@ def no_course(token, recipient):
                   {
                       "content_type": "text",
                       "title": "Select Course",
-                      "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_Course"
-                  },
-                  {
-                      "content_type": "text",
-                      "title": "Something else?",
-                      "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_SOMETHING_ELSE"
+                      "payload": "Change subject"
                   }
               ]
           }
@@ -73,22 +69,22 @@ def has_course(token, recipient, subject):
                   {
                       "content_type": "text",
                       "title": "Get info",
-                      "payload": "get_info"
+                      "payload": "get info"
                   },
                   {
                       "content_type": "text",
                       "title": "Get schedule",
-                      "payload": "get_schedule"
+                      "payload": "get schedule"
                   },
                   {
                       "content_type": "text",
                       "title": "Change subject",
-                      "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_Course"
+                      "payload": "change subject"
                   },
                   {
                       "content_type": "text",
                       "title": "Lecture Feedback",
-                      "payload": "lecture_feedback"
+                      "payload": "lecture feedback"
                   }
               ]
           }
@@ -96,21 +92,6 @@ def has_course(token, recipient, subject):
         headers={'Content-type': 'application/json'})
     if supp.status_code != requests.codes.ok:
         print(supp.text)
-
-
-def course_info(token, recipient, message):
-    """Send the message text to recipient with id recipient.
-    """
-
-    r = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
-                      data=json.dumps({
-                          "recipient": {"id": recipient},
-                          "message": {"text": message}
-                      }),
-                      headers={'Content-type': 'application/json'})
-
-    if r.status_code != requests.codes.ok:
-        print(r.text)
 
 
 def lec_feed(token, recipient):
@@ -123,17 +104,17 @@ def lec_feed(token, recipient):
                   {
                       "content_type": "text",
                       "title": "Too fast!!",
-                      "payload": "Fast"
+                      "payload": "fast"
                   },
                   {
                       "content_type": "text",
                       "title": "It's All Right",
-                      "payload": "Ok"
+                      "payload": "ok"
                   },
                   {
                       "content_type": "text",
                       "title": "Too slow",
-                      "payload": "Slow"
+                      "payload": "slow"
                   }
               ]
           }

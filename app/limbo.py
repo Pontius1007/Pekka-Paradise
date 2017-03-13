@@ -29,9 +29,9 @@ def handle_verification():
 @app.route('/', methods=['POST'])
 def handle_messages():
     print("Handling Messages")
+    titles = ["Change subject", "Get info", "Select Course", "Get schedule", "Lecture Feedback", "Too fast!!",
+              "It's All Right", "Too slow",]
     payload = request.get_data()
-    # Remove this one day...
-    print(payload)
     for sender, incoming_message, payload in messaging_events(payload):
             # The following statements check which options the user selected
             # Response handler contains "templates" for the various messages
@@ -43,17 +43,19 @@ def handle_messages():
                 else:
                     response_handler.no_course(PAT, sender)
 
-            # TODO Add some sort of feedback #
-            elif "Select Course" in incoming_message:
-                pass
-
-            elif incoming_message == "Change subject":
-                response_handler.text_message(PAT, sender, "TIP! \n You can change course at any time simply by "
+            elif payload == "change subject":
+                response_handler.text_message(PAT, sender, "You can change course at any time simply by "
                                                            "writing the course code on the form [TAG][CODE] \n "
                                                            "ex. TDT4120")
-            # These options should have similar("The same??") feedback #
+            elif incoming_message == "help":
+                response_handler.text_message(PAT, sender, "HELP ")
+                response_handler.text_message(PAT, sender, "You can change course at any time simply by "
+                                                           "writing the course code on the form [TAG][CODE] \n "
+                                                           "ex. TDT4120")
+                response_handler.text_message(PAT, sender, "You can also type hei or hallo at any time "
+                                                           "to receive a greeting that shows your options")
 
-            elif payload == "lecture_feedback":
+            elif payload == "lecture feedback":
                 # TODO Check if there is an ongoing lecture somehow?
                 subject = user_methods.get_subject(user_name)
                 schedule = sub_info.get_schedule(subject)
@@ -62,17 +64,17 @@ def handle_messages():
                 # Exists
                 response_handler.lec_feed(PAT, sender)
 
-            elif payload == "Fast" or payload == "Ok" or payload == "Slow":
+            elif payload == "fast" or payload == "ok" or payload == "slow":
                 feedback_methods.add_entry(user_name, user_methods.get_subject(user_name), payload)
                 response_handler.text_message(PAT, sender, "You chose " + payload + "\n Feedback Received!")
                 response_handler.has_course(PAT, sender, user_methods.get_subject(user_name))
 
-            elif payload == "get_schedule":
+            elif payload == "get schedule":
                 subject = user_methods.get_subject(user_name)
                 response_handler.text_message(PAT, sender, sub_info.printable_schedule(sub_info.get_schedule(subject)))
                 response_handler.has_course(PAT, sender, user_methods.get_subject(user_name))
 
-            elif payload == "get_info":
+            elif payload == "get info":
                 subject = user_methods.get_subject(user_name)
                 response_handler.text_message(PAT, sender, sub_info.printable_course_info(sub_info.get_course_json(subject)))
                 response_handler.has_course(PAT, sender, user_methods.get_subject(user_name))
@@ -84,11 +86,10 @@ def handle_messages():
                     user_methods.add_user(user_name, incoming_message.split()[0])
                 response_handler.has_course(PAT, sender, user_methods.get_subject(user_name))
 
-            # TODO Find out why this does not work
-            # else:
-            #    response_handler.text_message(PAT, sender, "TIP! \n You can change course at any time simply by "
-            #                                               "writing the course code on the form [TAG][CODE] \n "
-            #                                               "ex. TDT4120")
+            elif incoming_message.lower not in titles:
+                print("Message : " + incoming_message)
+                print("Payload : " + payload)
+                response_handler.text_message(PAT, sender, "Type 'help' to see what you can do with L.I.M.B.O.")
 
     return "ok"
 
@@ -99,14 +100,7 @@ def messaging_events(payload):
     provided payload.
     """
     data = json.loads(payload)
-    # TEST TEST
-    print("This is the data in the message:")
-    print(data)
-    # END TEST
     message = data["entry"][0]["messaging"]
-    # Testing to see what message is
-    print(message)
-    # EndTest
     for event in message:
         # if message in bla and text and payload bla yield payload as well
         if "message" in event and "quick_reply" in event["message"]:
@@ -143,6 +137,5 @@ def get_full_name(sender, token):
     headers = {'content-type': 'application/json'}
     response = requests.get(url, headers=headers)
     data = json.loads(response.content)
-    print(data)
-    print(''.join(data['first_name'] + ' ' + data['last_name']))
+    # print(''.join(data['first_name'] + ' ' + data['last_name']))
     return ''.join(data['first_name'] + ' ' + data['last_name'])

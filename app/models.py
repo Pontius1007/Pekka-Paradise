@@ -1,4 +1,5 @@
 from app import db
+from sqlalchemy import PrimaryKeyConstraint
 
 
 class UserFacebook(db.Model):
@@ -28,22 +29,24 @@ class Subject(db.Model):
 class Lecture(db.Model):
     __tablename__ = 'lecture'
     subject = db.Column(db.String(20), db.ForeignKey('subject.subject_id'), primary_key=True)
-    date = db.Column(db.String(10), primary_key=True)
-    day_number = db.Column(db.Integer, primary_key=True)
-    start_time = db.Column(db.String(5), primary_key=True)
-    end_time = db.Column(db.String(5))
+    year = db.Column(db.Integer, primary_key=True)  # Format YYYY
+    week_number = db.Column(db.Integer, primary_key=True)  # Format: 1-52
+    day_number = db.Column(db.Integer, primary_key=True)  # Format: int from 1-7
+    start_time = db.Column(db.String(5), primary_key=True)  # Format: HH.MM
+    end_time = db.Column(db.String(5))  # Format: HH.MM
     room_name = db.Column(db.String(5), primary_key=True)
 
-    def __init__(self, subject, date, day_number, start_time, end_time, room_name):
+    def __init__(self, subject, year, week_number, day_number, start_time, end_time, room_name):
         self.subject = subject
-        self.date = date
+        self.year = year
+        self.week_number = week_number
         self.day_number = day_number
         self.start_time = start_time
         self.end_time = end_time
         self.room_name = room_name
 
     def __repr__(self):
-        return '<Lecture %r>' % self.date
+        return '<Lecture %r>' % self.week_number
 
 
 class LectureFeedback(db.Model):

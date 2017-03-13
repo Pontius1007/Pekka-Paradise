@@ -9,7 +9,7 @@ def add_entry(user_name, subject_name, feedback):
     :param feedback:
     """
     try:
-        if check_entry(user_name, subject_name, feedback):
+        if check_entry(user_name, subject_name):
             new_feedb = models.LectureFeedback(user_name, subject_name, feedback)
             db.session.add(new_feedb)
             db.session.commit()
@@ -20,7 +20,7 @@ def add_entry(user_name, subject_name, feedback):
 
 
 # TODO Fix this
-def check_entry(user_name, subject_name, feedback):
+def check_entry(user_name, subject_name):
     try:
         # db.users.filter(or_(db.users.name=='Ryan', db.users.country=='England'))
         if models.LectureFeedback.query.filter(models.LectureFeedback.user_id == user_name and
