@@ -55,8 +55,16 @@ def handle_messages():
                 response_handler.text_message(PAT, sender, "You can change course at any time simply by "
                                                            "writing the course code on the form [TAG][CODE] \n "
                                                            "ex. TDT4120")
+                response_handler.text_message(PAT, sender, "If you want to see your currently selected course"
+                                                           "and other information type 'Status' ")
                 response_handler.text_message(PAT, sender, "You can also type hei or hallo at any time "
                                                            "to receive a greeting that shows your options")
+            elif incoming_message == "status":
+                if user_methods.has_user(user_name):
+                    sub = user_methods.get_subject(user_name) + " : " + sub_info.course_name(user_methods.get_subject(user_name))
+                else:
+                    sub = "no subject"
+                response_handler.user_info(PAT, sender, user_name, sub)
 
             # Checks if the subject has lectures in the database, adds them if not.
             elif payload == "lecture feedback":
@@ -83,7 +91,7 @@ def handle_messages():
                 response_handler.has_course(PAT, sender, user_methods.get_subject(user_name))
 
             elif payload == "get info":
-                subject = user_methods.get_subject(user_name)
+                subject = user_methods.get_subject(user_name) + " : " + sub_info.course_name(user_methods.get_subject(user_name))
                 response_handler.text_message(PAT, sender, sub_info.printable_course_info(sub_info.get_course_json(subject)))
                 response_handler.has_course(PAT, sender, user_methods.get_subject(user_name))
 
