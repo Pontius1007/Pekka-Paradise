@@ -2,7 +2,17 @@ import json
 import requests
 
 
+# This file consists of responses sent to the user as JSON objects
+
+
 def greeting_message(token, recipient, user_name):
+    """
+    Sends personal greeting message to the user
+    :param token:
+    :param recipient:
+    :param user_name:
+    :return:
+    """
     message = "Hello " + user_name.split()[0] + " !\n What can I do for you today?"
     txt = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
                         data=json.dumps({
@@ -14,6 +24,13 @@ def greeting_message(token, recipient, user_name):
 
 
 def text_message(token, recipient, message):
+    """
+    Sends any string(message) to the user
+    :param token:
+    :param recipient:
+    :param message:
+    :return:
+    """
     txt = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
                         data=json.dumps({
                             "recipient": {"id": recipient},
@@ -22,7 +39,8 @@ def text_message(token, recipient, message):
     if txt.status_code != requests.codes.ok:
         print(txt.text)
 
-# To be used later
+# This is a greeting message for first time users and will be a part of later user stories
+# We will probably use it as is, so we let it stay as a comment for now
 # def greeting_message(token, recipient):
 #    greet = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
 #                          data=json.dumps({
@@ -39,6 +57,12 @@ def text_message(token, recipient, message):
 
 
 def no_course(token, recipient):
+    """
+    Sends quick replies available to the user without a course selected
+    :param token:
+    :param recipient:
+    :return:
+    """
     supp = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
       data=json.dumps({
           "recipient": {"id": recipient},
@@ -58,8 +82,14 @@ def no_course(token, recipient):
         print(supp.text)
 
 
-# If needed it is possible to send subject back to the user in the payload without saving in db
 def has_course(token, recipient, subject):
+    """
+    Sends quick replies available to the user with a course selected
+    :param token:
+    :param recipient:
+    :param subject:
+    :return:
+    """
     supp = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
       data=json.dumps({
           "recipient": {"id": recipient},
@@ -95,6 +125,12 @@ def has_course(token, recipient, subject):
 
 
 def lec_feed(token, recipient):
+    """
+    Lets the user choose whether a lecture is too fast, slow or ok
+    :param token:
+    :param recipient:
+    :return:
+    """
     supp = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
       data=json.dumps({
           "recipient": {"id": recipient},
