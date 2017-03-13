@@ -31,6 +31,8 @@ def handle_verification():
 def handle_messages():
     print("Handling Messages")
     payload = request.get_data()
+
+    pattern = re.compile(".*")
     # Remove this one day...
     print(payload)
     for sender, incoming_message, payload in messaging_events(payload):
@@ -53,10 +55,8 @@ def handle_messages():
                 response_handler.text_message(PAT, sender, "You can change course at any time simply by "
                                                            "writing the course code on the form [TAG][CODE] \n "
                                                            "ex. TDT4120")
-                response_handler.text_message(PAT, sender, "You can also type hi or hello at any time \n"
+                response_handler.text_message(PAT, sender, "You can also type hei or hallo at any time "
                                                            "to receive a greeting that shows your options")
-            elif re.match(r'.*', incoming_message):
-                response_handler.text_message(PAT, sender, "Type 'help' to see what you can do with L.I.M.B.O.")
 
             elif payload == "lecture_feedback":
                 # TODO Check if there is an ongoing lecture somehow?
@@ -84,11 +84,8 @@ def handle_messages():
                     user_methods.add_user(user_name, incoming_message.split()[0])
                 response_handler.has_course(PAT, sender, user_methods.get_subject(user_name))
 
-            # TODO Find out why this does not work
-            # else:
-            #    response_handler.text_message(PAT, sender, "TIP! \n You can change course at any time simply by "
-            #                                               "writing the course code on the form [TAG][CODE] \n "
-            #                                               "ex. TDT4120")
+            elif pattern.match(incoming_message) and payload is None:
+                response_handler.text_message(PAT, sender, "Type 'help' to see what you can do with L.I.M.B.O.")
 
     return "ok"
 

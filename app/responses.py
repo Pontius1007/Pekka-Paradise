@@ -2,7 +2,6 @@ import json
 import requests
 
 
-
 def greeting_message(token, recipient):
     message = "Hello !\n What can I do for you today?"
     txt = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
@@ -49,12 +48,7 @@ def no_course(token, recipient):
                   {
                       "content_type": "text",
                       "title": "Select Course",
-                      "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_Course"
-                  },
-                  {
-                      "content_type": "text",
-                      "title": "Something else?",
-                      "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_SOMETHING_ELSE"
+                      "payload": "Change subject"
                   }
               ]
           }
