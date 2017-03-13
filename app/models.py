@@ -1,5 +1,4 @@
 from app import db
-from sqlalchemy import PrimaryKeyConstraint
 
 
 class UserFacebook(db.Model):
@@ -28,13 +27,14 @@ class Subject(db.Model):
 
 class Lecture(db.Model):
     __tablename__ = 'lecture'
-    subject = db.Column(db.String(20), db.ForeignKey('subject.subject_id'), primary_key=True)
-    year = db.Column(db.Integer, primary_key=True)  # Format YYYY
-    week_number = db.Column(db.Integer, primary_key=True)  # Format: 1-52
-    day_number = db.Column(db.Integer, primary_key=True)  # Format: int from 1-7
-    start_time = db.Column(db.String(5), primary_key=True)  # Format: HH.MM
+    id = db.Column(db.Integer, primary_key=True)
+    subject = db.Column(db.String(20), db.ForeignKey('subject.subject_id'))
+    year = db.Column(db.Integer)  # Format YYYY
+    week_number = db.Column(db.Integer)  # Format: 1-52
+    day_number = db.Column(db.Integer)  # Format: int from 1-7
+    start_time = db.Column(db.String(5))  # Format: HH.MM
     end_time = db.Column(db.String(5))  # Format: HH.MM
-    room_name = db.Column(db.String(5), primary_key=True)
+    room_name = db.Column(db.String(5))
 
     def __init__(self, subject, year, week_number, day_number, start_time, end_time, room_name):
         self.subject = subject.upper()
@@ -50,10 +50,12 @@ class Lecture(db.Model):
 
 
 class LectureFeedback(db.Model):
-    __tablename__ = 'lecturefeed'
-    user_id = db.Column(db.String(100), primary_key=True)
-    feedback = db.Column(db.String(50))
-    subject = db.Column(db.String(20))
+    __tablename__ = 'lecturefeedback'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.String(100), db.ForeignKey('userfacebook.user_id'))
+    feedback = db.Column(db.Integer)
+    subject = db.Column(db.String(20), db.ForeignKey('subject.subject_id'))
+    lecture_id = db.Column(db.Integer, db.ForeignKey('lecture.id'))
 
     def __init__(self, user_id, subject_name, feedback):
         self.user_id = user_id
