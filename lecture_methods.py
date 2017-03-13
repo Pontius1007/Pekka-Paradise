@@ -4,8 +4,7 @@ from app import db, models
 
 test = ([['TDT4100', '14:15', '16:00', 2, ['2-14', '17'], '2017_VÅR', 'F1'], ['TDT4100', '12:15', '14:00', 5, ['10'], '2017_VÅR', 'F1']])
 
-
-def extract_lecture_information(lecture_information):
+def add_lecture_information_db(lecture_information):
 
 
     for i in range(0, len(lecture_information)):
@@ -27,5 +26,18 @@ def extract_lecture_information(lecture_information):
     db.session.commit()
     print("Lectures added successfully")
 
-extract_lecture_information(test)
+def check_lecture_in_db(subject):
+    list = []
+
+    for lecture in models.Lecture.query.filter_by(subject=subject):
+        list.append(lecture)
+
+    if len(list) == 0:
+        return False
+    else:
+        return True
+
+
+
+
 

@@ -5,8 +5,10 @@ import ime_data_fetch
 from flask import request
 import json
 import sub_info
+import lecture_methods
 from app import app
 from app import responses
+
 
 
 PAT = 'EAACI4GIIx08BAHwR6J1cOROTpYbE9QceOhxR08JBywhdAV6t24J70RG28YaZCzQxJGinIB6v0xy7Y7gdTVQUZCmgRwm1EVBQd05kMYCwi' \
@@ -58,12 +60,19 @@ def handle_messages():
 
             elif payload == "lecture feedback":
                 # TODO Check if there is an ongoing lecture somehow?
-                #subject = user_methods.get_subject(user_name)
-                #schedule = sub_info.get_schedule(subject)
-                #database_entry = sub_info.gather_lecture_information(schedule)
+                subject = user_methods.get_subject(user_name)
+
+                if (lecture_methods.check_lecture_in_db(subject) != True):
+                    schedule = sub_info.get_schedule(subject)
+                    database_entry = sub_info.gather_lecture_information(schedule)
+                    lecture_methods.add_lecture_information_db(database_entry)
+                    response_handler.text_message(PAT, sender, "Lectures for the subject " + subject +
+                                                  " were not in the database. It is now added")
+                    response_handler.lec_feed(PAT, sender)
                 # TODO Connect it to lecture_methods and add it to the database. Also need to check if it already
                 # Exists
-                response_handler.lec_feed(PAT, sender)
+                else:
+                    response_handler.lec_feed(PAT, sender)
 
             elif payload == "fast" or payload == "ok" or payload == "slow":
                 feedback_methods.add_entry(user_name, user_methods.get_subject(user_name), payload)
