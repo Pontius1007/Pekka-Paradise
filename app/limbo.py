@@ -82,6 +82,8 @@ def handle_messages():
                 response_handler.has_course(PAT, sender, user_methods.get_subject(user_name))
 
             elif incoming_message.lower not in titles:
+                print("Message : " + incoming_message)
+                print("Payload : " + payload)
                 response_handler.text_message(PAT, sender, "Type 'help' to see what you can do with L.I.M.B.O.")
 
     return "ok"
