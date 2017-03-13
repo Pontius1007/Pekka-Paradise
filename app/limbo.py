@@ -58,8 +58,8 @@ def handle_messages():
                 response_handler.text_message(PAT, sender, "You can also type hei or hallo at any time "
                                                            "to receive a greeting that shows your options")
 
+            # Checks if the subject has lectures in the database, adds them if not.
             elif payload == "lecture feedback":
-                # TODO Check if there is an ongoing lecture somehow?
                 subject = user_methods.get_subject(user_name)
 
                 if (lecture_methods.check_lecture_in_db(subject) != True):
@@ -69,8 +69,6 @@ def handle_messages():
                     response_handler.text_message(PAT, sender, "Lectures for the subject " + subject +
                                                   " were not in the database. It is now added")
                     response_handler.lec_feed(PAT, sender)
-                # TODO Connect it to lecture_methods and add it to the database. Also need to check if it already
-                # Exists
                 else:
                     response_handler.lec_feed(PAT, sender)
 
