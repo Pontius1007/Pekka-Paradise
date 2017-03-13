@@ -33,7 +33,7 @@ def handle_messages():
     print("Handling Messages")
     # IMPORTANT remember to add all new quick-reply titles to this list!
     titles = ["Change subject", "Get info", "Select Course", "Get schedule", "Lecture Feedback", "Too fast!!",
-              "It's All Right", "Too slow"]
+              "It's All Right", "Too slow", "It's All Right", "Too slow", "Too fast"]
     payload = request.get_data()
     for sender, incoming_message, payload in messaging_events(payload):
             # The following statements check which options the user selected
@@ -70,7 +70,7 @@ def handle_messages():
                 # TODO Check if there is an ongoing lecture somehow?
                 subject = user_methods.get_subject(user_name)
 
-                if (lecture_methods.check_lecture_in_db(subject) != True):
+                if lecture_methods.check_lecture_in_db(subject) != True:
                     schedule = sub_info.get_schedule(subject)
                     database_entry = sub_info.gather_lecture_information(schedule)
                     lecture_methods.add_lecture_information_db(database_entry)
@@ -84,7 +84,7 @@ def handle_messages():
 
             elif payload == "fast" or payload == "ok" or payload == "slow":
                 feedback_methods.add_entry(user_name, user_methods.get_subject(user_name), payload)
-                response_handler.text_message(PAT, sender, "You chose " + payload + "\n Feedback Received!")
+                response_handler.text_message(PAT, sender, "You chose: " + payload + "\n Feedback Received!")
                 response_handler.has_course(PAT, sender, user_methods.get_subject(user_name))
 
             elif payload == "get schedule":
@@ -93,7 +93,7 @@ def handle_messages():
                 response_handler.has_course(PAT, sender, user_methods.get_subject(user_name))
 
             elif payload == "get info":
-                subject = user_methods.get_subject(user_name) + " : " + sub_info.course_name(user_methods.get_subject(user_name))
+                subject = user_methods.get_subject(user_name)
                 response_handler.text_message(PAT, sender, sub_info.printable_course_info(sub_info.get_course_json(subject)))
                 response_handler.has_course(PAT, sender, user_methods.get_subject(user_name))
 
