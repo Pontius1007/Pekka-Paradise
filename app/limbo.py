@@ -57,6 +57,11 @@ def handle_messages():
 
             elif payload == "lecture feedback":
                 # TODO Check if there is an ongoing lecture somehow?
+                subject = user_methods.get_subject(user_name)
+                schedule = sub_info.get_schedule(subject)
+                database_entry = sub_info.gather_lecture_information(schedule)
+                # TODO Connect it to lecture_methods and add it to the database. Also need to check if it already
+                # Exists
                 response_handler.lec_feed(PAT, sender)
 
             elif payload == "fast" or payload == "ok" or payload == "slow":
