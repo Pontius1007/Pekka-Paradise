@@ -32,8 +32,6 @@ def handle_messages():
     titles = ["Change subject", "Get info", "Select Course", "Get schedule", "Lecture Feedback", "Too fast!!",
               "It's All Right", "Too slow",]
     payload = request.get_data()
-    # Remove this one day...
-    print(payload)
     for sender, incoming_message, payload in messaging_events(payload):
             # The following statements check which options the user selected
             # Response handler contains "templates" for the various messages
@@ -59,6 +57,11 @@ def handle_messages():
 
             elif payload == "lecture feedback":
                 # TODO Check if there is an ongoing lecture somehow?
+                subject = user_methods.get_subject(user_name)
+                schedule = sub_info.get_schedule(subject)
+                database_entry = sub_info.gather_lecture_information(schedule)
+                # TODO Connect it to lecture_methods and add it to the database. Also need to check if it already
+                # Exists
                 response_handler.lec_feed(PAT, sender)
 
             elif payload == "fast" or payload == "ok" or payload == "slow":
@@ -83,7 +86,7 @@ def handle_messages():
                     user_methods.add_user(user_name, incoming_message.split()[0])
                 response_handler.has_course(PAT, sender, user_methods.get_subject(user_name))
 
-            elif incoming_message.lower not in titles:
+            elif incoming_message not in titles:
                 response_handler.text_message(PAT, sender, "Type 'help' to see what you can do with L.I.M.B.O.")
 
     return "ok"
@@ -95,14 +98,7 @@ def messaging_events(payload):
     provided payload.
     """
     data = json.loads(payload)
-    # TEST TEST
-    print("This is the data in the message:")
-    print(data)
-    # END TEST
     message = data["entry"][0]["messaging"]
-    # Testing to see what message is
-    print(message)
-    # EndTest
     for event in message:
         # if message in bla and text and payload bla yield payload as well
         if "message" in event and "quick_reply" in event["message"]:
@@ -139,6 +135,5 @@ def get_full_name(sender, token):
     headers = {'content-type': 'application/json'}
     response = requests.get(url, headers=headers)
     data = json.loads(response.content)
-    print(data)
-    print(''.join(data['first_name'] + ' ' + data['last_name']))
+    # print(''.join(data['first_name'] + ' ' + data['last_name']))
     return ''.join(data['first_name'] + ' ' + data['last_name'])

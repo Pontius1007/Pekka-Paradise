@@ -67,12 +67,15 @@ def gather_lecture_information(schedule):
             single_lecture.extend(
                 (schedule['course']['summarized'][i]['courseCode'], schedule['course']['summarized'][i]['from'],
                  schedule['course']['summarized'][i]['to'], schedule['course']['summarized'][i]['dayNum'],
-                 schedule['course']['summarized'][i]['weeks'],
+                 schedule['course']['summarized'][i]['weeks'], schedule['course']['summarized'][i]['arsterminId'],
                  schedule['course']['summarized'][i]['rooms'][0]['romNavn']))
             lecture_information.append(single_lecture)
 
     return lecture_information
 
+#REMOVE
+schedule = get_schedule('TDT4100')
+print (gather_lecture_information(schedule))
 
 # method that fetches the information about a subject from IMEs api in a json file
 def get_course_json(sub_code):
