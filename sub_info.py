@@ -73,10 +73,6 @@ def gather_lecture_information(schedule):
 
     return lecture_information
 
-#REMOVE
-schedule = get_schedule('TDT4100')
-print (gather_lecture_information(schedule))
-
 # method that fetches the information about a subject from IMEs api in a json file
 def get_course_json(sub_code):
     try:
