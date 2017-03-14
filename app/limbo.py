@@ -42,7 +42,7 @@ def handle_messages():
             if "hei" in incoming_message.lower() or "hallo" in incoming_message.lower() or "yo" in incoming_message.lower():
                 response_handler.greeting_message(PAT, sender, user_name)
                 if user_methods.has_user(user_name):
-                    response_handler.has_course(PAT, sender, user_methods.get_subject(user_name))
+                    response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
                 else:
                     response_handler.no_course(PAT, sender)
 
@@ -61,7 +61,7 @@ def handle_messages():
                                                            "to receive a greeting that shows your options")
             elif incoming_message == "status":
                 if user_methods.has_user(user_name):
-                    sub = user_methods.get_subject(user_name) + " : " + sub_info.course_name(user_methods.get_subject(user_name))
+                    sub = user_methods.get_subject_from_user(user_name) + " : " + sub_info.course_name(user_methods.get_subject_from_user(user_name))
                 else:
                     sub = "no subject"
                 response_handler.user_info(PAT, sender, user_name, sub)
@@ -69,7 +69,7 @@ def handle_messages():
             # Checks if the subject has lectures in the database, adds them if not.
 
             elif payload == "lecture feedback":
-                subject = user_methods.get_subject(user_name)
+                subject = user_methods.get_subject_from_user(user_name)
 
                 if lecture_methods.check_lecture_in_db(subject) != True:
                     schedule = sub_info.get_schedule(subject)
@@ -82,26 +82,26 @@ def handle_messages():
                     response_handler.lec_feed(PAT, sender)
 
             elif payload == "fast" or payload == "ok" or payload == "slow":
-                feedback_methods.add_entry(user_name, user_methods.get_subject(user_name), payload)
+                feedback_methods.add_entry(user_name, user_methods.get_subject_from_user(user_name), payload)
                 response_handler.text_message(PAT, sender, "You chose: " + payload + "\n Feedback Received!")
-                response_handler.has_course(PAT, sender, user_methods.get_subject(user_name))
+                response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
 
             elif payload == "get schedule":
-                subject = user_methods.get_subject(user_name)
+                subject = user_methods.get_subject_from_user(user_name)
                 response_handler.text_message(PAT, sender, sub_info.printable_schedule(sub_info.get_schedule(subject)))
-                response_handler.has_course(PAT, sender, user_methods.get_subject(user_name))
+                response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
 
             elif payload == "get info":
-                subject = user_methods.get_subject(user_name)
+                subject = user_methods.get_subject_from_user(user_name)
                 response_handler.text_message(PAT, sender, sub_info.printable_course_info(sub_info.get_course_json(subject)))
-                response_handler.has_course(PAT, sender, user_methods.get_subject(user_name))
+                response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
 
             elif ime_data_fetch.subject_exists_boolean(incoming_message.upper().split()[0]):
                 if user_methods.has_user(user_name):
                     user_methods.add_subject(user_name, incoming_message.split()[0])
                 else:
                     user_methods.add_user(user_name, incoming_message.split()[0])
-                response_handler.has_course(PAT, sender, user_methods.get_subject(user_name))
+                response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
 
             elif incoming_message not in titles:
                 response_handler.text_message(PAT, sender, "Type 'help' to see what you can do with L.I.M.B.O.")

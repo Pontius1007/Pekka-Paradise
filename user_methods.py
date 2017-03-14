@@ -58,7 +58,7 @@ def add_subject(user_name, subject_name):
         print(e)
 
 
-def get_subject_from_subject(user_name):
+def get_subject_from_user(user_name):
     """
     get subject from userfacebook
     :param user_name:
@@ -87,9 +87,12 @@ def add_subject_to_subject_table(subject_name):
     Adds subject to Subject-table
     :param subject_name:
     """
-    subject = models.Subject(subject_name)
-    db.session.add(subject)
-    db.session.commit()
+    try:
+        subject = models.Subject(subject_name)
+        db.session.add(subject)
+        db.session.commit()
+    except Exception as e:
+        print(e)
 
 
 def get_subject(subject_name):
