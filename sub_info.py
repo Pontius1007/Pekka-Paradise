@@ -10,6 +10,8 @@ week = ["mandag", "tirsdag", "onsdag", "torsdag", "fredag"]
 current_year = str(date.today().year)
 
 
+
+# method that return a courses schedule in JSON format if the subject exists
 def get_schedule(sub_code):
     """
     method that return a courses schedule in JSON format if the subject exists
@@ -40,6 +42,9 @@ def print_schedule(schedule):
     if not schedule:
         print("No schedule available")
 
+    if not schedule:
+        print("No schedule available")
+
     print("Timeplan for " + schedule['course']['summarized'][0]['courseName'] + ":")
     for i in range(0, len(schedule['course']['summarized'])):
         print(schedule['course']['summarized'][i]['description'] + " "
@@ -54,6 +59,9 @@ def printable_schedule(schedule):
     :param schedule: a schedule JSON file
     :return: a string with the schedule
     """
+    if not schedule:
+        return "No schedule available"
+
     if not schedule:
         return "No schedule available"
 
@@ -125,7 +133,7 @@ def printable_course_info(course):
                         course['assessment'][0]['codeName'], course['assessment'][0]['gradeRuleSchemeName']))
     return info_string
 
-
+  
 def course_name(code):
     """
     A method that fetches the name of a course
@@ -134,3 +142,4 @@ def course_name(code):
     """
     c = get_course_json(code)
     return c['course']['name']
+
