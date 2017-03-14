@@ -32,8 +32,8 @@ def handle_verification():
 def handle_messages():
     print("Handling Messages")
     # IMPORTANT remember to add all new quick-reply titles to this list!
-    titles = ["Change subject", "Get info", "Select Course", "Get schedule", "Lecture Feedback", "Too fast!!",
-              "It's All Right", "Too slow", "It's All Right", "Too slow", "Too fast"]
+    titles = ["Change subject", "Get info", "Select Course", "Get schedule", "Lecture Feedback",
+              "Too slow", "It's all right", "Too fast"]
     payload = request.get_data()
     for sender, incoming_message, payload in messaging_events(payload):
         # The following statements check which options the user selected
@@ -61,7 +61,8 @@ def handle_messages():
                                                        "to receive a greeting that shows your options")
         elif incoming_message == "status":
             if user_methods.has_user(user_name):
-                sub = user_methods.get_subject_from_user(user_name) + " : " + sub_info.course_name(user_methods.get_subject_from_user(user_name))
+                sub = user_methods.get_subject_from_user(user_name) + " : " + \
+                      sub_info.course_name(user_methods.get_subject_from_user(user_name))
             else:
                 sub = "no subject"
             response_handler.user_info(PAT, sender, user_name, sub)
@@ -71,14 +72,14 @@ def handle_messages():
         elif payload == "lecture feedback":
             subject = user_methods.get_subject_from_user(user_name)
 
-            if lecture_methods.check_lecture_in_db(subject) != True:
+            if lecture_methods.check_lecture_in_db(subject):
+                response_handler.lec_feed(PAT, sender)
+            else:
                 schedule = sub_info.get_schedule(subject)
                 database_entry = sub_info.gather_lecture_information(schedule)
                 lecture_methods.add_lecture_information_db(database_entry)
                 response_handler.text_message(PAT, sender, "Lectures for the subject " + subject +
                                               " were not in the database. It is now added")
-                response_handler.lec_feed(PAT, sender)
-            else:
                 response_handler.lec_feed(PAT, sender)
 
         elif payload == "Too fast" or payload == "It's all right" or payload == "Too slow":
@@ -160,5 +161,4 @@ def get_full_name(sender, token):
     headers = {'content-type': 'application/json'}
     response = requests.get(url, headers=headers)
     data = json.loads(response.content)
-    # print(''.join(data['first_name'] + ' ' + data['last_name']))
     return ''.join(data['first_name'] + ' ' + data['last_name'])
