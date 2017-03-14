@@ -17,11 +17,14 @@ def has_user(user_name):
 
 def add_user(user_name, subject_name):
     """
-    add a user and subject to userfacebook
+    Add a user and subject to userfacebook
+    Also adds subject to Subject-table if it is not present.
     :param user_name:
     :param subject_name:
     """
     subject_name = subject_name.upper()  # Subject names in the database should be uppercase
+    if get_subject(subject_name) is None:
+        add_subject(subject_name)
     try:
         if not has_user(user_name):
             new_user = models.UserFacebook(user_name, subject_name)
@@ -35,11 +38,14 @@ def add_user(user_name, subject_name):
 
 def add_subject(user_name, subject_name):
     """
-    add subject to userfacebook
+    Add subject to userfacebook
+    Also adds subject to Subject-table if it is not present.
     :param user_name:
     :param subject_name:
     """
     subject_name = subject_name.upper()  # Subject names in the database should be uppercase
+    if get_subject(subject_name) is None:
+        add_subject(subject_name)
     try:
         if models.UserFacebook.query.get(user_name) is None:
             add_user(user_name, subject_name)
@@ -74,3 +80,13 @@ def delete_user(user_name):
     if models.UserFacebook.query.get(user_name) is not None:
         db.session.delete(models.UserFacebook.query.get(user_name))
         db.session.commit()
+
+
+def add_subject(subject_name):
+    """
+    Adds subject to Subject-table
+    :param subject_name:
+    """
+    subject = models.Subject(subject_name)
+    db.session.add(subject)
+    db.session.commit()

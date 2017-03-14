@@ -57,10 +57,11 @@ class LectureFeedback(db.Model):
     subject = db.Column(db.String(20), db.ForeignKey('subject.subject_id'))
     lecture_id = db.Column(db.Integer, db.ForeignKey('lecture.id'))
 
-    def __init__(self, user_id, subject_name, feedback):
+    def __init__(self, user_id, subject_name, feedback, lecture_id):
         self.user_id = user_id
         self.subject = subject_name.upper()
         self.feedback = feedback
+        self.lecture_id = lecture_id
 
     def __repr__(self):
         return '<Feedback %r>' % self.user_id
