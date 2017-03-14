@@ -6,7 +6,7 @@ base_url = "http://www.ime.ntnu.no/api/course/en/"
 
 
 # method for checking if a subject exists at NTNU
-def subject_exists(code):
+def get_subject_name(code):
 
     try:
         course = requests.get(base_url + code).json()
