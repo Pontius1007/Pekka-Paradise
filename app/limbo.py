@@ -108,7 +108,8 @@ def handle_messages():
 
         elif payload == "get info":
             subject = user_methods.get_subject_from_user(user_name)
-            response_handler.text_message(PAT, sender, sub_info.printable_course_info(sub_info.get_course_json(subject)))
+            response_handler.text_message(PAT, sender,
+                                          sub_info.printable_course_info(sub_info.get_course_json(subject)))
             response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
 
         elif ime_data_fetch.subject_exists_boolean(incoming_message.upper().split()[0]):
@@ -150,8 +151,8 @@ def send_message(token, recipient, text):
     r = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token}, data=json.dumps({
         "recipient": {"id": recipient},
         "message": {"text": text}
-        }),
-        headers={'Content-type': 'application/json'})
+    }),
+                      headers={'Content-type': 'application/json'})
     if r.status_code != requests.codes.ok:
         print(r.text)
 
