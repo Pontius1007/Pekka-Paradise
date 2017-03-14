@@ -53,13 +53,11 @@ class LectureFeedback(db.Model):
     __tablename__ = 'lecturefeedback'
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.String(100), db.ForeignKey('userfacebook.user_id'))
-    feedback = db.Column(db.Integer)
-    subject = db.Column(db.String(20), db.ForeignKey('subject.subject_id'))
+    feedback = db.Column(db.String(15))
     lecture_id = db.Column(db.Integer, db.ForeignKey('lecture.id'))
 
-    def __init__(self, user_id, subject_name, feedback, lecture_id):
+    def __init__(self, user_id, feedback, lecture_id):
         self.user_id = user_id
-        self.subject = subject_name.upper()
         self.feedback = feedback
         self.lecture_id = lecture_id
 
