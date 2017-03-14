@@ -162,7 +162,7 @@ def lec_feed(token, recipient):
                   },
                   {
                       "content_type": "text",
-                      "title": "It's All Right",
+                      "title": "It's all right",
                       "payload": "ok"
                   },
                   {

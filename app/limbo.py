@@ -36,83 +36,83 @@ def handle_messages():
               "It's All Right", "Too slow", "It's All Right", "Too slow", "Too fast"]
     payload = request.get_data()
     for sender, incoming_message, payload in messaging_events(payload):
-            # The following statements check which options the user selected
-            # Response handler contains "templates" for the various messages
-            user_name = get_full_name(sender, PAT)
-            if "hei" in incoming_message.lower() or "hallo" in incoming_message.lower() or "yo" in incoming_message.lower():
-                response_handler.greeting_message(PAT, sender, user_name)
-                if user_methods.has_user(user_name):
-                    response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
-                else:
-                    response_handler.no_course(PAT, sender)
+        # The following statements check which options the user selected
+        # Response handler contains "templates" for the various messages
+        user_name = get_full_name(sender, PAT)
+        if "hei" in incoming_message.lower() or "hallo" in incoming_message.lower() or "yo" in incoming_message.lower():
+            response_handler.greeting_message(PAT, sender, user_name)
+            if user_methods.has_user(user_name):
+                response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
+            else:
+                response_handler.no_course(PAT, sender)
 
-            elif payload == "change subject":
-                response_handler.text_message(PAT, sender, "You can change course at any time simply by "
-                                                           "writing the course code on the form [TAG][CODE] \n "
-                                                           "ex. TDT4120")
-            elif incoming_message == "help":
-                response_handler.text_message(PAT, sender, "Are you lost ...? ")
-                response_handler.text_message(PAT, sender, "You can change course at any time simply by "
-                                                           "writing the course code on the form [TAG][CODE] \n "
-                                                           "ex. TDT4120")
-                response_handler.text_message(PAT, sender, "If you want to see your currently selected course"
-                                                           "and other information type 'Status' ")
-                response_handler.text_message(PAT, sender, "You can also type hei or hallo at any time "
-                                                           "to receive a greeting that shows your options")
-            elif incoming_message == "status":
-                if user_methods.has_user(user_name):
-                    sub = user_methods.get_subject_from_user(user_name) + " : " + sub_info.course_name(user_methods.get_subject_from_user(user_name))
-                else:
-                    sub = "no subject"
-                response_handler.user_info(PAT, sender, user_name, sub)
+        elif payload == "change subject":
+            response_handler.text_message(PAT, sender, "You can change course at any time simply by "
+                                                       "writing the course code on the form [TAG][CODE] \n "
+                                                       "ex. TDT4120")
+        elif incoming_message == "help":
+            response_handler.text_message(PAT, sender, "Are you lost ...? ")
+            response_handler.text_message(PAT, sender, "You can change course at any time simply by "
+                                                       "writing the course code on the form [TAG][CODE] \n "
+                                                       "ex. TDT4120")
+            response_handler.text_message(PAT, sender, "If you want to see your currently selected course"
+                                                       "and other information type 'Status' ")
+            response_handler.text_message(PAT, sender, "You can also type hei or hallo at any time "
+                                                       "to receive a greeting that shows your options")
+        elif incoming_message == "status":
+            if user_methods.has_user(user_name):
+                sub = user_methods.get_subject_from_user(user_name) + " : " + sub_info.course_name(user_methods.get_subject_from_user(user_name))
+            else:
+                sub = "no subject"
+            response_handler.user_info(PAT, sender, user_name, sub)
 
-            # Checks if the subject has lectures in the database, adds them if not.
+        # Checks if the subject has lectures in the database, adds them if not.
 
-            elif payload == "lecture feedback":
-                subject = user_methods.get_subject_from_user(user_name)
+        elif payload == "lecture feedback":
+            subject = user_methods.get_subject_from_user(user_name)
 
-                if lecture_methods.check_lecture_in_db(subject) != True:
-                    schedule = sub_info.get_schedule(subject)
-                    database_entry = sub_info.gather_lecture_information(schedule)
-                    lecture_methods.add_lecture_information_db(database_entry)
-                    response_handler.text_message(PAT, sender, "Lectures for the subject " + subject +
-                                                  " were not in the database. It is now added")
-                    response_handler.lec_feed(PAT, sender)
-                else:
-                    response_handler.lec_feed(PAT, sender)
+            if lecture_methods.check_lecture_in_db(subject) != True:
+                schedule = sub_info.get_schedule(subject)
+                database_entry = sub_info.gather_lecture_information(schedule)
+                lecture_methods.add_lecture_information_db(database_entry)
+                response_handler.text_message(PAT, sender, "Lectures for the subject " + subject +
+                                              " were not in the database. It is now added")
+                response_handler.lec_feed(PAT, sender)
+            else:
+                response_handler.lec_feed(PAT, sender)
 
-            elif payload == "fast" or payload == "ok" or payload == "slow":
-                # Adds feedback if the subject has a lecture on the given day
-                # and if the user has not already given feedback
-                print('I was here')
-                if feedback_methods.add_entry(user_name, user_methods.get_subject_from_user(user_name), payload):
-                    response_handler.text_message(PAT, sender, "You chose: " + payload + "\n Feedback Received!")
-                    response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
-                else:
-                    response_handler.text_message(PAT, sender, "There is either no lecture active in the selected"
-                                                               " subject, or you have already given feedback"
-                                                               " to the active lecture.\n Feedback denied!")
-                    response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
-
-            elif payload == "get schedule":
-                subject = user_methods.get_subject_from_user(user_name)
-                response_handler.text_message(PAT, sender, sub_info.printable_schedule(sub_info.get_schedule(subject)))
+        elif payload == "Too fast" or payload == "It's all right" or payload == "Too slow":
+            # Adds feedback if the subject has a lecture on the given day
+            # and if the user has not already given feedback
+            print('I was here')
+            if feedback_methods.add_entry(user_name, user_methods.get_subject_from_user(user_name), payload):
+                response_handler.text_message(PAT, sender, "You chose: " + "'" + payload + "'" + "\nFeedback Received!")
+                response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
+            else:
+                response_handler.text_message(PAT, sender, "There is either no lecture active in the selected"
+                                                           " subject, or you have already given feedback"
+                                                           " to the active lecture.\n Feedback denied!")
                 response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
 
-            elif payload == "get info":
-                subject = user_methods.get_subject_from_user(user_name)
-                response_handler.text_message(PAT, sender, sub_info.printable_course_info(sub_info.get_course_json(subject)))
-                response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
+        elif payload == "get schedule":
+            subject = user_methods.get_subject_from_user(user_name)
+            response_handler.text_message(PAT, sender, sub_info.printable_schedule(sub_info.get_schedule(subject)))
+            response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
 
-            elif ime_data_fetch.subject_exists_boolean(incoming_message.upper().split()[0]):
-                if user_methods.has_user(user_name):
-                    user_methods.add_subject(user_name, incoming_message.split()[0])
-                else:
-                    user_methods.add_user(user_name, incoming_message.split()[0])
-                response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
+        elif payload == "get info":
+            subject = user_methods.get_subject_from_user(user_name)
+            response_handler.text_message(PAT, sender, sub_info.printable_course_info(sub_info.get_course_json(subject)))
+            response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
 
-            elif incoming_message not in titles:
-                response_handler.text_message(PAT, sender, "Type 'help' to see what you can do with L.I.M.B.O.")
+        elif ime_data_fetch.subject_exists_boolean(incoming_message.upper().split()[0]):
+            if user_methods.has_user(user_name):
+                user_methods.add_subject(user_name, incoming_message.split()[0])
+            else:
+                user_methods.add_user(user_name, incoming_message.split()[0])
+            response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
+
+        elif incoming_message not in titles:
+            response_handler.text_message(PAT, sender, "Type 'help' to see what you can do with L.I.M.B.O.")
 
     return "ok"
 
