@@ -76,11 +76,17 @@ def handle_messages():
                 response_handler.lec_feed(PAT, sender)
             else:
                 schedule = sub_info.get_schedule(subject)
-                database_entry = sub_info.gather_lecture_information(schedule)
-                lecture_methods.add_lecture_information_db(database_entry)
-                response_handler.text_message(PAT, sender, "Lectures for the subject " + subject +
-                                              " were not in the database. It is now added")
-                response_handler.lec_feed(PAT, sender)
+                if schedule:
+                    database_entry = sub_info.gather_lecture_information(schedule)
+                    lecture_methods.add_lecture_information_db(database_entry)
+                    response_handler.text_message(PAT, sender, "Lectures for the subject " + subject +
+                                                  " were not in the database. It is now added")
+                    response_handler.lec_feed(PAT, sender)
+                else:
+                    response_handler.text_message(PAT, sender, "Lectures for the subject " + subject +
+                                                  " does not exist. Likely due to the subject having no "
+                                                  "lectures this semester.")
+                    response_handler.has_course(PAT, sender, subject)
 
         elif payload == "Too fast" or payload == "It's all right" or payload == "Too slow":
             # Adds feedback if the subject has a lecture on the given day
