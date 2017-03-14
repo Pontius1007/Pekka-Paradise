@@ -1,5 +1,5 @@
 import requests
-from app import feedback_methods
+import feedback_methods
 import user_methods
 import ime_data_fetch
 from flask import request
@@ -68,7 +68,7 @@ def handle_messages():
 
             # Checks if the subject has lectures in the database, adds them if not.
 
-             elif payload == "lecture feedback":
+            elif payload == "lecture feedback":
                 subject = user_methods.get_subject(user_name)
 
                 if lecture_methods.check_lecture_in_db(subject) != True:
