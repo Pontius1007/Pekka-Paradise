@@ -82,9 +82,14 @@ def handle_messages():
                     response_handler.lec_feed(PAT, sender)
 
             elif payload == "fast" or payload == "ok" or payload == "slow":
-                feedback_methods.add_entry(user_name, user_methods.get_subject_from_user(user_name), payload)
-                response_handler.text_message(PAT, sender, "You chose: " + payload + "\n Feedback Received!")
-                response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
+                if feedback_methods.add_entry(user_name, user_methods.get_subject_from_user(user_name), payload):
+                    response_handler.text_message(PAT, sender, "You chose: " + payload + "\n Feedback Received!")
+                    response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
+                else:
+                    response_handler.text_message(PAT, sender, "There is either no lecture active in the selected"
+                                                               " subject, or you have already given feedback"
+                                                               " to the active lecture.\n Feedback denied!")
+                    response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
 
             elif payload == "get schedule":
                 subject = user_methods.get_subject_from_user(user_name)
