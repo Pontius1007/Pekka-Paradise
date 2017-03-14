@@ -48,17 +48,17 @@ def handle_messages():
 
         elif payload == "change subject":
             response_handler.text_message(PAT, sender, "You can change course at any time simply by "
-                                                       "writing the course code on the form [TAG][CODE] \n "
+                                                       "writing the course code on the form [TAG][CODE]\n"
                                                        "ex. TDT4120")
         elif incoming_message == "help":
             response_handler.text_message(PAT, sender, "Are you lost ...? ")
             response_handler.text_message(PAT, sender, "You can change course at any time simply by "
-                                                       "writing the course code on the form [TAG][CODE] \n "
+                                                       "writing the course code on the form: [TAG][CODE]\n"
                                                        "ex. TDT4120")
-            response_handler.text_message(PAT, sender, "If you want to see your currently selected course"
-                                                       "and other information type 'Status' ")
-            response_handler.text_message(PAT, sender, "You can also type hei or hallo at any time "
-                                                       "to receive a greeting that shows your options")
+            response_handler.text_message(PAT, sender, "If you want to see your currently selected course "
+                                                       "and other information type 'Status'.")
+            response_handler.text_message(PAT, sender, "You can also type 'Hei' or 'Hallo' at any time "
+                                                       "to receive a greeting that shows your options.")
         elif incoming_message == "status":
             if user_methods.has_user(user_name):
                 sub = user_methods.get_subject_from_user(user_name) + " : " + \
