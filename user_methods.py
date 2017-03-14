@@ -58,7 +58,7 @@ def add_subject(user_name, subject_name):
         print(e)
 
 
-def get_subject(user_name):
+def get_subject_from_subject(user_name):
     """
     get subject from userfacebook
     :param user_name:
@@ -90,3 +90,17 @@ def add_subject_to_subject_table(subject_name):
     subject = models.Subject(subject_name)
     db.session.add(subject)
     db.session.commit()
+
+
+def get_subject(subject_name):
+    """
+
+    :param subject_name:
+    :return:
+    """
+    try:
+        if models.Subject.query.get(subject_name) is not None:
+            return models.Subject.query.get(subject_name).subject_id
+    except Exception as e:
+        print(e)
+    return None
