@@ -24,7 +24,7 @@ def add_user(user_name, subject_name):
     """
     subject_name = subject_name.upper()  # Subject names in the database should be uppercase
     if get_subject(subject_name) is None:
-        add_subject(subject_name)
+        add_subject_to_subject_table(subject_name)
     try:
         if not has_user(user_name):
             new_user = models.UserFacebook(user_name, subject_name)
@@ -45,7 +45,7 @@ def add_subject(user_name, subject_name):
     """
     subject_name = subject_name.upper()  # Subject names in the database should be uppercase
     if get_subject(subject_name) is None:
-        add_subject(subject_name)
+        add_subject_to_subject_table(subject_name)
     try:
         if models.UserFacebook.query.get(user_name) is None:
             add_user(user_name, subject_name)
@@ -82,7 +82,7 @@ def delete_user(user_name):
         db.session.commit()
 
 
-def add_subject(subject_name):
+def add_subject_to_subject_table(subject_name):
     """
     Adds subject to Subject-table
     :param subject_name:
