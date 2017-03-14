@@ -116,7 +116,7 @@ def has_course(token, recipient, subject):
                          data=json.dumps({
                              "recipient": {"id": recipient},
                              "message": {
-                                 "text": "You have chosen: " + subject_name + "\n What would you like to do?:",
+                                 "text": "You have chosen: " + subject_name + "\nWhat would you like to do?:",
                                  "quick_replies": [
                                      {
                                          "content_type": "text",
@@ -162,17 +162,17 @@ def lec_feed(token, recipient):
                                      {
                                          "content_type": "text",
                                          "title": "Too slow",
-                                         "payload": "'slow'"
+                                         "payload": "Too slow"
                                      },
                                      {
                                          "content_type": "text",
-                                         "title": "It's All Right",
-                                         "payload": "'ok'"
+                                         "title": "It's all right",
+                                         "payload": "It's all right"
                                      },
                                      {
                                          "content_type": "text",
                                          "title": "Too fast",
-                                         "payload": "'fast'"
+                                         "payload": "Too fast"
                                      }
                                  ]
                              }

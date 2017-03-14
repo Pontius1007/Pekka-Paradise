@@ -98,7 +98,7 @@ def handle_messages():
             else:
                 response_handler.text_message(PAT, sender, "There is either no lecture active in the selected"
                                                            " subject, or you have already given feedback"
-                                                           " to the active lecture.\n Feedback denied!")
+                                                           " to the active lecture.\nFeedback denied!")
                 response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
 
         elif payload == "get schedule":
