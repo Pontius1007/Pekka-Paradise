@@ -116,7 +116,7 @@ def has_course(token, recipient, subject):
                          data=json.dumps({
                              "recipient": {"id": recipient},
                              "message": {
-                                 "text": "You have chosen: " + subject_name + "\n What would you like to do?:",
+                                 "text": "You have chosen: " + subject_name + "\nWhat would you like to do?:",
                                  "quick_replies": [
                                      {
                                          "content_type": "text",
