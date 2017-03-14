@@ -6,7 +6,7 @@ base_url = "http://www.ime.ntnu.no/api/course/en/"
 
 
 # method for checking if a subject exists at NTNU
-def subject_exists(code):
+def get_subject_name(code):
 
     try:
         course = requests.get(base_url + code).json()
@@ -22,8 +22,12 @@ def subject_exists(code):
 # same as above but returns a boolean value instead
 def subject_exists_boolean(code):
 
-    if requests.get(base_url + code).json()["course"] is not None:
-        return True
+    try:
+        if requests.get(base_url + code).json()["course"] is not None:
+            return True
+    except TypeError:
+        return False
+    except ValueError:
+        return False
     return False
-
 
