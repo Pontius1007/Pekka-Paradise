@@ -112,6 +112,26 @@ def handle_messages():
                                           sub_info.printable_course_info(sub_info.get_course_json(subject)))
             response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
 
+        elif payload == "get feedback":
+            subject = user_methods.get_subject_from_user(user_name)
+            response_handler.get_feedback_specific_or_all(PAT, sender)
+
+        elif payload == "all lectures":
+            # TODO: call method with subject as arg.
+            pass
+
+        elif payload == "a specific lecture":
+            # TODO: Find the weeks that have lectures. And let the user choose what week to get feedback from.
+            pass
+
+        elif payload == "":
+            # TODO: take in what weeks to present the user if possible? present the remaining weeks to user.
+            pass
+
+        elif payload == "":
+            # TODO:
+            pass
+
         elif ime_data_fetch.subject_exists_boolean(incoming_message.upper().split()[0]):
             if user_methods.has_user(user_name):
                 user_methods.add_subject(user_name, incoming_message.split()[0])
