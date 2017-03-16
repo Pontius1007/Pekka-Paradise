@@ -68,9 +68,8 @@ def handle_messages():
                 sub = "no subject"
             response_handler.user_info(PAT, sender, user_name, sub)
 
-        elif incoming_message.lower() == "test1":
-            response_handler.test_graph(PAT, sender)
-
+        elif "test" in incoming_message:
+            feedback_methods.get_all_lecture_feed(incoming_message.split()[1])
 
         # Checks if the subject has lectures in the database, adds them if not.
 
