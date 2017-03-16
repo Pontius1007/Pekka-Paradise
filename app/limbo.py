@@ -120,15 +120,23 @@ def handle_messages():
             # TODO: call method with subject as arg.
             pass
 
-        elif payload == "a specific lecture":
-            # TODO: Find the weeks that have lectures. And let the user choose what week to get feedback from.
+        elif payload == "a_specific_lecture":
+            # TODO: Let the user choose what year to get feedback from.
             pass
 
-        elif payload == "":
-            # TODO: take in what weeks to present the user if possible? present the remaining weeks to user.
+        elif "get_lecture_feedback_year" in payload.split()[0]:
+            # TODO: Let the user choose what semester to get feedback from.
             pass
 
-        elif payload == "":
+        elif "get_lecture_feedback_month" in payload.split()[0]:
+            # TODO: take in what year to present the user if. Let the user choose what month to get feedback from.
+            pass
+
+        elif "get_lecture_feedback_week" in payload.split()[0]:
+            # TODO: take in what month to present the user if. Let the user choose what week to get feedback from.
+            pass
+
+        elif "get_lecture_feedback_day" in payload.split()[0]:
             # TODO:
             pass
 
