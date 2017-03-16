@@ -10,11 +10,12 @@ import sub_info
 import user_methods
 from app import app
 from app import responses
+from config import PAT
 
 
 #PAT FOR TEST PAGE
-PAT = 'EAACI5ldRJtABADtOiyeSG4P2lvOZCHmfL1RXLOVUuJqBb9abZCwKoXvUsZAJ3mw17asXYiMb4o2P2qUK39csMOx0LPd3CMQTtQMphBzdmw' \
-      'pvEfE3UzIsqyu9fOFmh6XwZA4zVZAtc40gRGXltrxmMw85VH04USXIO7PdYQHTGpwZDZD'
+#PAT = 'EAACI5ldRJtABADtOiyeSG4P2lvOZCHmfL1RXLOVUuJqBb9abZCwKoXvUsZAJ3mw17asXYiMb4o2P2qUK39csMOx0LPd3CMQTtQMphBzdmw' \
+#      'pvEfE3UzIsqyu9fOFmh6XwZA4zVZAtc40gRGXltrxmMw85VH04USXIO7PdYQHTGpwZDZD'
 
 
 #PAT FOR MAIN PAGE
