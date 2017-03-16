@@ -1,8 +1,12 @@
 from app import db, models
 
+
 def get_year(course):
     try:
         if models.Lecture.query.filter_by(subject=course):
+            pass
+    except:
+        pass
             
 feedbacks = []
 lectures = models.Lecture.query.filter_by(subject='TDT4112', year=2017, week_number=11, day_number=2)

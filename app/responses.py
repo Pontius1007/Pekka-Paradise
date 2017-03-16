@@ -182,6 +182,11 @@ def lec_feed(token, recipient):
         print(supp.text)
 
 
+"""
+THIS SECTION FOR FEEDBACK FROM LECTURES
+"""
+
+
 def get_feedback_specific_or_all(token, recipient):
     """
     Lets the user choose to get feedback for a specific lecture or all lectures.
@@ -213,34 +218,75 @@ def get_feedback_specific_or_all(token, recipient):
         print(supp.text)
 
 
-def get_feedback_year(token, recipient):
+def get_feedback_year(token, recipient, years):
     """
     Lets the user choose to get feedback for a specific lecture or all lectures.
     :param token:
     :param recipient:
+    :param years:
     :return:
     """
 
-    #TODO Search for the number of potential years in the database and change the payload
+    # Makes initial json object.
+    # TODO test if this works.
+    json_message = {
+        "recipient": {"id": recipient},
+        "message": {
+            "text": "Do you want feedback from all the lectures or a specific lecture?",
+            "quick_replies": [
+            ]
+        }
+    }
+
+    # Adds buttons to the json object depending on how many years in arg.
+    for year in years:
+        json_message["message"]["quick_replies"].append({
+            "content_type": "text",
+            "title": str(year),
+            "payload": "get_lecture_feedback_year " + str(year)
+        })
+
+    # Sends message.
+    data = json.dumps(json_message)
     supp = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
-                         data=json.dumps({
-                             "recipient": {"id": recipient},
-                             "message": {
-                                 "text": "Do you want feedback from all the lectures or a specific lecture?",
-                                 "quick_replies": [
-                                     {
-                                         "content_type": "text",
-                                         "title": "All lectures",
-                                         "payload": "all lectures"
-                                     },
-                                     {
-                                         "content_type": "text",
-                                         "title": "A specific lecture",
-                                         "payload": "a specific lecture"
-                                     }
-                                 ]
-                             }
-                         }),
+                         data=data,
+                         headers={'Content-type': 'application/json'})
+    if supp.status_code != requests.codes.ok:
+        print(supp.text)
+
+
+def get_feedback_semester(token, recipient, year, ):
+    """
+    Lets the user choose to get feedback for a specific lecture or all lectures.
+    :param token:
+    :param recipient:
+    :param years:
+    :return:
+    """
+
+    # Makes initial json object.
+    # TODO test if this works.
+    json_message = {
+        "recipient": {"id": recipient},
+        "message": {
+            "text": "Do you want feedback from all the lectures or a specific lecture?",
+            "quick_replies": [
+            ]
+        }
+    }
+
+    # Adds buttons to the json object depending on how many years in arg.
+    for year in years:
+        json_message["message"]["quick_replies"].append({
+            "content_type": "text",
+            "title": str(year),
+            "payload": "get_lecture_feedback_year " + str(year)
+        })
+
+    # Sends message.
+    data = json.dumps(json_message)
+    supp = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
+                         data=data,
                          headers={'Content-type': 'application/json'})
     if supp.status_code != requests.codes.ok:
         print(supp.text)

@@ -8,6 +8,7 @@ import ime_data_fetch
 import lecture_methods
 import sub_info
 import user_methods
+import lecture_feedback_db_methods
 from app import app
 from app import responses
 from config import PAT
@@ -122,22 +123,28 @@ def handle_messages():
 
         elif payload == "a_specific_lecture":
             # TODO: Let the user choose what year to get feedback from.
-            pass
+            years = lecture_feedback_db_methods.get_year(user_methods.get_subject_from_user(user_name))
+            response_handler.get_feedback_year(PAT, sender, years)
 
         elif "get_lecture_feedback_year" in payload.split()[0]:
             # TODO: Let the user choose what semester to get feedback from.
+
+            pass
+
+        elif "get_lecture_feedback_semester" in payload.split()[0]:
+            # TODO: take in year. Let the user choose what month to get feedback from.
             pass
 
         elif "get_lecture_feedback_month" in payload.split()[0]:
-            # TODO: take in what year to present the user if. Let the user choose what month to get feedback from.
+            # TODO: take in year and month. Let the user choose what week to get feedback from.
             pass
 
         elif "get_lecture_feedback_week" in payload.split()[0]:
-            # TODO: take in what month to present the user if. Let the user choose what week to get feedback from.
+            # TODO: take in year, month and week. Let the user choose what day to get feedback from.
             pass
 
         elif "get_lecture_feedback_day" in payload.split()[0]:
-            # TODO:
+            # TODO: take in year, month, week and day. present the user with information from the lecture feedback.
             pass
 
         elif ime_data_fetch.subject_exists_boolean(incoming_message.upper().split()[0]):
