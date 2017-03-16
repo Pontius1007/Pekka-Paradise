@@ -10,7 +10,6 @@ week = ["mandag", "tirsdag", "onsdag", "torsdag", "fredag"]
 current_year = str(date.today().year)
 
 
-
 # method that return a courses schedule in JSON format if the subject exists
 def get_schedule(sub_code):
     """
@@ -33,26 +32,6 @@ def get_schedule(sub_code):
         return False
 
 
-def print_schedule(schedule):
-    """
-     method that prints a courses schedule to the console from a JSON schedule file
-    :param schedule: a schedule JSON file
-    :return:
-    """
-    if not schedule:
-        print("No schedule available")
-
-    if not schedule:
-        print("No schedule available")
-
-    print("Timeplan for " + schedule['course']['summarized'][0]['courseName'] + ":")
-    for i in range(0, len(schedule['course']['summarized'])):
-        print(schedule['course']['summarized'][i]['description'] + " "
-              + week[schedule['course']['summarized'][i]['dayNum'] - 1] +
-              " fra " + schedule['course']['summarized'][i]['from'] +
-              " til " + schedule['course']['summarized'][i]['to'])
-
-
 def printable_schedule(schedule):
     """
     pretty much the same as print_schedule except that it returns a formatted string instead of printing it
@@ -62,15 +41,13 @@ def printable_schedule(schedule):
     if not schedule:
         return "No schedule available"
 
-    if not schedule:
-        return "No schedule available"
-
-    schedule_string = "Timeplan for " + schedule['course']['summarized'][0]['courseName'] + ":\n"
-    for i in range(0, len(schedule['course']['summarized'])):
-        schedule_string += (schedule['course']['summarized'][i]['description'] + " "
-                            + week[schedule['course']['summarized'][i]['dayNum'] - 1] +
-                            " fra " + schedule['course']['summarized'][i]['from'] +
-                            " til " + schedule['course']['summarized'][i]['to'] + "\n")
+    schedule = schedule['course']['summarized']
+    schedule_string = "Timeplan for " + schedule[0]['courseName'] + ":\n"
+    for i in range(0, len(schedule)):
+        schedule_string += (schedule[i]['description'] + " "
+                            + week[schedule[i]['dayNum'] - 1] +
+                            " fra " + schedule[i]['from'] +
+                            " til " + schedule[i]['to'] + "\n")
     return schedule_string
 
 
@@ -91,8 +68,11 @@ def gather_lecture_information(schedule):
             single_lecture.extend(
                 (schedule['course']['summarized'][i]['courseCode'], schedule['course']['summarized'][i]['from'],
                  schedule['course']['summarized'][i]['to'], schedule['course']['summarized'][i]['dayNum'],
-                 schedule['course']['summarized'][i]['weeks'], schedule['course']['summarized'][i]['arsterminId'],
-                 schedule['course']['summarized'][i]['rooms'][0]['romNavn']))
+                 schedule['course']['summarized'][i]['weeks'], schedule['course']['summarized'][i]['arsterminId']))
+            try:
+                single_lecture.extend(schedule['course']['summarized'][i]['rooms'][0]['romNavn'])
+            except IndexError:
+                single_lecture.extend("")
             lecture_information.append(single_lecture)
 
     return lecture_information
@@ -143,3 +123,4 @@ def course_name(code):
     c = get_course_json(code)
     return c['course']['name']
 
+print(gather_lecture_information(get_schedule("exph0004")))
