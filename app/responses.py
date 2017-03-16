@@ -56,10 +56,10 @@ def test_graph(token, recipient):
                                 "attachment": {
                                   "type": "image",
                                   "payload": {
-                                      "url": "@lordi_lead.jpg"
                                   }
                                 }
-                              }
+                              },
+                            "filedata": "@lordi_lead.jpg;type=image/jpg"
                         }), headers={'Content-type': 'application/json'})
     if img.status_code != requests.codes.ok:
         print(img.text)
