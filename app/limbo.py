@@ -10,23 +10,17 @@ import sub_info
 import user_methods
 from app import app
 from app import responses
+from config import PAT
+from config import VERIFY_TOKEN
 
 
-#PAT FOR TEST PAGE
-PAT = 'EAACI5ldRJtABADtOiyeSG4P2lvOZCHmfL1RXLOVUuJqBb9abZCwKoXvUsZAJ3mw17asXYiMb4o2P2qUK39csMOx0LPd3CMQTtQMphBzdmw' \
-      'pvEfE3UzIsqyu9fOFmh6XwZA4zVZAtc40gRGXltrxmMw85VH04USXIO7PdYQHTGpwZDZD'
-
-
-#PAT FOR MAIN PAGE
-#PAT = 'EAACI4GIIx08BAHwR6J1cOROTpYbE9QceOhxR08JBywhdAV6t24J70RG28YaZCzQxJGinIB6v0xy7Y7gdTVQUZCmgRwm1EVBQd05kMYCwi' \
-#      'kkTAtmHbxVhTUvvpMGYM9vcTKD2qPXmwcZCDgOVX1eZCUGNfzJpyifuocmDXIMElQZDZD'
 response_handler = responses
 
 
 @app.route('/', methods=['GET'])
 def handle_verification():
     print("Handling Verification: ->")
-    if request.args.get('hub.verify_token', '') == 'Heisann32141221':
+    if request.args.get('hub.verify_token', '') == VERIFY_TOKEN:
         print("Verification successful!")
         return request.args.get('hub.challenge', '')
     else:
