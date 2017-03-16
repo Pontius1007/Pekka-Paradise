@@ -211,3 +211,36 @@ def get_feedback_specific_or_all(token, recipient):
                          headers={'Content-type': 'application/json'})
     if supp.status_code != requests.codes.ok:
         print(supp.text)
+
+
+def get_feedback_year(token, recipient):
+    """
+    Lets the user choose to get feedback for a specific lecture or all lectures.
+    :param token:
+    :param recipient:
+    :return:
+    """
+
+    #TODO Search for the number of potential years in the database and change the payload
+    supp = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
+                         data=json.dumps({
+                             "recipient": {"id": recipient},
+                             "message": {
+                                 "text": "Do you want feedback from all the lectures or a specific lecture?",
+                                 "quick_replies": [
+                                     {
+                                         "content_type": "text",
+                                         "title": "All lectures",
+                                         "payload": "all lectures"
+                                     },
+                                     {
+                                         "content_type": "text",
+                                         "title": "A specific lecture",
+                                         "payload": "a specific lecture"
+                                     }
+                                 ]
+                             }
+                         }),
+                         headers={'Content-type': 'application/json'})
+    if supp.status_code != requests.codes.ok:
+        print(supp.text)
