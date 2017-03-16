@@ -27,7 +27,7 @@ def handle_verification():
         return 'Error, wrong validation token'
 
 
-# The wonderful logic that decides which response is sent should be placed in this function
+# The wonderful logic that decides which response is sent is placed in this function
 @app.route('/', methods=['POST'])
 def handle_messages():
     print("Handling Messages")
@@ -59,7 +59,7 @@ def handle_messages():
                                                        "and other information type 'Status'.")
             response_handler.text_message(PAT, sender, "You can also type 'Hei' or 'Hallo' at any time "
                                                        "to receive a greeting that shows your options.")
-        elif incoming_message == "status":
+        elif incoming_message.lower() == "status":
             if user_methods.has_user(user_name):
                 sub = user_methods.get_subject_from_user(user_name) + " : " + \
                       sub_info.course_name(user_methods.get_subject_from_user(user_name))
@@ -67,6 +67,11 @@ def handle_messages():
                 sub = "no subject"
             response_handler.user_info(PAT, sender, user_name, sub)
 
+        elif incoming_message.lower() == "test1":
+            response_handler.test_graph(PAT, sender)
+
+        elif incoming_message.lower() == "test2":
+            response_handler.test_graph2(PAT, sender)
         # Checks if the subject has lectures in the database, adds them if not.
 
         elif payload == "lecture feedback":

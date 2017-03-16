@@ -41,6 +41,54 @@ def text_message(token, recipient, message):
         print(txt.text)
 
 
+def test_graph(token, recipient):
+    """
+    Sends the feedback as a graph(?) to the user in this case lecturer
+    :param token:
+    :param recipient:
+    :param image:
+    :return:
+    """
+    img = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
+                        data=json.dumps({
+                            "recipient": {"id": recipient},
+                            "message": {
+                                "attachment": {
+                                  "type": "image",
+                                  "payload": {
+                                  }
+                                }
+                              },
+                            "filedata": {"@lordi_lead;type=image/jpg"}
+                        }), headers={'Content-type': 'application/json'})
+    if img.status_code != requests.codes.ok:
+        print(img.text)
+
+
+def test_graph2(token, recipient):
+    """
+    Sends the feedback as a graph(?) to the user in this case lecturer
+    :param token:
+    :param recipient:
+    :param image:
+    :return:
+    """
+    img = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
+                        data=json.dumps({
+                            "recipient": {"id": recipient},
+                            "message": {
+                                "attachment": {
+                                  "type": "image",
+                                  "payload": {
+                                      "url": "lordi_lead.jpg"
+                                  }
+                                }
+                              }
+                        }), headers={'Content-type': 'application/json'})
+    if img.status_code != requests.codes.ok:
+        print(img.text)
+
+
 def user_info(token, recipient, user_name, sub):
     """
     Shows our information about the user to the user
