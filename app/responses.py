@@ -56,7 +56,7 @@ def test_graph(token, recipient):
                                 "attachment": {
                                   "type": "image",
                                   "payload": {
-                                      "url": "lordi_lead.jpg"
+                                      "url": "app/lordi_lead.jpg"
                                   }
                                 }
                               }
