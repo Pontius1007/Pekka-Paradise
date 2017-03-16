@@ -71,8 +71,7 @@ def handle_messages():
         elif incoming_message.lower() == "test1":
             response_handler.test_graph(PAT, sender)
 
-        elif incoming_message.lower() == "test2":
-            response_handler.test_graph2(PAT, sender)
+
         # Checks if the subject has lectures in the database, adds them if not.
 
         elif payload == "lecture feedback":
