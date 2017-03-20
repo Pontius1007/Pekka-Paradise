@@ -236,7 +236,7 @@ def get_feedback_year(token, recipient, years):
     json_message = {
         "recipient": {"id": recipient},
         "message": {
-            "text": "Do you want feedback from all the lectures or a specific lecture?",
+            "text": "Select what year you want feedback from",
             "quick_replies": [
             ]
         }
@@ -273,7 +273,7 @@ def get_feedback_semester(token, recipient, year, semesters):
     json_message = {
         "recipient": {"id": recipient},
         "message": {
-            "text": "Do you want feedback from all the lectures or a specific lecture?",
+            "text": "Select what semester you want feedback from",
             "quick_replies": [
             ]
         }
