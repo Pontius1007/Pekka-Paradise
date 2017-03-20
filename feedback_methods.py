@@ -1,5 +1,6 @@
 from app import db, models
 import datetime
+import lecture_methods
 
 
 def add_entry(user_name, subject_name, feedback):
@@ -34,12 +35,16 @@ def add_entry(user_name, subject_name, feedback):
     return False
 
 
-def get_all_subject_feed(lecture_id):
+def get_all_subject_feed(subject):
     """
-    :param lecture_id:
-    :return: List [subject, feed1 count, feed2 count, feed3 count]
+    :param subject:
+    :return: List [subject, feed1, feed2, feed3]
     """
-    feedback = models.LectureFeedback.query.filter_by(lecture_id=lecture_id)
+    ids = lecture_methods.get_lectures_from_subject(subject)
+    feedback = [subject]
+    if ids:
+        for lec_id in ids:
+            feedback.append(models.LectureFeedback.query.filter_by(lecture_id=lec_id)[0].feedback)
     print(feedback)
 
 
@@ -54,3 +59,5 @@ def user_has_feedback_for_lecture(user_name, lecture):
     except Exception as e:
         print(e)
     return False
+
+get_all_subject_feed("TDT4110")
