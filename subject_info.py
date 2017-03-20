@@ -11,6 +11,7 @@ current_year = str(date.today().year)
 
 
 # method that return a courses schedule in JSON format if the subject exists
+# the order of the elements in the returned schedule can change from call to call with the same sub_code
 def get_schedule(sub_code):
     """
     method that return a courses schedule in JSON format if the subject exists
@@ -74,7 +75,6 @@ def gather_lecture_information(schedule):
             except IndexError:
                 single_lecture.extend("")
             lecture_information.append(single_lecture)
-
     return lecture_information
 
 
@@ -86,6 +86,8 @@ def get_course_json(sub_code):
     """
     try:
         course = requests.get("http://www.ime.ntnu.no/api/course/" + sub_code).json()
+        if course['course'] is None:
+            return 'Subject does not exist'
     except TypeError:
         return 'Subject does not exist'
     except ValueError:
@@ -99,6 +101,9 @@ def printable_course_info(course):
     :param course: A course JSON from the ime API
     :return: a string with course info
     """
+    if course == 'Subject does not exist' or course == 'Not valid':
+        return 'subject does not exist and thus has no information'
+
     course = course['course']
     if course['assessment'][0]['codeName'] == 'Skriftlig eksamen':
         info_string = ("%s %s\nStudiepoeng: %s\nStudienivå: %s\nVurderingsordning: %s\nKarakter: %s\nEksamensdato: %s" %
@@ -120,7 +125,9 @@ def course_name(code):
     :param code: a string subject code such as TDT4145
     :return: a course name string
     """
+
     c = get_course_json(code)
+    if c == 'Subject does not exist' or c == 'Not valid':
+        return c
     return c['course']['name']
 
-print(gather_lecture_information(get_schedule("exph0004")))
