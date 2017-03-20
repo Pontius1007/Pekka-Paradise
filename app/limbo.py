@@ -6,7 +6,7 @@ from flask import request
 import feedback_methods
 import ime_data_fetch
 import lecture_methods
-import sub_info
+import subject_info
 import user_methods
 from app import app
 from app import responses
@@ -63,7 +63,7 @@ def handle_messages():
         elif incoming_message == "status":
             if user_methods.has_user(user_name):
                 sub = user_methods.get_subject_from_user(user_name) + " : " + \
-                      sub_info.course_name(user_methods.get_subject_from_user(user_name))
+                      subject_info.course_name(user_methods.get_subject_from_user(user_name))
             else:
                 sub = "no subject"
             response_handler.user_info(PAT, sender, user_name, sub)
@@ -76,9 +76,9 @@ def handle_messages():
             if lecture_methods.check_lecture_in_db(subject):
                 response_handler.lec_feed(PAT, sender)
             else:
-                schedule = sub_info.get_schedule(subject)
+                schedule = subject_info.get_schedule(subject)
                 if schedule:
-                    database_entry = sub_info.gather_lecture_information(schedule)
+                    database_entry = subject_info.gather_lecture_information(schedule)
                     lecture_methods.add_lecture_information_db(database_entry)
                     response_handler.text_message(PAT, sender, "Lectures for the subject " + subject +
                                                   " were not in the database. It is now added")
@@ -104,13 +104,13 @@ def handle_messages():
 
         elif payload == "get schedule":
             subject = user_methods.get_subject_from_user(user_name)
-            response_handler.text_message(PAT, sender, sub_info.printable_schedule(sub_info.get_schedule(subject)))
+            response_handler.text_message(PAT, sender, subject_info.printable_schedule(subject_info.get_schedule(subject)))
             response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
 
         elif payload == "get info":
             subject = user_methods.get_subject_from_user(user_name)
             response_handler.text_message(PAT, sender,
-                                          sub_info.printable_course_info(sub_info.get_course_json(subject)))
+                                          subject_info.printable_course_info(subject_info.get_course_json(subject)))
             response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
 
         elif ime_data_fetch.subject_exists_boolean(incoming_message.upper().split()[0]):
