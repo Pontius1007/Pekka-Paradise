@@ -186,10 +186,12 @@ def messaging_events(payload):
             # if message in event and text in message set id and text
             sender_id = event["sender"]["id"]
             text = event["message"]["text"]
+            quick_reply_payload = None
 
             if "quick_reply" in event["message"]:
                 # if quick_reply i message set payload
-                yield sender_id, text, event["message"]["quick_reply"]["payload"]
+                quick_reply_payload = event["message"]["quick_reply"]["payload"]
+            yield sender_id, text, quick_reply_payload
         else:
             yield event["sender"]["id"], "I can't echo this", None
 
