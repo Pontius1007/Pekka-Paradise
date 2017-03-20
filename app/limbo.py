@@ -71,8 +71,8 @@ def handle_messages():
         elif "test" in incoming_message:
             try:
                 feedback_methods.get_all_subject_feed("TDT4100")
-            except IndexError:
-                print("Problem with incoming message")
+            except Exception as e:
+                print(e)
         # Checks if the subject has lectures in the database, adds them if not.
 
         elif payload == "lecture feedback":
