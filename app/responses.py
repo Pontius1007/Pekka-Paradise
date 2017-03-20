@@ -232,7 +232,6 @@ def get_feedback_year(token, recipient, years):
     """
 
     # Makes initial json object.
-    # TODO test if this works.
     json_message = {
         "recipient": {"id": recipient},
         "message": {
@@ -269,7 +268,6 @@ def get_feedback_semester(token, recipient, year, semesters):
     """
 
     # Makes initial json object.
-    # TODO test if this works.
     json_message = {
         "recipient": {"id": recipient},
         "message": {
@@ -284,7 +282,7 @@ def get_feedback_semester(token, recipient, year, semesters):
         json_message["message"]["quick_replies"].append({
             "content_type": "text",
             "title": semester,
-            "payload": "get_lecture_feedback_year " + str(year) + ' ' + semester
+            "payload": "get_lecture_feedback_semester " + str(year) + ' ' + semester
         })
 
     # Sends message.
@@ -294,3 +292,63 @@ def get_feedback_semester(token, recipient, year, semesters):
                          headers={'Content-type': 'application/json'})
     if supp.status_code != requests.codes.ok:
         print(supp.text)
+
+
+def get_feedback_month(token, recipient, year, semester, weeks_list):
+    """
+    Lets the user choose to get feedback for a specific lecture or all lectures.
+    :param token: String
+    :param recipient: int
+    :param year: int
+    :param semester: list[String]
+    :param weeks_list: list[String]
+    """
+
+    # Makes initial json object.
+    json_message = {
+        "recipient": {"id": recipient},
+        "message": {
+            "text": "Select what weeks you want feedback from",
+            "quick_replies": [
+            ]
+        }
+    }
+
+    # Adds buttons to the json object depending on how many semesters in arg.
+    weeks = []
+    weeks_string = str(weeks_list[0])
+    for i in range(len(weeks_list)):
+        if len(weeks) > 3:
+            add_weeks_to_json(weeks, weeks_string, json_message, year, semester)
+            weeks = [weeks_list[i]]
+            weeks_string = str(weeks_list[i])
+        else:
+            weeks.append(weeks_list[i])
+    if len(weeks) > 0:
+        add_weeks_to_json(weeks, weeks_string, json_message, year, semester)
+
+    # Sends message.
+    data = json.dumps(json_message)
+    supp = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
+                         data=data,
+                         headers={'Content-type': 'application/json'})
+    if supp.status_code != requests.codes.ok:
+        print(supp.text)
+
+
+def add_weeks_to_json(weeks, weeks_string, json_message, year, semester):
+    """
+    Adds buttons for several weeks to the json message
+    :param weeks: list[int]
+    :param weeks_string: String
+    :param json_message:
+    :param year: int
+    :param semester: String
+    """
+    for j in range(1, len(weeks)):
+        weeks_string += ',' + str(weeks[j])
+    json_message["message"]["quick_replies"].append({
+        "content_type": "text",
+        "title": weeks_string,
+        "payload": "get_lecture_feedback_month " + str(year) + ' ' + semester + ' ' + weeks_string
+    })

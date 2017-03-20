@@ -123,14 +123,14 @@ def handle_messages():
             pass
 
         elif payload == "a_specific_lecture":
-            # TODO: Let the user choose what year to get feedback from.
+            # Let the user choose what year to get feedback from.
             years = lecture_feedback_db_methods.get_year(user_methods.get_subject_from_user(user_name))
             response_handler.get_feedback_year(PAT, sender, years)
 
         elif payload is not None:
 
             if "get_lecture_feedback_year" in payload.split()[0]:
-                # TODO: Let the user choose what semester to get feedback from.
+                # Let the user choose what semester to get feedback from.
                 semesters = []
                 if lecture_feedback_db_methods.check_lecture_semester(user_methods.get_subject_from_user(user_name),
                                                                       1, 17, int(payload.split()[1])):
@@ -146,8 +146,14 @@ def handle_messages():
                     response_handler.get_feedback_year(PAT, sender, years)
 
             elif "get_lecture_feedback_semester" in payload.split()[0]:
-                # TODO: take in year. Let the user choose what month to get feedback from.
-                pass
+                # Let the user choose what weeks to get feedback from.
+                week_list = lecture_feedback_db_methods.get_lecture_weeks(user_methods.get_subject_from_user(user_name),
+                                                                          payload.split()[1], payload.split()[2])
+                if len(week_list) > 8:
+                    response_handler.get_feedback_month(PAT, sender, payload.split()[1], payload.split()[2], week_list)
+                else:
+                    # TODO: Use response method from one step bellow.
+                    pass
 
             elif "get_lecture_feedback_month" in payload.split()[0]:
                 # TODO: take in year and month. Let the user choose what week to get feedback from.
