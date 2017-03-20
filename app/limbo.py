@@ -171,20 +171,23 @@ def handle_messages():
 
 def messaging_events(payload):
     """
-    Generate tuples of (sender_id, message_text) from the
+    Generate tuples of (sender_id, message_text, payload) from the
     provided payload.
     """
     data = json.loads(payload)
     message = data["entry"][0]["messaging"]
     for event in message:
-        # if message in bla and text and payload bla yield payload as well
-        if "message" in event and "quick_reply" in event["message"]:
-            yield event["sender"]["id"], event["message"]["text"], event["message"]["quick_reply"]["payload"]
         if "message" in event and "text" in event["message"]:
-            yield event["sender"]["id"], event["message"]["text"], None
-            # Yield path to payload
+            # if message in event and text in message set id and text
+            id = event["sender"]["id"]
+            text = event["message"]["text"]
+
+            if "quick_reply" in event["message"]:
+                # if quick_reply i message set payload
+                payload = event["message"]["quick_reply"]["payload"]
+                yield id, text, payload
         else:
-            yield event["sender"]["id"], "I can't echo this"
+            yield event["sender"]["id"], "I can't echo this", None
 
 
 def send_message(token, recipient, text):
