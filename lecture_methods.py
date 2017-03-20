@@ -55,10 +55,7 @@ def get_lectures_from_subject(subject):
     :return: A list of lecture ids for a subject
     """
     lecture_ids = []
-    if check_lecture_in_db(subject):
-        for lecture in models.Lecture.query.filter_by(subject=subject):
-            print(lecture)
-            lecture_ids.append(lecture.id)
-        return lecture_ids
-    else:
-        return False
+    for lecture in models.Lecture.query.filter_by(subject=subject):
+        print(lecture)
+        lecture_ids.append(lecture.id)
+    return lecture_ids

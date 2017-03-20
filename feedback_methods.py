@@ -41,14 +41,12 @@ def get_all_subject_feed(subject):
     :return: List [subject, feed1, feed2, feed3]
     """
     ids = lecture_methods.get_lectures_from_subject(subject)
-    print("Ids ", ids)
     feedback_list = [subject]
     if len(ids) > 0:
         for lec_id in ids:
             for feedback in models.LectureFeedback.query.filter_by(lecture_id=lec_id):
                 feedback_list.append(feedback.feedback)
-            # feedback_list.append(models.LectureFeedback.query.filter_by(lecture_id=lec_id)[0].feedback)
-    print("Feedback ", feedback_list)
+    return feedback_list
 
 
 def user_has_feedback_for_lecture(user_name, lecture):
