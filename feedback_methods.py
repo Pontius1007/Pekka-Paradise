@@ -61,5 +61,3 @@ def user_has_feedback_for_lecture(user_name, lecture):
     except Exception as e:
         print(e)
     return False
-
-get_all_subject_feed("TDT4110")
