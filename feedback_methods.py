@@ -1,6 +1,5 @@
 from app import db, models
 import datetime
-from sqlalchemy import func
 
 
 def add_entry(user_name, subject_name, feedback):
@@ -35,15 +34,13 @@ def add_entry(user_name, subject_name, feedback):
     return False
 
 
-def get_all_lecture_feed(lecture_id):
+def get_all_subject_feed(lecture_id):
     """
     :param lecture_id:
     :return: List [subject, feed1 count, feed2 count, feed3 count]
     """
-    # SELECT feedback FROM lecturefeedback WHERE lecture_id = lecture_id
     feedback = models.LectureFeedback.query.filter_by(lecture_id=lecture_id)
     print(feedback)
-    print(models.LectureFeedback.query(func.count(lecture_id)))
 
 
 def user_has_feedback_for_lecture(user_name, lecture):

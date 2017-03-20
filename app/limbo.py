@@ -70,7 +70,7 @@ def handle_messages():
 
         elif "test" in incoming_message:
             try:
-                feedback_methods.get_all_lecture_feed(incoming_message.split()[1])
+                feedback_methods.get_all_subject_feed(incoming_message.split()[1])
             except IndexError:
                 print("No course")
         # Checks if the subject has lectures in the database, adds them if not.
