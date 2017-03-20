@@ -137,6 +137,11 @@ def has_course(token, recipient, subject):
                                          "content_type": "text",
                                          "title": "Lecture Feedback",
                                          "payload": "lecture feedback"
+                                     },
+                                     {
+                                         "content_type": "text",
+                                         "title": "Get feedback",
+                                         "payload": "get feedback"
                                      }
                                  ]
                              }

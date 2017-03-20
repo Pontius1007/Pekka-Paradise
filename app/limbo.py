@@ -114,7 +114,6 @@ def handle_messages():
             response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
 
         elif payload == "get feedback":
-            subject = user_methods.get_subject_from_user(user_name)
             response_handler.get_feedback_specific_or_all(PAT, sender)
 
         elif payload == "all lectures":
