@@ -128,8 +128,19 @@ def handle_messages():
 
         elif "get_lecture_feedback_year" in payload.split()[0]:
             # TODO: Let the user choose what semester to get feedback from.
-
-            pass
+            semesters = []
+            if lecture_feedback_db_methods.check_lecture_semester(user_methods.get_subject_from_user(user_name),
+                                                                  1, 17, payload.split()[1]):
+                semesters.append('Spring')
+            elif lecture_feedback_db_methods.check_lecture_semester(user_methods.get_subject_from_user(user_name),
+                                                                    32, 49, payload.split()[1]):
+                semesters.append('Fall')
+            if len(semesters) > 0:
+                response_handler.get_feedback_semester(PAT, sender, payload.split()[1], semesters)
+            else:
+                # Take the user one step up to choose a different year.
+                years = lecture_feedback_db_methods.get_year(user_methods.get_subject_from_user(user_name))
+                response_handler.get_feedback_year(PAT, sender, years)
 
         elif "get_lecture_feedback_semester" in payload.split()[0]:
             # TODO: take in year. Let the user choose what month to get feedback from.

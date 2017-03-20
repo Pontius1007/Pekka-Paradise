@@ -224,7 +224,6 @@ def get_feedback_year(token, recipient, years):
     :param token:
     :param recipient:
     :param years:
-    :return:
     """
 
     # Makes initial json object.
@@ -255,13 +254,13 @@ def get_feedback_year(token, recipient, years):
         print(supp.text)
 
 
-def get_feedback_semester(token, recipient, year, ):
+def get_feedback_semester(token, recipient, year, semesters):
     """
     Lets the user choose to get feedback for a specific lecture or all lectures.
-    :param token:
-    :param recipient:
-    :param years:
-    :return:
+    :param token: String
+    :param recipient: int
+    :param year: int
+    :param semesters: list[String]
     """
 
     # Makes initial json object.
@@ -275,12 +274,12 @@ def get_feedback_semester(token, recipient, year, ):
         }
     }
 
-    # Adds buttons to the json object depending on how many years in arg.
-    for year in years:
+    # Adds buttons to the json object depending on how many semesters in arg.
+    for semester in semesters:
         json_message["message"]["quick_replies"].append({
             "content_type": "text",
-            "title": str(year),
-            "payload": "get_lecture_feedback_year " + str(year)
+            "title": semester,
+            "payload": "get_lecture_feedback_year " + str(year) + ' ' + semester
         })
 
     # Sends message.
