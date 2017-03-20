@@ -69,8 +69,10 @@ def handle_messages():
             response_handler.user_info(PAT, sender, user_name, sub)
 
         elif "test" in incoming_message:
-            feedback_methods.get_all_lecture_feed(incoming_message.split()[1])
-
+            try:
+                feedback_methods.get_all_lecture_feed(incoming_message.split()[1])
+            except IndexError:
+                print("No course")
         # Checks if the subject has lectures in the database, adds them if not.
 
         elif payload == "lecture feedback":
