@@ -37,10 +37,9 @@ def check_lecture_semester(course, start, end, year):
             for i in range(start, end):
                 if i in lecture_week:
                     return True
-                else:
-                    return False
     except Exception as e:
         print(e)
+    return False
 
 
 def day_of_lecture_in_week(course, week, year):
