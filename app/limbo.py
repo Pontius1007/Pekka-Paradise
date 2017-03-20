@@ -145,10 +145,18 @@ def handle_messages():
                     years = lecture_feedback_db_methods.get_year(user_methods.get_subject_from_user(user_name))
                     response_handler.get_feedback_year(PAT, sender, years)
 
+
+
+
+
+                            # File "/app/app/limbo.py", line 152, in handle_messages
+                            # if len(week_list) > 8:
+                            # TypeError: object of type 'NoneType' has no len()
             elif "get_lecture_feedback_semester" in payload.split()[0]:
                 # Let the user choose what weeks to get feedback from.
+                # TODO: test. error message above
                 week_list = lecture_feedback_db_methods.get_lecture_weeks(user_methods.get_subject_from_user(user_name),
-                                                                          payload.split()[1], payload.split()[2])
+                                                                          int(payload.split()[1]), payload.split()[2])
                 if len(week_list) > 8:
                     response_handler.get_feedback_month(PAT, sender, payload.split()[1], payload.split()[2], week_list)
                 else:
