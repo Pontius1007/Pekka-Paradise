@@ -208,12 +208,12 @@ def get_feedback_specific_or_all(token, recipient):
                                      {
                                          "content_type": "text",
                                          "title": "All lectures",
-                                         "payload": "all lectures"
+                                         "payload": "all_lectures"
                                      },
                                      {
                                          "content_type": "text",
                                          "title": "A specific lecture",
-                                         "payload": "a specific lecture"
+                                         "payload": "a_specific_lecture"
                                      }
                                  ]
                              }

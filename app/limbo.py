@@ -92,7 +92,6 @@ def handle_messages():
         elif payload == "Too fast" or payload == "It's all right" or payload == "Too slow":
             # Adds feedback if the subject has a lecture on the given day
             # and if the user has not already given feedback
-            print('I was here')
             if feedback_methods.add_entry(user_name, user_methods.get_subject_from_user(user_name), payload):
                 response_handler.text_message(PAT, sender, "You chose: " + "'" + payload + "'" + "\nFeedback Received!")
                 response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
@@ -116,7 +115,7 @@ def handle_messages():
         elif payload == "get feedback":
             response_handler.get_feedback_specific_or_all(PAT, sender)
 
-        elif payload == "all lectures":
+        elif payload == "all_lectures":
             # TODO: call method with subject as arg.
             pass
 
