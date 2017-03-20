@@ -52,6 +52,7 @@ def handle_messages():
                                                        "writing the course code on the form [TAG][CODE]\n"
                                                        "ex. TDT4120")
         elif incoming_message == "help":
+            # TODO Add feedback ?
             response_handler.text_message(PAT, sender, "Are you lost ...? ")
             response_handler.text_message(PAT, sender, "You can change course at any time simply by "
                                                        "writing the course code on the form: [TAG][CODE]\n"
