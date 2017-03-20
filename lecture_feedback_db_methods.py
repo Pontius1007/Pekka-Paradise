@@ -42,6 +42,24 @@ def check_lecture_semester(course, start, end, year):
     return False
 
 
+def get_lecture_weeks(subject, year, semester):
+    try:
+        week_list = []
+        lectures = models.Lecture.query.filter_by(subject=subject, year=year)
+        if semester is 'Spring':
+            start = 1
+            end = 18
+        else:
+            start = 32
+            end = 49
+        for lecture in lectures:
+            if lecture.week_number not in week_list and start <= lecture.week_number <= end:
+                week_list.append(lecture.week_number)
+        return week_list.sort()
+    except Exception as e:
+        print(e)
+
+
 def day_of_lecture_in_week(course, week, year):
     """
     :param course:
