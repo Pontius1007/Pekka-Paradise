@@ -72,7 +72,7 @@ def handle_messages():
         # Checks if course selected has feedback and returns it to the user
         elif "feedback" in incoming_message.lower():
             try:
-                subject = incoming_message.split[1]
+                subject = incoming_message.split()[1]
                 if not lecture_methods.check_lecture_in_db(subject):  # TODO check feedback table instead
                     response_handler.text_message(PAT, sender, "Course has no feedback")
                 feedback = feedback_methods.get_all_subject_feed(subject)
