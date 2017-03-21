@@ -75,9 +75,10 @@ def handle_messages():
                 subject = incoming_message.split()[1]
                 if not lecture_methods.check_lecture_in_db(subject):  # TODO check feedback table instead
                     response_handler.text_message(PAT, sender, "Course has no feedback")
-                feedback = feedback_methods.get_all_subject_feed(subject)
-                # TODO Make this look good with pictures or something
-                response_handler.text_message(PAT, sender, "Feedback : " + str(feedback))
+                else:
+                    feedback = feedback_methods.get_all_subject_feed(subject)
+                    # TODO Make this look good with pictures or something
+                    response_handler.text_message(PAT, sender, "Feedback : " + str(feedback))
             except IndexError:
                 response_handler.text_message(PAT, sender, "For feedback use keyword \'Feedback\' followed"
                                                            "by course code \n ex. Feedback TDT4100")
