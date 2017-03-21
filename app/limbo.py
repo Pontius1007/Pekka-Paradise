@@ -70,7 +70,7 @@ def handle_messages():
             response_handler.user_info(PAT, sender, user_name, sub)
 
         # Checks if course selected has feedback and returns it to the user
-        elif "feedback" in incoming_message.lower:
+        elif "feedback" in incoming_message.lower():
             try:
                 subject = incoming_message.split[1]
                 if not lecture_methods.check_lecture_in_db(subject):  # TODO check feedback table instead
@@ -105,7 +105,6 @@ def handle_messages():
         elif payload == "Too fast" or payload == "It's all right" or payload == "Too slow":
             # Adds feedback if the subject has a lecture on the given day
             # and if the user has not already given feedback
-            print('I was here')
             if feedback_methods.add_entry(user_name, user_methods.get_subject_from_user(user_name), payload):
                 response_handler.text_message(PAT, sender, "You chose: " + "'" + payload + "'" + "\nFeedback Received!")
                 response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
