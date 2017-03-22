@@ -15,7 +15,7 @@ def greeting_message(token, recipient, user_name):
     :return:
     """
     message = "Hello " + user_name.split()[0] + "!\nWhat can I do for you today?" + \
-              "\n If you are new to the bot and would like some help, please press 'Help' in chat"
+              "\nIf you are new to the bot and would like some help, please press 'Help' in chat"
     txt = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
                         data=json.dumps({
                             "recipient": {"id": recipient},
