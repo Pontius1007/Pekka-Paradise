@@ -67,7 +67,7 @@ def get_lecture_weeks(subject, year, semester):
         print(e)
 
 
-def day_of_lecture_in_week(course, week, year):
+def day_of_lecture_in_week(course, year, week):
     """
     :param course:
     :param week:
