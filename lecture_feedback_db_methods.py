@@ -43,6 +43,13 @@ def check_lecture_semester(course, start, end, year):
 
 
 def get_lecture_weeks(subject, year, semester):
+    """
+
+    :param subject: String
+    :param year: int
+    :param semester: String
+    :return: list[int]
+    """
     try:
         week_list = []
         lectures = models.Lecture.query.filter_by(subject=subject, year=year)
@@ -55,7 +62,7 @@ def get_lecture_weeks(subject, year, semester):
         for lecture in lectures:
             if lecture.week_number not in week_list and start <= lecture.week_number <= end:
                 week_list.append(lecture.week_number)
-        return week_list.sort()
+        return sorted(week_list)
     except Exception as e:
         print(e)
 
