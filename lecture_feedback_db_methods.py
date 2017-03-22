@@ -53,7 +53,7 @@ def get_lecture_weeks(subject, year, semester):
     try:
         week_list = []
         lectures = models.Lecture.query.filter_by(subject=subject, year=year)
-        if semester is 'Spring':
+        if semester == 'Spring':
             start = 1
             end = 18
         else:
