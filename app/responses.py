@@ -294,13 +294,12 @@ def get_feedback_semester(token, recipient, year, semesters):
         print(supp.text)
 
 
-def get_feedback_month(token, recipient, year, semester, weeks_list):
+def get_feedback_month(token, recipient, year, weeks_list):
     """
     Lets the user choose to get feedback for a specific lecture or all lectures.
     :param token: String
     :param recipient: int
     :param year: String
-    :param semester: String
     :param weeks_list: list[int]
     """
 
@@ -319,13 +318,13 @@ def get_feedback_month(token, recipient, year, semester, weeks_list):
     weeks_string = str(weeks_list[0])
     for i in range(len(weeks_list)):
         if len(weeks) > 3:
-            add_weeks_to_json(weeks, weeks_string, json_message, year, semester)
+            add_weeks_to_json(weeks, weeks_string, json_message, year)
             weeks = [weeks_list[i]]
             weeks_string = str(weeks_list[i])
         else:
             weeks.append(weeks_list[i])
     if len(weeks) > 0:
-        add_weeks_to_json(weeks, weeks_string, json_message, year, semester)
+        add_weeks_to_json(weeks, weeks_string, json_message, year)
 
     # Sends message.
     data = json.dumps(json_message)
@@ -338,19 +337,18 @@ def get_feedback_month(token, recipient, year, semester, weeks_list):
 def get_feedback_day(token, recipient, year, weeks):
 
 
-def add_weeks_to_json(weeks, weeks_string, json_message, year, semester):
+def add_weeks_to_json(weeks, weeks_string, json_message, year):
     """
     Adds buttons for several weeks to the json message
     :param weeks: list[int]
     :param weeks_string: String
     :param json_message:
     :param year: String
-    :param semester: String
     """
     for j in range(1, len(weeks)):
         weeks_string += ',' + str(weeks[j])
     json_message["message"]["quick_replies"].append({
         "content_type": "text",
         "title": weeks_string,
-        "payload": "get_lecture_feedback_month " + year + ' ' + semester + ' ' + weeks_string
+        "payload": "get_lecture_feedback_month " + year + ' ' + weeks_string
     })
