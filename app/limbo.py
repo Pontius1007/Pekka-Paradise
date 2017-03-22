@@ -156,6 +156,7 @@ def handle_messages():
             elif "get_lecture_feedback_semester" in payload.split()[0]:
                 # Let the user choose what weeks to get feedback from.
                 # TODO: test. error message above
+                print(payload)
                 week_list = lecture_feedback_db_methods.get_lecture_weeks(user_methods.get_subject_from_user(user_name),
                                                                           int(payload.split()[1]), payload.split()[2])
                 print(week_list)
