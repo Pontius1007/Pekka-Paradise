@@ -299,9 +299,9 @@ def get_feedback_month(token, recipient, year, semester, weeks_list):
     Lets the user choose to get feedback for a specific lecture or all lectures.
     :param token: String
     :param recipient: int
-    :param year: int
-    :param semester: list[String]
-    :param weeks_list: list[String]
+    :param year: String
+    :param semester: String
+    :param weeks_list: list[int]
     """
 
     # Makes initial json object.
@@ -342,7 +342,7 @@ def add_weeks_to_json(weeks, weeks_string, json_message, year, semester):
     :param weeks: list[int]
     :param weeks_string: String
     :param json_message:
-    :param year: int
+    :param year: String
     :param semester: String
     """
     for j in range(1, len(weeks)):
@@ -350,5 +350,5 @@ def add_weeks_to_json(weeks, weeks_string, json_message, year, semester):
     json_message["message"]["quick_replies"].append({
         "content_type": "text",
         "title": weeks_string,
-        "payload": "get_lecture_feedback_month " + str(year) + ' ' + semester + ' ' + weeks_string
+        "payload": "get_lecture_feedback_month " + year + ' ' + semester + ' ' + weeks_string
     })
