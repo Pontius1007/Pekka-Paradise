@@ -334,7 +334,9 @@ def get_feedback_month(token, recipient, year, weeks_list):
     if supp.status_code != requests.codes.ok:
         print(supp.text)
 
+
 def get_feedback_day(token, recipient, year, weeks):
+    pass
 
 
 def add_weeks_to_json(weeks, weeks_string, json_message, year):
