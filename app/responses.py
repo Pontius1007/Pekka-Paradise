@@ -3,6 +3,7 @@ import requests
 import ime_data_fetch
 
 
+
 # This file consists of responses sent to the user as JSON objects
 
 
@@ -307,7 +308,7 @@ def get_feedback_month(token, recipient, year, weeks_list):
     json_message = {
         "recipient": {"id": recipient},
         "message": {
-            "text": "Select what weeks you want feedback from",
+            "text": "Select what weeks you want feedback from:",
             "quick_replies": [
             ]
         }
@@ -334,7 +335,38 @@ def get_feedback_month(token, recipient, year, weeks_list):
     if supp.status_code != requests.codes.ok:
         print(supp.text)
 
-def get_feedback_day(token, recipient, year, weeks):
+
+def get_feedback_day(token, recipient, year, days, week):
+    """
+    :param token:
+    :param recipient:
+    :param year:
+    :param days:
+    :param week:
+    :return:
+    """
+
+    # Makes initial json object.
+    json_message = {
+        "recipient": {"id": recipient},
+        "message": {
+            "text": "Select what day you want feedback from",
+            "quick_replies": [
+            ]
+        }
+    }
+
+    # Adds buttons to the json object depending on how many semesters in arg.
+    for day in days:
+        add_days_to_json(days, json_message, year, week)
+
+    # Sends message.
+    data = json.dumps(json_message)
+    supp = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
+                         data=data,
+                         headers={'Content-type': 'application/json'})
+    if supp.status_code != requests.codes.ok:
+        print(supp.text)
 
 
 def add_weeks_to_json(weeks, weeks_string, json_message, year):
@@ -352,3 +384,25 @@ def add_weeks_to_json(weeks, weeks_string, json_message, year):
         "title": weeks_string,
         "payload": "get_lecture_feedback_month " + year + ' ' + weeks_string
     })
+
+
+def add_days_to_json(days, json_message, year, week):
+
+    for i in range(0, len(days)):
+        lecture_day = ''
+        if days[i] == 1:
+            lecture_day = 'Monday'
+        elif days[i] == 2:
+            lecture_day = 'Tuesday'
+        elif days[i] == 3:
+            lecture_day = 'Wednesday'
+        elif days[i] == 4:
+            lecture_day = 'Thursday'
+        elif days[i] == 5:
+            lecture_day = 'Friday'
+
+        json_message["message"]["quick_replies"].append({
+            "content_type": "text",
+            "title": lecture_day,
+            "payload": "get_lecture_feedback_day " + str(year) + ' ' + str(week) + ' ' + str(lecture_day)
+        })
