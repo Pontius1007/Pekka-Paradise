@@ -443,6 +443,12 @@ def add_days_to_json(day, json_message, year, week):
         lecture_day = 'Thursday'
     elif day == 5:
         lecture_day = 'Friday'
+    elif day == 6:
+        lecture_day = 'Saturday'
+    elif day == 7:
+        lecture_day = 'Sunday'
+    else:
+        print("Could not find the lecture day")
 
     json_message["message"]["quick_replies"].append({
         "content_type": "text",
