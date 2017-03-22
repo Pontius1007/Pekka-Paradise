@@ -102,7 +102,7 @@ def subject_has_subject(subject_name):
     :return: Boolean
     """
     try:
-        if models.Subject.query.get(subject_name) is not None:
+        if models.Subject.query.get(subject_name.upper()) is not None:
             return True
     except Exception as e:
         print(e)
