@@ -162,11 +162,9 @@ def handle_messages():
                 if len(week_list) > 8:
                     print("Im in week_list > 8")
                     response_handler.get_feedback_month(PAT, sender, payload.split()[1], payload.split()[2], week_list)
-                    print(response_handler.get_feedback_month(PAT, sender, payload.split()[1], payload.split()[2], week_list))
                 else:
                     # TODO: Use response method from one step bellow.
-                    response_handler.get_feedback_month(PAT, sender, week_list)
-                    response_handler.get_feedback_month(PAT, sender, "Du har kommet i mål")
+                    print("else")
 
                     pass
             #Let the user select week
