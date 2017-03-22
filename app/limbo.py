@@ -152,24 +152,20 @@ def handle_messages():
                                                                           int(payload.split()[1]), payload.split()[2])
                 print(week_list)
                 if len(week_list) > 8:
-                    print("Im in week_list > 8")
                     response_handler.get_feedback_month(PAT, sender, payload.split()[1], week_list)
                 else:
                     # TODO: Use response method from one step bellow.
-                    print("else")
-
-                    pass
+                    response_handler.get_feedback_week(PAT, sender, payload.split()[1], week_list)
 
             # Let the user select week
             elif "get_lecture_feedback_month" in payload.split()[0]:
-                # TODO: take in year and month. Let the user choose what week to get feedback from.
+                # TODO: test.
                 week_list = []
                 payload_split = payload.split()
                 for i in range(2, len(payload_split)):
                     week_list.append(int(payload_split[i].rstrip(',')))
 
                 response_handler.get_feedback_week(PAT, sender, payload_split[1], week_list)
-                pass
 
             # Lets the user select day
             elif "get_lecture_feedback_week" in payload.split()[0]:

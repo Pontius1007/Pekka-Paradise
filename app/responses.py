@@ -307,13 +307,13 @@ def get_feedback_month(token, recipient, year, weeks_list):
     json_message = {
         "recipient": {"id": recipient},
         "message": {
-            "text": "Select what weeks you want feedback from",
+            "text": "Select what weeks you want feedback from:",
             "quick_replies": [
             ]
         }
     }
 
-    # Adds buttons to the json object depending on how many semesters in arg.
+    # Adds buttons to the json object depending on how many groups of weeks in arg.
     weeks = []
     weeks_string = str(weeks_list[0])
     for i in range(len(weeks_list)):
@@ -335,6 +335,43 @@ def get_feedback_month(token, recipient, year, weeks_list):
         print(supp.text)
 
 
+def get_feedback_week(token, recipient, year, week_list):
+    """
+    Sends a message to recipient with buttons for selecting what week to feedback from.
+    :param token: String
+    :param recipient: int
+    :param year: String
+    :param week_list: lint[int]
+    """
+
+    # Makes initial json object.
+    json_message = {
+        "recipient": {"id": recipient},
+        "message": {
+            "text": "Select what week you want feedback from:",
+            "quick_replies": [
+            ]
+        }
+    }
+
+    # Adds buttons to the json object depending on how many weeks in arg.
+    for week in week_list:
+        json_message["message"]["quick_replies"].append({
+            "content_type": "text",
+            "title": 'Week: ' + str(week),
+            "payload": "get_lecture_feedback_week " + year + ' ' + str(week)
+        })
+
+    # Sends message.
+    data = json.dumps(json_message)
+    supp = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
+                         data=data,
+                         headers={'Content-type': 'application/json'})
+    if supp.status_code != requests.codes.ok:
+        print(supp.text)
+    pass
+
+
 def get_feedback_day(token, recipient, year, weeks):
     pass
 
@@ -351,11 +388,6 @@ def add_weeks_to_json(weeks, weeks_string, json_message, year):
         weeks_string += ', ' + str(weeks[j])
     json_message["message"]["quick_replies"].append({
         "content_type": "text",
-        "title": 'Weeks: ' + weeks_string,
+        "title": weeks_string,
         "payload": "get_lecture_feedback_month " + year + ' ' + weeks_string
     })
-
-
-def get_feedback_week(token, recipient, year, week_list):
-
-    pass
