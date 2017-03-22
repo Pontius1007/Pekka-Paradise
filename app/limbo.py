@@ -156,9 +156,9 @@ def handle_messages():
                 else:
                     response_handler.get_feedback_week(PAT, sender, payload.split()[1], week_list)
 
-            # Let the user select week
             elif "get_lecture_feedback_month" in payload.split()[0]:
-                # TODO: test.
+                # Let the user select week
+
                 week_list = []
                 payload_split = payload.split()
                 for i in range(2, len(payload_split)):
@@ -166,25 +166,16 @@ def handle_messages():
 
                 response_handler.get_feedback_week(PAT, sender, payload_split[1], week_list)
 
-            # Lets the user select day
             elif "get_lecture_feedback_week" in payload.split()[0]:
-                # test
-                print('This is subject: ', user_methods.get_subject_from_subject(user_name), '\nUser name: ', user_name)
-                # end test
+                # Lets the user select day
 
-                lecture_days = lecture_feedback_db_methods.get_day_of_lecture_in_week(user_methods.get_subject_from_subject(user_name),
-                                                                                      payload.split()[1], payload.split()[2])
+                lecture_days = lecture_feedback_db_methods.get_day_of_lecture_in_week(
+                    user_methods.get_subject_from_user(user_name), payload.split()[1], payload.split()[2])
 
-                # test
-                print(lecture_days)
-                # test end
                 response_handler.get_feedback_day(PAT, sender, payload.split()[1], lecture_days, payload.split()[2])
 
-                # TODO: take in year, month and week. Let the user choose what day to get feedback from.
-                pass
-
-            # Lets the user select a lecture
             elif "get_lecture_feedback_day" in payload.split()[0]:
+                # Lets the user select a lecture
                 # TODO: take in year, month, week and day. present the user with information from the lecture feedback.
                 pass
 
