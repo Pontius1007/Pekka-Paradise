@@ -145,36 +145,30 @@ def handle_messages():
                     years = lecture_feedback_db_methods.get_year(user_methods.get_subject_from_user(user_name))
                     response_handler.get_feedback_year(PAT, sender, years)
 
-
-
-
-
-                            # File "/app/app/limbo.py", line 152, in handle_messages
-                            # if len(week_list) > 8:
-                            # TypeError: object of type 'NoneType' has no len()
-            #
             elif "get_lecture_feedback_semester" in payload.split()[0]:
                 # Let the user choose what weeks to get feedback from.
-                # TODO: test. error message above
                 week_list = lecture_feedback_db_methods.get_lecture_weeks(user_methods.get_subject_from_user(user_name),
                                                                           int(payload.split()[1]), payload.split()[2])
                 print(week_list)
                 if len(week_list) > 8:
                     print("Im in week_list > 8")
-                    response_handler.get_feedback_month(PAT, sender, payload.split()[1], payload.split()[2], week_list)
+                    response_handler.get_feedback_month(PAT, sender, payload.split()[1], week_list)
                 else:
                     # TODO: Use response method from one step bellow.
                     print("else")
 
                     pass
+
             #Let the user select week
             elif "get_lecture_feedback_month" in payload.split()[0]:
                 # TODO: take in year and month. Let the user choose what week to get feedback from.
                 pass
+
             #Lets the user select day
             elif "get_lecture_feedback_week" in payload.split()[0]:
                 # TODO: take in year, month and week. Let the user choose what day to get feedback from.
                 pass
+
             #Lets the user select a lecture
             elif "get_lecture_feedback_day" in payload.split()[0]:
                 # TODO: take in year, month, week and day. present the user with information from the lecture feedback.
