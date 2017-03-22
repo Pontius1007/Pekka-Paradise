@@ -169,11 +169,11 @@ def handle_messages():
             # Lets the user select day
             elif "get_lecture_feedback_week" in payload.split()[0]:
                 # test
-                print('This is subject: ', user_methods.get_subject(user_name), '\nUser name: ', user_name)
+                print('This is subject: ', user_methods.get_subject_from_subject(user_name), '\nUser name: ', user_name)
                 # end test
 
-                lecture_days = lecture_feedback_db_methods.get_day_of_lecture_in_week(user_methods.get_subject(user_name),
-                                                                                  payload.split()[1], payload.split()[2])
+                lecture_days = lecture_feedback_db_methods.get_day_of_lecture_in_week(user_methods.get_subject_from_subject(user_name),
+                                                                                      payload.split()[1], payload.split()[2])
 
                 # test
                 print(lecture_days)
