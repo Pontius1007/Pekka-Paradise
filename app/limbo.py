@@ -154,7 +154,6 @@ def handle_messages():
                 if len(week_list) > 8:
                     response_handler.get_feedback_month(PAT, sender, payload.split()[1], week_list)
                 else:
-                    # TODO: Use response method from one step bellow.
                     response_handler.get_feedback_week(PAT, sender, payload.split()[1], week_list)
 
             # Let the user select week

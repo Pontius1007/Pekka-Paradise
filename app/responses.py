@@ -384,10 +384,17 @@ def add_weeks_to_json(weeks, weeks_string, json_message, year):
     :param json_message:
     :param year: String
     """
-    for j in range(1, len(weeks)):
-        weeks_string += ', ' + str(weeks[j])
-    json_message["message"]["quick_replies"].append({
-        "content_type": "text",
-        "title": weeks_string,
-        "payload": "get_lecture_feedback_month " + year + ' ' + weeks_string
-    })
+    if len(weeks) == 1:
+        json_message["message"]["quick_replies"].append({
+            "content_type": "text",
+            "title": 'Week: ' + weeks_string,
+            "payload": "get_lecture_feedback_week " + year + ' ' + weeks_string
+        })
+    else:
+        for j in range(1, len(weeks)):
+            weeks_string += ', ' + str(weeks[j])
+            json_message["message"]["quick_replies"].append({
+                "content_type": "text",
+                "title": weeks_string,
+                "payload": "get_lecture_feedback_month " + year + ' ' + weeks_string
+            })
