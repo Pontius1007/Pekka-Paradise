@@ -168,9 +168,16 @@ def handle_messages():
 
             # Lets the user select day
             elif "get_lecture_feedback_week" in payload.split()[0]:
+                # test
+                print(payload.split()[1], payload.split()[2])
+                # end test
+
                 lecture_days = lecture_feedback_db_methods.get_day_of_lecture_in_week(user_methods.get_subject(user_name),
                                                                                   payload.split()[1], payload.split()[2])
 
+                # test
+                print(lecture_days)
+                # test end
                 response_handler.get_feedback_day(PAT, sender, payload.split()[1], lecture_days, payload.split()[2])
 
                 # TODO: take in year, month and week. Let the user choose what day to get feedback from.
