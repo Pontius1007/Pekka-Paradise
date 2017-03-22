@@ -447,5 +447,5 @@ def add_days_to_json(day, json_message, year, week):
     json_message["message"]["quick_replies"].append({
         "content_type": "text",
         "title": lecture_day,
-        "payload": "get_lecture_feedback_day " + str(year) + ' ' + str(week) + ' ' + str(lecture_day)
+        "payload": "get_lecture_feedback_day " + str(year) + ' ' + str(week) + ' ' + str(day)
     })
