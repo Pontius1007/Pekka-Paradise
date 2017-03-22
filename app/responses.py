@@ -394,10 +394,11 @@ def get_feedback_day(token, recipient, year, days, week):
 
     # Adds buttons to the json object depending on how many semesters in arg.
     for day in days:
-        add_days_to_json(days, json_message, year, week)
+        add_days_to_json(day, json_message, year, week)
 
     # Sends message.
     data = json.dumps(json_message)
+    print(data)
     supp = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
                          data=data,
                          headers={'Content-type': 'application/json'})
@@ -430,23 +431,22 @@ def add_weeks_to_json(weeks, weeks_string, json_message, year):
             })
 
 
-def add_days_to_json(days, json_message, year, week):
+def add_days_to_json(day, json_message, year, week):
 
-    for i in range(0, len(days)):
-        lecture_day = ''
-        if days[i] == 1:
-            lecture_day = 'Monday'
-        elif days[i] == 2:
-            lecture_day = 'Tuesday'
-        elif days[i] == 3:
-            lecture_day = 'Wednesday'
-        elif days[i] == 4:
-            lecture_day = 'Thursday'
-        elif days[i] == 5:
-            lecture_day = 'Friday'
+    lecture_day = ''
+    if day == 1:
+        lecture_day = 'Monday'
+    elif day == 2:
+        lecture_day = 'Tuesday'
+    elif day == 3:
+        lecture_day = 'Wednesday'
+    elif day == 4:
+        lecture_day = 'Thursday'
+    elif day == 5:
+        lecture_day = 'Friday'
 
-        json_message["message"]["quick_replies"].append({
-            "content_type": "text",
-            "title": lecture_day,
-            "payload": "get_lecture_feedback_day " + str(year) + ' ' + str(week) + ' ' + str(lecture_day)
-        })
+    json_message["message"]["quick_replies"].append({
+        "content_type": "text",
+        "title": lecture_day,
+        "payload": "get_lecture_feedback_day " + str(year) + ' ' + str(week) + ' ' + str(lecture_day)
+    })
