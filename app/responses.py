@@ -423,11 +423,11 @@ def add_weeks_to_json(weeks, weeks_string, json_message, year):
     else:
         for j in range(1, len(weeks)):
             weeks_string += ', ' + str(weeks[j])
-            json_message["message"]["quick_replies"].append({
-                "content_type": "text",
-                "title": weeks_string,
-                "payload": "get_lecture_feedback_month " + year + ' ' + weeks_string
-            })
+        json_message["message"]["quick_replies"].append({
+            "content_type": "text",
+            "title": weeks_string,
+            "payload": "get_lecture_feedback_month " + year + ' ' + weeks_string
+        })
 
 
 def add_days_to_json(days, json_message, year, week):
