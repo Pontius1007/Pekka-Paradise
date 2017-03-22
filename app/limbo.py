@@ -159,17 +159,23 @@ def handle_messages():
 
                     pass
 
-            #Let the user select week
+            # Let the user select week
             elif "get_lecture_feedback_month" in payload.split()[0]:
                 # TODO: take in year and month. Let the user choose what week to get feedback from.
+                week_list = []
+                payload_split = payload.split()
+                for i in range(2, len(payload_split)):
+                    week_list.append(int(payload_split[i].rstrip(',')))
+
+                response_handler.get_feedback_week(PAT, sender, payload_split[1], week_list)
                 pass
 
-            #Lets the user select day
+            # Lets the user select day
             elif "get_lecture_feedback_week" in payload.split()[0]:
                 # TODO: take in year, month and week. Let the user choose what day to get feedback from.
                 pass
 
-            #Lets the user select a lecture
+            # Lets the user select a lecture
             elif "get_lecture_feedback_day" in payload.split()[0]:
                 # TODO: take in year, month, week and day. present the user with information from the lecture feedback.
                 pass
