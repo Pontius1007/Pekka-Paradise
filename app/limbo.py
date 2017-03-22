@@ -152,28 +152,32 @@ def handle_messages():
                                                                           int(payload.split()[1]), payload.split()[2])
                 print(week_list)
                 if len(week_list) > 8:
-                    print("Im in week_list > 8")
                     response_handler.get_feedback_month(PAT, sender, payload.split()[1], week_list)
                 else:
                     # TODO: Use response method from one step bellow.
-                    print("else")
+                    response_handler.get_feedback_week(PAT, sender, payload.split()[1], week_list)
 
-                    pass
-
-            #Let the user select week
+            # Let the user select week
             elif "get_lecture_feedback_month" in payload.split()[0]:
-                # TODO: take in year and month. Let the user choose what week to get feedback from.
-                pass
+                # TODO: test.
+                week_list = []
+                payload_split = payload.split()
+                for i in range(2, len(payload_split)):
+                    week_list.append(int(payload_split[i].rstrip(',')))
 
-            #Lets the user select day
+                response_handler.get_feedback_week(PAT, sender, payload_split[1], week_list)
+
+            # Lets the user select day
             elif "get_lecture_feedback_week" in payload.split()[0]:
                 lecture_days = lecture_feedback_db_methods.day_of_lecture_in_week(user_methods.get_subject(user_name),
                                                                                   payload.split()[1], payload.split()[2])
+
                 response_handler.get_feedback_day(PAT, sender, payload.split()[1], lecture_days, payload.split()[2])
+
                 # TODO: take in year, month and week. Let the user choose what day to get feedback from.
                 pass
 
-            #Lets the user select a lecture
+            # Lets the user select a lecture
             elif "get_lecture_feedback_day" in payload.split()[0]:
                 # TODO: take in year, month, week and day. present the user with information from the lecture feedback.
                 pass
