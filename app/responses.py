@@ -394,7 +394,12 @@ def get_feedback_day(token, recipient, year, days, week):
 
     # Adds buttons to the json object depending on how many semesters in arg.
     for day in days:
-        add_days_to_json(day, json_message, year, week)
+        # add_days_to_json(day, json_message, year, week)
+        json_message["message"]["quick_replies"].append({
+            "content_type": "text",
+            "title": day,
+            "payload": "get_lecture_feedback_day " + str(year) + ' ' + str(week) + ' ' + str(day)
+        })
 
     # Sends message.
     data = json.dumps(json_message)
