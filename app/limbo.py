@@ -10,19 +10,18 @@ import ime_data_fetch
 import lecture_methods
 import subject_info
 import user_methods
-import lecture_feedback_db_methods
 from app import app
 from app import responses
-from config import PAT
-from config import VERIFY_TOKEN
 
+PAT = 'EAACI4GIIx08BAHwR6J1cOROTpYbE9QceOhxR08JBywhdAV6t24J70RG28YaZCzQxJGinIB6v0xy7Y7gdTVQUZCmgRwm1EVBQd05kMYCwi' \
+      'kkTAtmHbxVhTUvvpMGYM9vcTKD2qPXmwcZCDgOVX1eZCUGNfzJpyifuocmDXIMElQZDZD'
 response_handler = responses
 
 
 @app.route('/', methods=['GET'])
 def handle_verification():
     print("Handling Verification: ->")
-    if request.args.get('hub.verify_token', '') == VERIFY_TOKEN:
+    if request.args.get('hub.verify_token', '') == 'Heisann32141221':
         print("Verification successful!")
         return request.args.get('hub.challenge', '')
     else:
@@ -41,9 +40,6 @@ def handle_messages():
     for sender, incoming_message, payload in messaging_events(payload):
         # The following statements check which options the user selected
         # Response handler contains "templates" for the various messages
-        # Start test
-        print(payload)
-        # End test
         user_name = get_full_name(sender, PAT)
         if "hei" in incoming_message.lower() or "hallo" in incoming_message.lower() or "yo" in incoming_message.lower():
             response_handler.greeting_message(PAT, sender, user_name)
@@ -57,6 +53,7 @@ def handle_messages():
                                                        "writing the course code on the form [TAG][CODE]\n"
                                                        "ex. TDT4120")
 
+            
         elif incoming_message.lower() == "help":
 
             response_handler.text_message(PAT, sender, "Are you lost ...? ")
@@ -67,7 +64,7 @@ def handle_messages():
                                                        "and other information type 'Status'.")
             response_handler.text_message(PAT, sender, "You can also type 'Hei' or 'Hallo' at any time "
                                                        "to receive a greeting that shows your options.")
-        elif incoming_message.lower() == "status":
+        elif incoming_message == "status":
             if user_methods.has_user(user_name):
                 sub = user_methods.get_subject_from_user(user_name) + " : " + \
                       subject_info.course_name(user_methods.get_subject_from_user(user_name))
@@ -99,6 +96,7 @@ def handle_messages():
         elif payload == "0" or payload == "1" or payload == "2":
             # Adds feedback if the subject has a lecture on the given day
             # and if the user has not already given feedback
+            print('I was here')
             if feedback_methods.add_entry(user_name, user_methods.get_subject_from_user(user_name), payload):
                 response_handler.text_message(PAT, sender, "You chose: " + "'" + payload + "'" + "\nFeedback Received!")
                 response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
@@ -213,24 +211,20 @@ def handle_messages():
 
 def messaging_events(payload):
     """
-    Generate tuples of (sender_id, message_text, payload) from the
+    Generate tuples of (sender_id, message_text) from the
     provided payload.
     """
     data = json.loads(payload)
     message = data["entry"][0]["messaging"]
     for event in message:
+        # if message in bla and text and payload bla yield payload as well
+        if "message" in event and "quick_reply" in event["message"]:
+            yield event["sender"]["id"], event["message"]["text"], event["message"]["quick_reply"]["payload"]
         if "message" in event and "text" in event["message"]:
-            # if message in event and text in message set id and text
-            sender_id = event["sender"]["id"]
-            text = event["message"]["text"]
-            quick_reply_payload = None
-
-            if "quick_reply" in event["message"]:
-                # if quick_reply i message set payload
-                quick_reply_payload = event["message"]["quick_reply"]["payload"]
-            yield sender_id, text, quick_reply_payload
+            yield event["sender"]["id"], event["message"]["text"], None
+            # Yield path to payload
         else:
-            yield event["sender"]["id"], "I can't echo this", None
+            yield event["sender"]["id"], "I can't echo this"
 
 
 def send_message(token, recipient, text):
