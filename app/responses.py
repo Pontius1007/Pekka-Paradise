@@ -94,6 +94,7 @@ def all_feedback(token, recipient, subject, percent):
     :param percent: index 0-2 contains percents of slow, ok and fast index 3 contains total number
     :return:
     """
+    print(str(percent))
     if percent[0] >= 25:
         extra_string = "A lot of students thinks the lecture is moving too slow, maybe you should check out this [URL]"
     elif percent[2] >= 25:
