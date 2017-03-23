@@ -15,7 +15,8 @@ def greeting_message(token, recipient, user_name):
     :param user_name:
     :return:
     """
-    message = "Hello " + user_name.split()[0] + "!\nWhat can I do for you today?"
+    message = "Hello " + user_name.split()[0] + "!\nWhat can I do for you today?" + \
+              "\nIf you are new to the bot and would like some help, please press 'Help' in chat"
     txt = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
                         data=json.dumps({
                             "recipient": {"id": recipient},
@@ -75,7 +76,7 @@ def user_info(token, recipient, user_name, sub):
     :param user_name:
     :return:
     """
-    message = "Hello " + user_name + " !\n You currently have " + sub + " selected"
+    message = "Hello " + user_name + "!\nYou currently have " + sub + " selected"
     txt = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
                         data=json.dumps({
                             "recipient": {"id": recipient},
@@ -104,20 +105,20 @@ def all_feedback(token, recipient, subject, percent):
                 "http://www.bbcactive.com/BBCActiveIdeasandResources/Tenwaystomakelecturesmoredynamic.aspx"]
     print(str(percent))
     if percent[0] >= 25:
-        extra_string = "A lot of students thinks the lecture is moving too slow, maybe you should check out this: " + \
+        extra_string = "A lot of students thinks the lecture is moving too slow, maybe you should check out this " + \
                        url_slow[random.randrange(0, len(url_slow))]
     elif percent[2] >= 25:
-        extra_string = "A lot of students thinks the lecture is moving too fast, maybe you should check out this: " + \
+        extra_string = "A lot of students thinks the lecture is moving too fast, maybe you should check out this " + \
                        url_fast[random.randrange(0, len(url_fast))]
     else:
         extra_string = "Your students are happy and you are doing a good job, keep it up!"
     data = json.dumps({
         "recipient": {"id": recipient},
-        "message": {"text": "Feedback for " + subject + ":\n" +
+        "message": {"text": "Feedback for " + str(subject) + "\n" +
                             "Total number of participants: " + str(percent[3]) + "\n"
                             + str(percent[0]) + "% of participants thinks the lectures are too slow.\n"
                             + str(percent[1]) + "% of participants thinks the lectures are OK.\n"
-                            + str(percent[2]) + "% of participants thinks the lectures are too fast.\n\n" +
+                            + str(percent[2]) + "% of participants thinks the lectures are too fast.\n" +
                             extra_string
                     }
     })
@@ -159,7 +160,7 @@ def no_course(token, recipient):
                                      {
                                          "content_type": "text",
                                          "title": "Select Course",
-                                         "payload": "Change subject"
+                                         "payload": "change subject"
                                      }
                                  ]
                              }
@@ -203,6 +204,11 @@ def has_course(token, recipient, subject):
                                          "content_type": "text",
                                          "title": "Lecture Feedback",
                                          "payload": "lecture feedback"
+                                     },
+                                     {
+                                         "content_type": "text",
+                                         "title": "Get feedback",
+                                         "payload": "get feedback"
                                      }
                                  ]
                              }
@@ -247,7 +253,7 @@ def lec_feed(token, recipient):
     if supp.status_code != requests.codes.ok:
         print(supp.text)
 
-        
+
 """
 THIS SECTION FOR FEEDBACK FROM LECTURES
 """
@@ -484,7 +490,7 @@ def present_single_lecture_feedback(token, recipient, feedback_list):
 
     data = json.dumps({
         "recipient": {"id": recipient},
-        "message": {"text": 'A total of ' + str(total) + ' students have given their response.\n'
+        "message": {"text": str(total) + ' responses.\n'
                     + str(slow) + '% of students thought the lecture was too slow.\n'
                     + str(normal) + '% of students thought the lecture was OK.\n'
                     + str(fast) + '% of students thought the lecture was too fast.'}
@@ -551,4 +557,5 @@ def add_days_to_json(day, json_message, year, week):
         "title": lecture_day,
         "payload": "get_lecture_feedback_day " + str(year) + ' ' + str(week) + ' ' + str(day)
     })
+
 

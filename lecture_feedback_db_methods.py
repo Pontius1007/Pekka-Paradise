@@ -85,4 +85,3 @@ def get_day_of_lecture_in_week(course, year, week):
             return lecture_days
     except Exception as e:
         print(e)
-
