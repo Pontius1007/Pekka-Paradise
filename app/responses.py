@@ -14,7 +14,8 @@ def greeting_message(token, recipient, user_name):
     :param user_name:
     :return:
     """
-    message = "Hello " + user_name.split()[0] + "!\nWhat can I do for you today?"
+    message = "Hello " + user_name.split()[0] + "!\nWhat can I do for you today?" + \
+              "\nIf you are new to the bot and would like some help, please press 'Help' in chat"
     txt = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
                         data=json.dumps({
                             "recipient": {"id": recipient},
@@ -74,7 +75,7 @@ def user_info(token, recipient, user_name, sub):
     :param user_name:
     :return:
     """
-    message = "Hello " + user_name + " !\n You currently have " + sub + " selected"
+    message = "Hello " + user_name + "!\nYou currently have " + sub + " selected"
     txt = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
                         data=json.dumps({
                             "recipient": {"id": recipient},
@@ -139,7 +140,7 @@ def no_course(token, recipient):
                                      {
                                          "content_type": "text",
                                          "title": "Select Course",
-                                         "payload": "Change subject"
+                                         "payload": "change subject"
                                      }
                                  ]
                              }
@@ -183,6 +184,11 @@ def has_course(token, recipient, subject):
                                          "content_type": "text",
                                          "title": "Lecture Feedback",
                                          "payload": "lecture feedback"
+                                     },
+                                     {
+                                         "content_type": "text",
+                                         "title": "Get feedback",
+                                         "payload": "get feedback"
                                      }
                                  ]
                              }
@@ -226,3 +232,286 @@ def lec_feed(token, recipient):
                          headers={'Content-type': 'application/json'})
     if supp.status_code != requests.codes.ok:
         print(supp.text)
+
+
+"""
+THIS SECTION FOR FEEDBACK FROM LECTURES
+"""
+
+
+def get_feedback_specific_or_all(token, recipient):
+    """
+    Lets the user choose to get feedback for a specific lecture or all lectures.
+    :param token:
+    :param recipient:
+    :return:
+    """
+    supp = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
+                         data=json.dumps({
+                             "recipient": {"id": recipient},
+                             "message": {
+                                 "text": "Do you want feedback from all the lectures or a specific lecture?",
+                                 "quick_replies": [
+                                     {
+                                         "content_type": "text",
+                                         "title": "All lectures",
+                                         "payload": "all_lectures"
+                                     },
+                                     {
+                                         "content_type": "text",
+                                         "title": "A specific lecture",
+                                         "payload": "a_specific_lecture"
+                                     }
+                                 ]
+                             }
+                         }),
+                         headers={'Content-type': 'application/json'})
+    if supp.status_code != requests.codes.ok:
+        print(supp.text)
+
+
+def get_feedback_year(token, recipient, years):
+    """
+    Lets the user choose to get feedback for a specific lecture or all lectures.
+    :param token:
+    :param recipient:
+    :param years:
+    """
+
+    # Makes initial json object.
+    json_message = {
+        "recipient": {"id": recipient},
+        "message": {
+            "text": "Select what year you want feedback from",
+            "quick_replies": [
+            ]
+        }
+    }
+
+    # Adds buttons to the json object depending on how many years in arg.
+    for year in years:
+        json_message["message"]["quick_replies"].append({
+            "content_type": "text",
+            "title": str(year),
+            "payload": "get_lecture_feedback_year " + str(year)
+        })
+
+    # Sends message.
+    data = json.dumps(json_message)
+    supp = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
+                         data=data,
+                         headers={'Content-type': 'application/json'})
+    if supp.status_code != requests.codes.ok:
+        print(supp.text)
+
+
+def get_feedback_semester(token, recipient, year, semesters):
+    """
+    Lets the user choose to get feedback for a specific lecture or all lectures.
+    :param token: String
+    :param recipient: int
+    :param year: int
+    :param semesters: list[String]
+    """
+
+    # Makes initial json object.
+    json_message = {
+        "recipient": {"id": recipient},
+        "message": {
+            "text": "Select what semester you want feedback from",
+            "quick_replies": [
+            ]
+        }
+    }
+
+    # Adds buttons to the json object depending on how many semesters in arg.
+    for semester in semesters:
+        json_message["message"]["quick_replies"].append({
+            "content_type": "text",
+            "title": semester,
+            "payload": "get_lecture_feedback_semester " + str(year) + ' ' + semester
+        })
+
+    # Sends message.
+    data = json.dumps(json_message)
+    supp = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
+                         data=data,
+                         headers={'Content-type': 'application/json'})
+    if supp.status_code != requests.codes.ok:
+        print(supp.text)
+
+
+def get_feedback_month(token, recipient, year, weeks_list):
+    """
+    Lets the user choose to get feedback for a specific lecture or all lectures.
+    :param token: String
+    :param recipient: int
+    :param year: String
+    :param weeks_list: list[int]
+    """
+
+    # Makes initial json object.
+    json_message = {
+        "recipient": {"id": recipient},
+        "message": {
+            "text": "Select what weeks you want feedback from:",
+            "quick_replies": [
+            ]
+        }
+    }
+
+    # Adds buttons to the json object depending on how many groups of weeks in arg.
+    weeks = []
+    weeks_string = str(weeks_list[0])
+    for i in range(len(weeks_list)):
+        if len(weeks) > 3:
+            add_weeks_to_json(weeks, weeks_string, json_message, year)
+            weeks = [weeks_list[i]]
+            weeks_string = str(weeks_list[i])
+        else:
+            weeks.append(weeks_list[i])
+    if len(weeks) > 0:
+        add_weeks_to_json(weeks, weeks_string, json_message, year)
+
+    # Sends message.
+    data = json.dumps(json_message)
+    supp = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
+                         data=data,
+                         headers={'Content-type': 'application/json'})
+    if supp.status_code != requests.codes.ok:
+        print(supp.text)
+
+
+def get_feedback_week(token, recipient, year, week_list):
+    """
+    Sends a message to recipient with buttons for selecting what week to feedback from.
+    :param token: String
+    :param recipient: int
+    :param year: String
+    :param week_list: lint[int]
+    """
+
+    # Makes initial json object.
+    json_message = {
+        "recipient": {"id": recipient},
+        "message": {
+            "text": "Select what week you want feedback from:",
+            "quick_replies": [
+            ]
+        }
+    }
+
+    # Adds buttons to the json object depending on how many weeks in arg.
+    for week in week_list:
+        json_message["message"]["quick_replies"].append({
+            "content_type": "text",
+            "title": 'Week: ' + str(week),
+            "payload": "get_lecture_feedback_week " + year + ' ' + str(week)
+        })
+
+    # Sends message.
+    data = json.dumps(json_message)
+    supp = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
+                         data=data,
+                         headers={'Content-type': 'application/json'})
+    if supp.status_code != requests.codes.ok:
+        print(supp.text)
+
+
+def get_feedback_day(token, recipient, year, days, week):
+    """
+    :param token: String
+    :param recipient: int
+    :param year: String
+    :param days: List[int]
+    :param week: String
+    :return:
+    """
+
+    # Makes initial json object.
+    json_message = {
+        "recipient": {"id": recipient},
+        "message": {
+            "text": "Select what day you want feedback from",
+            "quick_replies": [
+            ]
+        }
+    }
+
+    # Adds buttons to the json object depending on how many semesters in arg.
+    for day in days:
+        add_days_to_json(day, json_message, year, week)
+
+    # Sends message.
+    data = json.dumps(json_message)
+    print(data)
+    supp = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
+                         data=data,
+                         headers={'Content-type': 'application/json'})
+    if supp.status_code != requests.codes.ok:
+        print(supp.text)
+
+
+def present_single_lecture_feedback():
+    pass
+
+
+
+
+"""
+HELPING METHODS FOR CREATING JSON OBJECT
+"""
+
+
+def add_weeks_to_json(weeks, weeks_string, json_message, year):
+    """
+    Adds buttons for several weeks to the json message
+    :param weeks: list[int]
+    :param weeks_string: String
+    :param json_message:
+    :param year: String
+    """
+
+    if len(weeks) == 1:
+        json_message["message"]["quick_replies"].append({
+            "content_type": "text",
+            "title": 'Week: ' + weeks_string,
+            "payload": "get_lecture_feedback_week " + year + ' ' + weeks_string
+        })
+    else:
+        for j in range(1, len(weeks)):
+            weeks_string += ', ' + str(weeks[j])
+        json_message["message"]["quick_replies"].append({
+            "content_type": "text",
+            "title": weeks_string,
+            "payload": "get_lecture_feedback_month " + year + ' ' + weeks_string
+        })
+
+
+def add_days_to_json(day, json_message, year, week):
+
+    lecture_day = ''
+    if day == 1:
+        lecture_day = 'Monday'
+    elif day == 2:
+        lecture_day = 'Tuesday'
+    elif day == 3:
+        lecture_day = 'Wednesday'
+    elif day == 4:
+        lecture_day = 'Thursday'
+    elif day == 5:
+        lecture_day = 'Friday'
+    elif day == 6:
+        lecture_day = 'Saturday'
+    elif day == 7:
+        lecture_day = 'Sunday'
+    else:
+        print("Could not find the lecture day")
+
+    json_message["message"]["quick_replies"].append({
+        "content_type": "text",
+        "title": lecture_day,
+        "payload": "get_lecture_feedback_day " + str(year) + ' ' + str(week) + ' ' + str(day)
+    })
+
+
