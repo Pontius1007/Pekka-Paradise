@@ -21,7 +21,7 @@ def generate_percent(feedback):
                 tot += 1
             elif feedback[i] == 2:
                 counter[2] += 1
-                tot +=1
+                tot += 1
 
     counter[0] /= counter[3] * 100
     counter[1] /= counter[3] * 100
