@@ -13,6 +13,6 @@ def generate_percent(feedback):
     fast = feedback.count(2)
     total = float(slow + ok + fast)
     print(total, slow, ok, fast)
-    counter = [slow/(total*100), ok/(total*100), fast/(total*100)]
+    counter = [slow/(total*100), ok/(total*100), fast/(total*100), total]
 
     return subject, counter
