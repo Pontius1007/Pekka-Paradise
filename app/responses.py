@@ -105,20 +105,20 @@ def all_feedback(token, recipient, subject, percent):
                 "http://www.bbcactive.com/BBCActiveIdeasandResources/Tenwaystomakelecturesmoredynamic.aspx"]
     print(str(percent))
     if percent[0] >= 25:
-        extra_string = "A lot of students thinks the lecture is moving too slow, maybe you should check out this " + \
+        extra_string = "A lot of students thinks the lecture is moving too slow, maybe you should check out this: " + \
                        url_slow[random.randrange(0, len(url_slow))]
     elif percent[2] >= 25:
-        extra_string = "A lot of students thinks the lecture is moving too fast, maybe you should check out this " + \
+        extra_string = "A lot of students thinks the lecture is moving too fast, maybe you should check out this: " + \
                        url_fast[random.randrange(0, len(url_fast))]
     else:
         extra_string = "Your students are happy and you are doing a good job, keep it up!"
     data = json.dumps({
         "recipient": {"id": recipient},
-        "message": {"text": "Feedback for " + str(subject) + "\n" +
+        "message": {"text": "Feedback for " + subject + ":\n" +
                             "Total number of participants: " + str(percent[3]) + "\n"
                             + str(percent[0]) + "% of participants thinks the lectures are too slow.\n"
                             + str(percent[1]) + "% of participants thinks the lectures are OK.\n"
-                            + str(percent[2]) + "% of participants thinks the lectures are too fast.\n" +
+                            + str(percent[2]) + "% of participants thinks the lectures are too fast.\n\n" +
                             extra_string
                     }
     })
@@ -490,7 +490,7 @@ def present_single_lecture_feedback(token, recipient, feedback_list):
 
     data = json.dumps({
         "recipient": {"id": recipient},
-        "message": {"text": str(total) + ' responses.\n'
+        "message": {"text": 'A total of ' + str(total) + ' students have given their response.\n'
                     + str(slow) + '% of students thought the lecture was too slow.\n'
                     + str(normal) + '% of students thought the lecture was OK.\n'
                     + str(fast) + '% of students thought the lecture was too fast.'}
