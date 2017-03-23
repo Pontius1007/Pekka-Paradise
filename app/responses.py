@@ -214,17 +214,17 @@ def lec_feed(token, recipient):
                                      {
                                          "content_type": "text",
                                          "title": "Too slow",
-                                         "payload": "Too slow"
+                                         "payload": "0"
                                      },
                                      {
                                          "content_type": "text",
                                          "title": "It's all right",
-                                         "payload": "It's all right"
+                                         "payload": "1"
                                      },
                                      {
                                          "content_type": "text",
                                          "title": "Too fast",
-                                         "payload": "Too fast"
+                                         "payload": "2"
                                      }
                                  ]
                              }
