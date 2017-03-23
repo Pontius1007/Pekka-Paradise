@@ -99,9 +99,9 @@ def all_feedback(token, recipient, subject, percent):
                             "recipient": {"id": recipient},
                             "message": {"text": "Feedback for " + subject + "\n" +
                                         "Total number of participants : " + str(percent[3]) + "\n" +
-                                        str(percent[0]) + "% of participants thinks lecture is too slow" +
-                                        str(percent[1]) + "% of participants thinks lecture moves ok" +
-                                        str(percent[2]) + "% of participants thinks lecture is too fast"
+                                        str(percent[0]) + "% of participants thinks lecture is too slow \n" +
+                                        str(percent[1]) + "% of participants thinks lecture moves ok \n" +
+                                        str(percent[2]) + "% of participants thinks lecture is too fast \n"
                                         }
                         }), headers={'Content-type': 'application/json'})
     if txt.status_code != requests.codes.ok:
