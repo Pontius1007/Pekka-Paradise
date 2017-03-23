@@ -1,5 +1,6 @@
 from app import db, models
 import datetime
+import lecture_methods
 
 
 def add_entry(user_name, subject_name, feedback):
@@ -32,6 +33,20 @@ def add_entry(user_name, subject_name, feedback):
         print(e)
     # Reject feedback
     return False
+
+
+def get_all_subject_feed(subject):
+    """
+    :param subject:
+    :return: List [subject, feed1, feed2, feed3]
+    """
+    ids = lecture_methods.get_lectures_from_subject(subject)
+    feedback_list = [subject]
+    if len(ids) > 0:
+        for lec_id in ids:
+            for feedback in models.LectureFeedback.query.filter_by(lecture_id=lec_id):
+                feedback_list.append(feedback.feedback)
+    return feedback_list
 
 
 def user_has_feedback_for_lecture(user_name, lecture):

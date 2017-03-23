@@ -3,10 +3,11 @@ import json
 import requests
 from flask import request
 
+import bot_feedback
 import feedback_methods
 import ime_data_fetch
 import lecture_methods
-import sub_info
+import subject_info
 import user_methods
 import lecture_feedback_db_methods
 from app import app
@@ -28,7 +29,7 @@ def handle_verification():
         return 'Error, wrong validation token'
 
 
-# The wonderful logic that decides which response is sent should be placed in this function
+# The wonderful logic that decides which response is sent is placed in this function
 @app.route('/', methods=['POST'])
 def handle_messages():
     print("Handling Messages")
@@ -54,7 +55,9 @@ def handle_messages():
             response_handler.text_message(PAT, sender, "You can change course at any time simply by "
                                                        "writing the course code on the form [TAG][CODE]\n"
                                                        "ex. TDT4120")
+
         elif incoming_message.lower() == "help":
+
             response_handler.text_message(PAT, sender, "Are you lost ...? ")
             response_handler.text_message(PAT, sender, "You can change course at any time simply by "
                                                        "writing the course code on the form: [TAG][CODE]\n"
@@ -66,11 +69,24 @@ def handle_messages():
         elif incoming_message.lower() == "status":
             if user_methods.has_user(user_name):
                 sub = user_methods.get_subject_from_user(user_name) + " : " + \
-                      sub_info.course_name(user_methods.get_subject_from_user(user_name))
+                      subject_info.course_name(user_methods.get_subject_from_user(user_name))
             else:
                 sub = "no subject"
             response_handler.user_info(PAT, sender, user_name, sub)
 
+        # Checks if course selected has feedback and returns it to the user
+        elif "feedback" in incoming_message.lower():
+            try:
+                subject = incoming_message.split()[1]
+                if not lecture_methods.check_lecture_in_db(subject):  # TODO check feedback table instead
+                    response_handler.text_message(PAT, sender, "Course has no feedback")
+                else:
+                    feedback = feedback_methods.get_all_subject_feed(subject)
+                    subject, percent_list = bot_feedback.generate_percent(feedback)
+                    response_handler.all_feedback(PAT, sender, subject, percent_list)
+            except IndexError:
+                response_handler.text_message(PAT, sender, "For feedback use keyword \'Feedback\' followed "
+                                                           "by course code in caps \n ex. Feedback TDT4100")
         # Checks if the subject has lectures in the database, adds them if not.
 
         elif payload == "lecture feedback":
@@ -79,9 +95,9 @@ def handle_messages():
             if lecture_methods.check_lecture_in_db(subject):
                 response_handler.lec_feed(PAT, sender)
             else:
-                schedule = sub_info.get_schedule(subject)
+                schedule = subject_info.get_schedule(subject)
                 if schedule:
-                    database_entry = sub_info.gather_lecture_information(schedule)
+                    database_entry = subject_info.gather_lecture_information(schedule)
                     lecture_methods.add_lecture_information_db(database_entry)
                     response_handler.text_message(PAT, sender, "Lectures for the subject " + subject +
                                                   " were not in the database. It is now added")
@@ -106,13 +122,13 @@ def handle_messages():
 
         elif payload == "get schedule":
             subject = user_methods.get_subject_from_user(user_name)
-            response_handler.text_message(PAT, sender, sub_info.printable_schedule(sub_info.get_schedule(subject)))
+            response_handler.text_message(PAT, sender, subject_info.printable_schedule(subject_info.get_schedule(subject)))
             response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
 
         elif payload == "get info":
             subject = user_methods.get_subject_from_user(user_name)
             response_handler.text_message(PAT, sender,
-                                          sub_info.printable_course_info(sub_info.get_course_json(subject)))
+                                          subject_info.printable_course_info(subject_info.get_course_json(subject)))
             response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
 
         elif payload == "get feedback":
