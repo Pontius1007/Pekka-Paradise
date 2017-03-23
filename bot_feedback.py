@@ -19,10 +19,10 @@ def generate_percent(feedback):
                 counter[1] += 1
             elif feedback[i] == 2:
                 counter[2] += 1
-
+    print(str(counter))
     counter.append(counter[0] + counter[1] + counter[2])
-    counter[0] /= counter[3] * 100
-    counter[1] /= counter[3] * 100
-    counter[2] /= counter[3] * 100
+    # counter[0] /= counter[3] * 100
+    # counter[1] /= counter[3] * 100
+    # counter[2] /= counter[3] * 100
 
     return subject, counter
