@@ -23,7 +23,7 @@ def add_user(user_name, subject_name):
     :param subject_name:
     """
     subject_name = subject_name.upper()  # Subject names in the database should be uppercase
-    if not subject_has_subject(subject_name):
+    if get_subject(subject_name) is None:
         add_subject_to_subject_table(subject_name)
     try:
         if not has_user(user_name):
@@ -44,7 +44,7 @@ def add_subject(user_name, subject_name):
     :param subject_name:
     """
     subject_name = subject_name.upper()  # Subject names in the database should be uppercase
-    if not subject_has_subject(subject_name):
+    if get_subject(subject_name) is None:
         add_subject_to_subject_table(subject_name)
     try:
         if models.UserFacebook.query.get(user_name) is None:
@@ -95,15 +95,15 @@ def add_subject_to_subject_table(subject_name):
         print(e)
 
 
-def subject_has_subject(subject_name):
+def get_subject(subject_name):
     """
 
     :param subject_name:
-    :return: Boolean
+    :return:
     """
     try:
-        if models.Subject.query.get(subject_name.upper()) is not None:
-            return True
+        if models.Subject.query.get(subject_name) is not None:
+            return models.Subject.query.get(subject_name).subject_id
     except Exception as e:
         print(e)
-    return False
+    return None
