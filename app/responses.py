@@ -406,6 +406,17 @@ def get_feedback_day(token, recipient, year, days, week):
         print(supp.text)
 
 
+def present_single_lecture_feedback():
+    pass
+
+
+
+
+"""
+HELPING METHODS
+"""
+
+
 def add_weeks_to_json(weeks, weeks_string, json_message, year):
     """
     Adds buttons for several weeks to the json message
@@ -456,3 +467,5 @@ def add_days_to_json(day, json_message, year, week):
         "title": lecture_day,
         "payload": "get_lecture_feedback_day " + str(year) + ' ' + str(week) + ' ' + str(day)
     })
+
+
