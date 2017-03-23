@@ -114,7 +114,7 @@ def all_feedback(token, recipient, subject, percent):
         extra_string = "Your students are happy and you are doing a good job, keep it up!"
     data = json.dumps({
         "recipient": {"id": recipient},
-        "message": {"text": "Feedback for " + subject + "\n" +
+        "message": {"text": "Feedback for " + str(subject) + "\n" +
                             "Total number of participants: " + str(percent[3]) + "\n"
                             + str(percent[0]) + "% of participants thinks lecture is too slow.\n"
                             + str(percent[1]) + "% of participants thinks lecture moves ok.\n"
