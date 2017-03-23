@@ -76,3 +76,4 @@ def user_has_feedback_for_lecture(user_name, lecture):
     except Exception as e:
         print(e)
     return False
+
