@@ -477,9 +477,9 @@ def present_single_lecture_feedback(token, recipient, feedback_list):
 
     data = json.dumps({
         "recipient": {"id": recipient},
-        "message": {"text": str(total) + ' responses in database\n'
-                            + str(slow) + '% of students thought the lecture was too slow\n'
-                            + str(fast) + '% of students thought the lecture was too fast'}
+        "message": {"text": str(total) + ' responses in database.\n'
+                    + str(slow) + '% of students thought the lecture was too slow.\n'
+                    + str(fast) + '% of students thought the lecture was too fast.'}
     })
 
     txt = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
