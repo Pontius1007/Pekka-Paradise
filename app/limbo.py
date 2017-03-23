@@ -74,19 +74,6 @@ def handle_messages():
                 sub = "no subject"
             response_handler.user_info(PAT, sender, user_name, sub)
 
-        # Checks if course selected has feedback and returns it to the user
-        elif "feedback" in incoming_message.lower():
-            try:
-                subject = incoming_message.split()[1]
-                if not lecture_methods.check_lecture_in_db(subject):  # TODO check feedback table instead
-                    response_handler.text_message(PAT, sender, "Course has no feedback")
-                else:
-                    feedback = feedback_methods.get_all_subject_feed(subject)
-                    subject, percent_list = bot_feedback.generate_percent(feedback)
-                    response_handler.all_feedback(PAT, sender, subject, percent_list)
-            except IndexError:
-                response_handler.text_message(PAT, sender, "For feedback use keyword \'Feedback\' followed "
-                                                           "by course code in caps \n ex. Feedback TDT4100")
         # Checks if the subject has lectures in the database, adds them if not.
 
         elif payload == "lecture feedback":
@@ -136,7 +123,13 @@ def handle_messages():
 
         elif payload == "all_lectures":
             # TODO: call method with subject as arg.
-            pass
+            subject = user_methods.get_subject_from_user(user_name)
+            if not lecture_methods.check_lecture_in_db(subject):  # TODO check feedback table instead
+                response_handler.text_message(PAT, sender, "Course has no feedback")
+            else:
+                feedback = feedback_methods.get_all_subject_feed(subject)
+                subject, percent_list = bot_feedback.generate_percent(feedback)
+                response_handler.all_feedback(PAT, sender, subject, percent_list)
 
         elif payload == "a_specific_lecture":
             # Let the user choose what year to get feedback from.
