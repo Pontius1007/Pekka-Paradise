@@ -94,6 +94,12 @@ def all_feedback(token, recipient, subject, percent):
     :param percent: index 0-2 contains percents of slow, ok and fast index 3 contains total number
     :return:
     """
+    url_slow = ["http://www.bbcactive.com/BBCActiveIdeasandResources/Tenwaystomakelecturesmoredynamic.aspx",
+                "http://www.bbcactive.com/BBCActiveIdeasandResources/Tenwaystomakelecturesmoredynamic.aspx",
+                "https://www.missouristate.edu/chhs/4256.htm"]
+    url_fast = ["https://tomprof.stanford.edu/posting/491",
+                "www.montana.edu%2Ffacultyexcellence%2FPapers%2Flecture.pdf&h=ATOoZvoecXZQokiY2ApCWeP4lMK1h-aZIF3rC6XU_dOtRdx4vBn9fBEcSJMA3i40D5P-QOrdve6qFCxX6rD1MhNwD7VkXnYpyhMRJD8RFnR6zc35vSjRjOBXh0G5ag5CK3zQd1WkxbY98LjG1nQo18bAc0I",
+                "http://www.bbcactive.com/BBCActiveIdeasandResources/Tenwaystomakelecturesmoredynamic.aspx"]
     print(str(percent))
     if percent[0] >= 25:
         extra_string = "A lot of students thinks the lecture is moving too slow, maybe you should check out this [URL]"
@@ -104,7 +110,7 @@ def all_feedback(token, recipient, subject, percent):
     txt = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
                         data=json.dumps({
                             "recipient": {"id": recipient},
-                            "message": {"text": "Feedback for " + str(subject) + "\n" +
+                            "message": {"text": "Feedback for " + subject + "\n" +
                                         "Total number of participants : " + str(percent[3]) + "\n" +
                                         "" + str(percent[0]) + "% of participants thinks lecture is too slow \n" +
                                         "" + str(percent[1]) + "% of participants thinks lecture moves ok \n" +
