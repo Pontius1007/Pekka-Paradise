@@ -3,7 +3,7 @@
 import subject_info
 
 
-def message_splitter(in_message):
+def __message_splitter(in_message):
     if len(in_message) <= 640:
         return [in_message]
     else:
@@ -23,7 +23,7 @@ def message_split(message):
     while too_long:
         too_long = False
         msg = message_list.pop(index)
-        message_list.extend(message_splitter(msg))
+        message_list.extend(__message_splitter(msg))
         for msg in message_list:
             if len(msg) > 640:
                 too_long = True
