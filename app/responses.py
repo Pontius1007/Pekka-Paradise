@@ -107,14 +107,17 @@ def all_feedback(token, recipient, subject, percent):
         extra_string = "A lot of students thinks the lecture is moving too fast, maybe you should check out this [URL]"
     else:
         extra_string = "Your students are happy and you are doing a good job, keep it up!"
+    # test
+    print('percent:', percent[0], percent[1], percent[2])
+    # end test
     txt = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
                         data=json.dumps({
                             "recipient": {"id": recipient},
                             "message": {"text": "Feedback for " + subject + "\n" +
-                                        "Total number of participants : " + str(percent[3]) + "\n" +
-                                        "" + str(percent[0]) + "% of participants thinks lecture is too slow \n" +
-                                        "" + str(percent[1]) + "% of participants thinks lecture moves ok \n" +
-                                        "" + str(percent[2]) + "% of participants thinks lecture is too fast \n" +
+                                        "Total number of participants : " + str(percent[3]) + "\n"
+                                        + str(percent[0]) + "% of participants thinks lecture is too slow \n"
+                                        + str(percent[1]) + "% of participants thinks lecture moves ok \n"
+                                        + str(percent[2]) + "% of participants thinks lecture is too fast \n" +
                                         extra_string
                                         }
                         }), headers={'Content-type': 'application/json'})
