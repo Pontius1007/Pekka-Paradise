@@ -116,9 +116,9 @@ def all_feedback(token, recipient, subject, percent):
         "recipient": {"id": recipient},
         "message": {"text": "Feedback for " + str(subject) + "\n" +
                             "Total number of participants: " + str(percent[3]) + "\n"
-                            + str(percent[0]) + "% of participants thinks lecture is too slow.\n"
-                            + str(percent[1]) + "% of participants thinks lecture moves ok.\n"
-                            + str(percent[2]) + "% of participants thinks lecture is too fast.\n" +
+                            + str(percent[0]) + "% of participants thinks the lectures are too slow.\n"
+                            + str(percent[1]) + "% of participants thinks the lectures are OK.\n"
+                            + str(percent[2]) + "% of participants thinks the lectures are too fast.\n" +
                             extra_string
                     }
     })
@@ -485,12 +485,14 @@ def present_single_lecture_feedback(token, recipient, feedback_list):
     fast = feedback_list[1].count(2)
     total = slow + normal + fast
     slow = round(slow / total * 100)
+    normal = round(normal / total * 100)
     fast = round(fast / total * 100)
 
     data = json.dumps({
         "recipient": {"id": recipient},
-        "message": {"text": str(total) + ' responses in database.\n'
+        "message": {"text": str(total) + ' responses.\n'
                     + str(slow) + '% of students thought the lecture was too slow.\n'
+                    + str(normal) + '% of students thought the lecture was OK.\n'
                     + str(fast) + '% of students thought the lecture was too fast.'}
     })
 
