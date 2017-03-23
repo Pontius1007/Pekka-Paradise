@@ -3,6 +3,7 @@ import json
 import requests
 from flask import request
 
+import bot_feedback
 import feedback_methods
 import ime_data_fetch
 import lecture_methods
@@ -28,7 +29,7 @@ def handle_verification():
         return 'Error, wrong validation token'
 
 
-# The wonderful logic that decides which response is sent should be placed in this function
+# The wonderful logic that decides which response is sent is placed in this function
 @app.route('/', methods=['POST'])
 def handle_messages():
     print("Handling Messages")
@@ -52,6 +53,7 @@ def handle_messages():
                                                        "writing the course code on the form [TAG][CODE]\n"
                                                        "ex. TDT4120")
         elif incoming_message == "help":
+            # TODO Add feedback ?
             response_handler.text_message(PAT, sender, "Are you lost ...? ")
             response_handler.text_message(PAT, sender, "You can change course at any time simply by "
                                                        "writing the course code on the form: [TAG][CODE]\n"
@@ -60,7 +62,7 @@ def handle_messages():
                                                        "and other information type 'Status'.")
             response_handler.text_message(PAT, sender, "You can also type 'Hei' or 'Hallo' at any time "
                                                        "to receive a greeting that shows your options.")
-        elif incoming_message == "status":
+        elif incoming_message.lower() == "status":
             if user_methods.has_user(user_name):
                 sub = user_methods.get_subject_from_user(user_name) + " : " + \
                       subject_info.course_name(user_methods.get_subject_from_user(user_name))
@@ -68,6 +70,19 @@ def handle_messages():
                 sub = "no subject"
             response_handler.user_info(PAT, sender, user_name, sub)
 
+        # Checks if course selected has feedback and returns it to the user
+        elif "feedback" in incoming_message.lower():
+            try:
+                subject = incoming_message.split()[1]
+                if not lecture_methods.check_lecture_in_db(subject):  # TODO check feedback table instead
+                    response_handler.text_message(PAT, sender, "Course has no feedback")
+                else:
+                    feedback = feedback_methods.get_all_subject_feed(subject)
+                    subject, percent_list = bot_feedback.generate_percent(feedback)
+                    response_handler.all_feedback(PAT, sender, subject, percent_list)
+            except IndexError:
+                response_handler.text_message(PAT, sender, "For feedback use keyword \'Feedback\' followed "
+                                                           "by course code in caps \n ex. Feedback TDT4100")
         # Checks if the subject has lectures in the database, adds them if not.
 
         elif payload == "lecture feedback":
@@ -92,7 +107,6 @@ def handle_messages():
         elif payload == "Too fast" or payload == "It's all right" or payload == "Too slow":
             # Adds feedback if the subject has a lecture on the given day
             # and if the user has not already given feedback
-            print('I was here')
             if feedback_methods.add_entry(user_name, user_methods.get_subject_from_user(user_name), payload):
                 response_handler.text_message(PAT, sender, "You chose: " + "'" + payload + "'" + "\nFeedback Received!")
                 response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))

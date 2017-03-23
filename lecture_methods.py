@@ -38,7 +38,7 @@ def check_lecture_in_db(subject):
     False if no lectures are found
     """
     list_test = []
-
+    # TODO Do this a better way
     for lecture in models.Lecture.query.filter_by(subject=subject):
         list_test.append(lecture)
 
@@ -46,3 +46,16 @@ def check_lecture_in_db(subject):
         return False
     else:
         return True
+
+
+def get_lectures_from_subject(subject):
+    """
+    Checks if the subject is in db and returns list of id for all lectures
+    :param subject:
+    :return: A list of lecture ids for a subject
+    """
+    lecture_ids = []
+    for lecture in models.Lecture.query.filter_by(subject=subject):
+        print(lecture)
+        lecture_ids.append(lecture.id)
+    return lecture_ids
