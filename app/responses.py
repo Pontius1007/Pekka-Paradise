@@ -15,8 +15,7 @@ def greeting_message(token, recipient, user_name):
     :param user_name:
     :return:
     """
-    message = "Hello " + user_name.split()[0] + "!\nWhat can I do for you today?" + \
-              "\nIf you are new to the bot and would like some help, please press 'Help' in chat"
+    message = "Hello " + user_name.split()[0] + "!\nWhat can I do for you today?"
     txt = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
                         data=json.dumps({
                             "recipient": {"id": recipient},
@@ -76,7 +75,7 @@ def user_info(token, recipient, user_name, sub):
     :param user_name:
     :return:
     """
-    message = "Hello " + user_name + "!\nYou currently have " + sub + " selected"
+    message = "Hello " + user_name + " !\n You currently have " + sub + " selected"
     txt = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
                         data=json.dumps({
                             "recipient": {"id": recipient},
@@ -160,7 +159,7 @@ def no_course(token, recipient):
                                      {
                                          "content_type": "text",
                                          "title": "Select Course",
-                                         "payload": "change subject"
+                                         "payload": "Change subject"
                                      }
                                  ]
                              }
@@ -204,11 +203,6 @@ def has_course(token, recipient, subject):
                                          "content_type": "text",
                                          "title": "Lecture Feedback",
                                          "payload": "lecture feedback"
-                                     },
-                                     {
-                                         "content_type": "text",
-                                         "title": "Get feedback",
-                                         "payload": "get feedback"
                                      }
                                  ]
                              }
@@ -253,7 +247,7 @@ def lec_feed(token, recipient):
     if supp.status_code != requests.codes.ok:
         print(supp.text)
 
-
+        
 """
 THIS SECTION FOR FEEDBACK FROM LECTURES
 """
@@ -557,5 +551,4 @@ def add_days_to_json(day, json_message, year, week):
         "title": lecture_day,
         "payload": "get_lecture_feedback_day " + str(year) + ' ' + str(week) + ' ' + str(day)
     })
-
 
