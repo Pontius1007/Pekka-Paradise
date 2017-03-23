@@ -8,7 +8,6 @@ def generate_percent(feedback):
     """
     subject = len(feedback[0])
     print(str(feedback))
-    tot = 0
     counter = [0.0, 0.0, 0.0]  # First index shows percentage of slow, second ok, third too fast, fourth total number
     for i in range(0, len(feedback)):
         if i == 0:
@@ -20,10 +19,10 @@ def generate_percent(feedback):
                 counter[1] += 1
             elif feedback[i] == 2:
                 counter[2] += 1
-
+    print(str(counter))
     counter.append(counter[0] + counter[1] + counter[2])
-    counter[0] /= counter[3] * 100
-    counter[1] /= counter[3] * 100
-    counter[2] /= counter[3] * 100
+    # counter[0] /= counter[3] * 100
+    # counter[1] /= counter[3] * 100
+    # counter[2] /= counter[3] * 100
 
     return subject, counter
