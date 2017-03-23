@@ -3,6 +3,7 @@ import json
 import requests
 from flask import request
 
+import bot_feedback
 import feedback_methods
 import ime_data_fetch
 import lecture_methods
@@ -77,11 +78,11 @@ def handle_messages():
                     response_handler.text_message(PAT, sender, "Course has no feedback")
                 else:
                     feedback = feedback_methods.get_all_subject_feed(subject)
-                    # TODO Make this look good with pictures or something
-                    response_handler.text_message(PAT, sender, "Feedback : " + str(feedback))
+                    # TODO Make this look good with pictures or something, write as percent
+                    response_handler.all_feedback(PAT, sender, bot_feedback.generate_percent(feedback))
             except IndexError:
-                response_handler.text_message(PAT, sender, "For feedback use keyword \'Feedback\' followed"
-                                                           "by course code \n ex. Feedback TDT4100")
+                response_handler.text_message(PAT, sender, "For feedback use keyword \'Feedback\' followed "
+                                                           "by course code in caps \n ex. Feedback TDT4100")
         # Checks if the subject has lectures in the database, adds them if not.
 
         elif payload == "lecture feedback":

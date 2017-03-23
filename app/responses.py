@@ -84,6 +84,28 @@ def user_info(token, recipient, user_name, sub):
         print(txt.text)
 
 
+def all_feedback(token, recipient, subject, percent):
+    """
+
+    :param token:
+    :param recipient:
+    :param subject:
+    :param percent: index 0-2 contains percents of slow, ok and fast index 3 contains total number
+    :return:
+    """
+    txt = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
+                        data=json.dumps({
+                            "recipient": {"id": recipient},
+                            "message": {"text": "Feedback for " + subject + "\n" +
+                                        "Total number of participants : " + str(percent[3]) + "\n" +
+                                        str(percent[0]) + "% of participants thinks lecture is too slow" +
+                                        str(percent[1]) + "% of participants thinks lecture moves ok" +
+                                        str(percent[2]) + "% of participants thinks lecture is too fast"
+                                        }
+                        }), headers={'Content-type': 'application/json'})
+    if txt.status_code != requests.codes.ok:
+        print(txt.text)
+
 # This is a greeting message for first time users and will be a part of later user stories
 # We will probably use it as is, so we let it stay as a comment for now
 # def greeting_message(token, recipient):
