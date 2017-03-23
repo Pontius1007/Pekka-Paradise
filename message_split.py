@@ -1,7 +1,5 @@
 # -*- coding utf-8 -*-
 
-import subject_info
-
 
 def __message_splitter(in_message):
     if len(in_message) <= 640:
@@ -33,6 +31,7 @@ def message_split(message):
 
 
 """
+import subject_info
 schedule = subject_info.printable_schedule(subject_info.get_schedule("tma4115"))
 if len(schedule) > 640:
     print(len(schedule))
@@ -43,3 +42,6 @@ else:
     print(len(schedule))
     print(schedule)
 """
+
+
+
