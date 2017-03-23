@@ -122,7 +122,6 @@ def handle_messages():
             response_handler.get_feedback_specific_or_all(PAT, sender)
 
         elif payload == "all_lectures":
-            # TODO: call method with subject as arg.
             subject = user_methods.get_subject_from_user(user_name)
             if not lecture_methods.check_lecture_in_db(subject):  # TODO check feedback table instead
                 response_handler.text_message(PAT, sender, "Course has no feedback")
