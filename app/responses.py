@@ -97,7 +97,7 @@ def all_feedback(token, recipient, subject, percent):
     txt = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
                         data=json.dumps({
                             "recipient": {"id": recipient},
-                            "message": {"text": "Feedback for " + str(subject) + "\n" +
+                            "message": {"text": "Feedback for " + subject + "\n" +
                                         "Total number of participants : " + str(percent[3]) + "\n" +
                                         "" + str(percent[0]) + "% of participants thinks lecture is too slow \n" +
                                         "" + str(percent[1]) + "% of participants thinks lecture moves ok \n" +
