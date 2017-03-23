@@ -78,7 +78,8 @@ def handle_messages():
                     response_handler.text_message(PAT, sender, "Course has no feedback")
                 else:
                     feedback = feedback_methods.get_all_subject_feed(subject)
-                    response_handler.all_feedback(PAT, sender, bot_feedback.generate_percent(feedback))
+                    subject, percent_list = bot_feedback.generate_percent(feedback)
+                    response_handler.all_feedback(PAT, sender, subject, percent_list)
             except IndexError:
                 response_handler.text_message(PAT, sender, "For feedback use keyword \'Feedback\' followed "
                                                            "by course code in caps \n ex. Feedback TDT4100")
