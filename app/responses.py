@@ -452,7 +452,20 @@ def get_feedback_day(token, recipient, year, days, week):
         print(supp.text)
 
 
-def present_single_lecture_feedback():
+def present_single_lecture_feedback(token, recipient):
+    """
+    feedback for one lecture
+    :param token, String:
+    :param recipient, int
+    :return:
+    """
+    # txt = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
+    #                     data=json.dumps({
+    #                         "recipient": {"id": recipient},
+    #                         "message": {"text": message}
+    #                     }), headers={'Content-type': 'application/json'})
+    # if txt.status_code != requests.codes.ok:
+    #     print(txt.text)
     pass
 
 

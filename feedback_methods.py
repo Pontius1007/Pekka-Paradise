@@ -61,7 +61,7 @@ def get_single_lecture_feed(year, week, day):
     feedback_list = []
     return_list = [lecture_id, feedback_list]
     for feedback in models.LectureFeedback.query.filter_by(lecture_id=lecture_id):
-        feedback_list.append(feedback.feedback)
+        feedback_list.append(int(feedback.feedback))
     return return_list
 
 
