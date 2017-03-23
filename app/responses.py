@@ -1,6 +1,7 @@
 import json
 import requests
 import ime_data_fetch
+import random
 
 
 # This file consists of responses sent to the user as JSON objects
@@ -98,13 +99,17 @@ def all_feedback(token, recipient, subject, percent):
                 "http://www.bbcactive.com/BBCActiveIdeasandResources/Tenwaystomakelecturesmoredynamic.aspx",
                 "https://www.missouristate.edu/chhs/4256.htm"]
     url_fast = ["https://tomprof.stanford.edu/posting/491",
-                "www.montana.edu%2Ffacultyexcellence%2FPapers%2Flecture.pdf&h=ATOoZvoecXZQokiY2ApCWeP4lMK1h-aZIF3rC6XU_dOtRdx4vBn9fBEcSJMA3i40D5P-QOrdve6qFCxX6rD1MhNwD7VkXnYpyhMRJD8RFnR6zc35vSjRjOBXh0G5ag5CK3zQd1WkxbY98LjG1nQo18bAc0I",
+                "www.montana.edu%2Ffacultyexcellence%2FPapers%2Flecture.pdf&h=ATOoZvoecXZQokiY2ApCWeP4lMK1h-aZIF3"
+                "rC6XU_dOtRdx4vBn9fBEcSJMA3i40D5P-QOrdve6qFCxX6rD1MhNwD7VkXnYpyhMRJD8RFnR6zc35vSjRjOBXh0G5ag5C"
+                "K3zQd1WkxbY98LjG1nQo18bAc0I",
                 "http://www.bbcactive.com/BBCActiveIdeasandResources/Tenwaystomakelecturesmoredynamic.aspx"]
     print(str(percent))
     if percent[0] >= 25:
-        extra_string = "A lot of students thinks the lecture is moving too slow, maybe you should check out this [URL]"
+        extra_string = "A lot of students thinks the lecture is moving too slow, maybe you should check out this " + \
+                       url_slow[random.randrange(0, len(url_slow))]
     elif percent[2] >= 25:
-        extra_string = "A lot of students thinks the lecture is moving too fast, maybe you should check out this [URL]"
+        extra_string = "A lot of students thinks the lecture is moving too fast, maybe you should check out this " + \
+                       url_fast[random.randrange(0, len(url_fast))]
     else:
         extra_string = "Your students are happy and you are doing a good job, keep it up!"
     # test
