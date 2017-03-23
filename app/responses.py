@@ -112,20 +112,21 @@ def all_feedback(token, recipient, subject, percent):
                        url_fast[random.randrange(0, len(url_fast))]
     else:
         extra_string = "Your students are happy and you are doing a good job, keep it up!"
+    data = json.dumps({
+        "recipient": {"id": recipient},
+        "message": {"text": "Feedback for " + subject + "\n" +
+                            "Total number of participants: " + str(percent[3]) + "\n"
+                            + str(percent[0]) + "% of participants thinks lecture is too slow.\n"
+                            + str(percent[1]) + "% of participants thinks lecture moves ok.\n"
+                            + str(percent[2]) + "% of participants thinks lecture is too fast.\n" +
+                            extra_string
+                    }
+    })
     # test
-    print('percent:', percent[0], percent[1], percent[2])
+    print('data:', data)
     # end test
     txt = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
-                        data=json.dumps({
-                            "recipient": {"id": recipient},
-                            "message": {"text": "Feedback for " + subject + "\n" +
-                                        "Total number of participants : " + str(percent[3]) + "\n"
-                                        + str(percent[0]) + "% of participants thinks lecture is too slow \n"
-                                        + str(percent[1]) + "% of participants thinks lecture moves ok \n"
-                                        + str(percent[2]) + "% of participants thinks lecture is too fast \n" +
-                                        extra_string
-                                        }
-                        }), headers={'Content-type': 'application/json'})
+                        data=data, headers={'Content-type': 'application/json'})
     if txt.status_code != requests.codes.ok:
         print(txt.text)
 
