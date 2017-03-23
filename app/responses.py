@@ -452,23 +452,30 @@ def get_feedback_day(token, recipient, year, days, week):
         print(supp.text)
 
 
-def present_single_lecture_feedback(token, recipient):
+def present_single_lecture_feedback(token, recipient, feedback_list):
     """
     feedback for one lecture
-    :param token, String:
-    :param recipient, int
-    :return:
+    :param token String
+    :param recipient int
+    :param feedback_list list[lecture_id, [feedbacks]]
     """
-    # txt = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
-    #                     data=json.dumps({
-    #                         "recipient": {"id": recipient},
-    #                         "message": {"text": message}
-    #                     }), headers={'Content-type': 'application/json'})
-    # if txt.status_code != requests.codes.ok:
-    #     print(txt.text)
-    pass
 
+    slow = feedback_list[1].count(0)
+    normal = feedback_list[1].count(1)
+    fast = feedback_list[1].count(2)
+    total = slow + normal + fast
+    slow = slow / total * 100
+    fast = fast / total * 100
 
+    txt = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
+                        data=json.dumps({
+                            "recipient": {"id": recipient},
+                            "message": {"text": total + ' responses in database\n'
+                                                + slow + '% of students thought the lecture was too slow\n'
+                                                + fast + '% of students thought the lecture was too fast'}
+                        }), headers={'Content-type': 'application/json'})
+    if txt.status_code != requests.codes.ok:
+        print(txt.text)
 
 
 """
