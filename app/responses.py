@@ -413,7 +413,7 @@ def present_single_lecture_feedback():
 
 
 """
-HELPING METHODS
+HELPING METHODS FOR CREATING JSON OBJECT
 """
 
 
