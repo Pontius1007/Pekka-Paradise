@@ -56,7 +56,6 @@ def get_lectures_from_subject(subject):
     """
     lecture_ids = []
     for lecture in models.Lecture.query.filter_by(subject=subject):
-        print(lecture)
         lecture_ids.append(lecture.id)
     return lecture_ids
 
