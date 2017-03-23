@@ -22,10 +22,9 @@ def generate_percent(feedback):
             elif feedback[i] == 2:
                 counter[2] += 1
                 tot += 1
-
+    counter.append(tot)
     counter[0] /= counter[3] * 100
     counter[1] /= counter[3] * 100
     counter[2] /= counter[3] * 100
-    counter.append(tot)
 
     return subject, counter
