@@ -122,9 +122,6 @@ def all_feedback(token, recipient, subject, percent):
                             extra_string
                     }
     })
-    # test
-    print('data:', data)
-    # end test
     txt = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
                         data=data, headers={'Content-type': 'application/json'})
     if txt.status_code != requests.codes.ok:
