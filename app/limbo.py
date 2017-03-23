@@ -186,7 +186,7 @@ def handle_messages():
             elif "get_lecture_feedback_day" in payload.split()[0]:
                 # Lets the user select a lecture
                 # TODO: take in year, month, week and day. present the user with information from the lecture feedback.
-                pass
+                subject = user_methods.get_subject_from_user(user_name)
 
         elif ime_data_fetch.subject_exists_boolean(incoming_message.upper().split()[0]):
             if user_methods.has_user(user_name):

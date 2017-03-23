@@ -49,6 +49,21 @@ def get_all_subject_feed(subject):
     return feedback_list
 
 
+def get_single_lecture_feed(year, month , day):
+    """
+
+    :param year:
+    :param month:
+    :param day:
+    :return:
+    """
+    id = lecture_methods.get_lecture_from_date(year, month, day)
+    feedback_list = []
+    for feedback in models.LectureFeedback.query.filter_by(lecture_id=lec_id):
+        feedback_list.append(feedback.feedback)
+    return feedback_list
+
+
 def user_has_feedback_for_lecture(user_name, lecture):
     """
     Checks if user has already given feedback for a lecture.

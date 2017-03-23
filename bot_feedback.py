@@ -7,6 +7,7 @@ def generate_percent(feedback):
     :return: total number of persons, subject
     """
     subject = len(feedback[0])
+    print(str(feedback))
     tot = 0
     counter = [0.0, 0.0, 0.0]  # First index shows percentage of slow, second ok, third too fast, fourth total number
     for i in range(0, len(feedback)):
@@ -22,6 +23,7 @@ def generate_percent(feedback):
             elif feedback[i] == 2:
                 counter[2] += 1
                 tot += 1
+
     counter.append(tot)
     counter[0] /= counter[3] * 100
     counter[1] /= counter[3] * 100
