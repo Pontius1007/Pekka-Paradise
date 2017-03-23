@@ -49,15 +49,15 @@ def get_all_subject_feed(subject):
     return feedback_list
 
 
-def get_single_lecture_feed(year, month , day):
+def get_single_lecture_feed(year, week, day):
     """
 
     :param year:
-    :param month:
+    :param week:
     :param day:
     :return:
     """
-    id = lecture_methods.get_lecture_from_date(year, month, day)
+    id = lecture_methods.get_lecture_from_date(year, week, day)
     feedback_list = []
     for feedback in models.LectureFeedback.query.filter_by(lecture_id=lec_id):
         feedback_list.append(feedback.feedback)

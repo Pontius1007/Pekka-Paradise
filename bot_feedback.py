@@ -16,15 +16,12 @@ def generate_percent(feedback):
         else:
             if feedback[i] == 0:
                 counter[0] += 1
-                tot += 1
             elif feedback[i] == 1:
                 counter[1] += 1
-                tot += 1
             elif feedback[i] == 2:
                 counter[2] += 1
-                tot += 1
 
-    counter.append(tot)
+    counter.append(counter[0] + counter[1] + counter[2])
     counter[0] /= counter[3] * 100
     counter[1] /= counter[3] * 100
     counter[2] /= counter[3] * 100
