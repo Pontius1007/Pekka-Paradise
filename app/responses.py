@@ -478,14 +478,14 @@ def present_single_lecture_feedback(token, recipient, feedback_list):
     normal = feedback_list[1].count(1)
     fast = feedback_list[1].count(2)
     total = slow + normal + fast
-    slow = slow / total * 100
-    fast = fast / total * 100
+    slow = round(slow / total * 100)
+    fast = round(fast / total * 100)
 
     data = json.dumps({
         "recipient": {"id": recipient},
-        "message": {"text": str(total) + ' responses in database\n'
-                            + str(slow) + '% of students thought the lecture was too slow\n'
-                            + str(fast) + '% of students thought the lecture was too fast'}
+        "message": {"text": str(total) + ' responses in database.\n'
+                    + str(slow) + '% of students thought the lecture was too slow.\n'
+                    + str(fast) + '% of students thought the lecture was too fast.'}
     })
 
     txt = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
