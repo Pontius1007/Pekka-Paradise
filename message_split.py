@@ -2,6 +2,13 @@
 
 
 def __message_splitter(in_message):
+    """
+    a method only used in message_split to split strings
+    formatted by the methods in subject_info such as get_schedule
+    :param in_message: a formatted string containing several newlines
+    :return: a list with the input string split
+    on the first newline after the middle of the string
+    """
     if len(in_message) <= 640:
         return [in_message]
     else:
@@ -15,6 +22,11 @@ def __message_splitter(in_message):
 
 
 def message_split(message):
+    """
+    a method that splits messages that are too long for facebook messenger into parts that are short enough to send
+    :param message: the formatted message string for facebook, such as those returned from get_schedule
+    :return: a list of shorter pieces of the input string that can be sent to messenger
+    """
     message_list = [message]
     index = 0
     too_long = True
