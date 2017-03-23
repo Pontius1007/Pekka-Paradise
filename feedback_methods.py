@@ -45,7 +45,7 @@ def get_all_subject_feed(subject):
     if len(ids) > 0:
         for lec_id in ids:
             for feedback in models.LectureFeedback.query.filter_by(lecture_id=lec_id):
-                feedback_list.append(feedback.feedback)
+                feedback_list.append(int(feedback.feedback))
     return feedback_list
 
 
