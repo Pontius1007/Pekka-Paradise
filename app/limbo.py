@@ -95,7 +95,7 @@ def handle_messages():
                                                   "lectures this semester.")
                     response_handler.has_course(PAT, sender, subject)
 
-        elif payload == "Too fast" or payload == "It's all right" or payload == "Too slow":
+        elif payload == "0" or payload == "1" or payload == "2":
             # Adds feedback if the subject has a lecture on the given day
             # and if the user has not already given feedback
             if feedback_methods.add_entry(user_name, user_methods.get_subject_from_user(user_name), payload):
