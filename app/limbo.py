@@ -3,6 +3,7 @@ import json
 import requests
 from flask import request
 
+import message_split
 import bot_feedback
 import feedback_methods
 import ime_data_fetch
@@ -109,7 +110,13 @@ def handle_messages():
 
         elif payload == "get schedule":
             subject = user_methods.get_subject_from_user(user_name)
-            response_handler.text_message(PAT, sender, subject_info.printable_schedule(subject_info.get_schedule(subject)))
+            schedule = subject_info.printable_schedule(subject_info.get_schedule(subject))
+            if len(schedule) > 640:
+                msg_list = message_split.message_split(schedule)
+                for msg in msg_list:
+                    response_handler.text_message(PAT, sender, msg)
+            else:
+                response_handler.text_message(PAT, sender, schedule)
             response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
 
         elif payload == "get info":
