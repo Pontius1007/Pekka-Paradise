@@ -128,7 +128,7 @@ def handle_messages():
                 response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
             else:
                 feedback = feedback_methods.get_all_subject_feed(subject)
-                subject, percent_list = bot_feedback.generate_percent(feedback)
+                percent_list = bot_feedback.generate_percent(feedback)
                 response_handler.all_feedback(PAT, sender, subject, percent_list)
                 response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
 
