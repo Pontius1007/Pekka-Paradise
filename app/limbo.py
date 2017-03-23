@@ -127,6 +127,7 @@ def handle_messages():
             if len(schedule) > 640:
                 msg_list = message_split.message_split(schedule)
                 for msg in msg_list:
+                    print(msg)
                     response_handler.text_message(PAT, sender, msg)
             else:
                 response_handler.text_message(PAT, sender, schedule)

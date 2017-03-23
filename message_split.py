@@ -2,6 +2,7 @@
 
 import subject_info
 
+
 def message_splitter(in_message):
     if len(in_message) <= 640:
         return [in_message]
@@ -15,8 +16,6 @@ def message_splitter(in_message):
         return [in_message]
 
 
-
-
 def message_split(message):
     message_list = [message]
     index = 0
@@ -25,7 +24,6 @@ def message_split(message):
         too_long = False
         msg = message_list.pop(index)
         message_list.extend(message_splitter(msg))
-        print(message_list)
         for msg in message_list:
             if len(msg) > 640:
                 too_long = True
@@ -34,7 +32,14 @@ def message_split(message):
     return message_list
 
 
+"""
 schedule = subject_info.printable_schedule(subject_info.get_schedule("tma4115"))
-sch_list = message_split(schedule)
-for msg in sch_list:
-    print(msg)
+if len(schedule) > 640:
+    print(len(schedule))
+    sch_list = message_split(schedule)
+    for msg in sch_list:
+        print(msg)
+else:
+    print(len(schedule))
+    print(schedule)
+"""
