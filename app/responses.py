@@ -464,8 +464,8 @@ def present_single_lecture_feedback(token, recipient, feedback_list):
     normal = feedback_list[1].count(1)
     fast = feedback_list[1].count(2)
     total = slow + normal + fast
-    slow = slow / total * 100
-    fast = fast / total * 100
+    slow = round(slow / total * 100)
+    fast = round(fast / total * 100)
 
     data = json.dumps({
         "recipient": {"id": recipient},
