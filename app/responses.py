@@ -1,6 +1,7 @@
 import json
 import requests
 import ime_data_fetch
+import random
 
 
 # This file consists of responses sent to the user as JSON objects
@@ -94,16 +95,35 @@ def all_feedback(token, recipient, subject, percent):
     :param percent: index 0-2 contains percents of slow, ok and fast index 3 contains total number
     :return:
     """
+    url_slow = ["http://www.bbcactive.com/BBCActiveIdeasandResources/Tenwaystomakelecturesmoredynamic.aspx",
+                "http://www.bbcactive.com/BBCActiveIdeasandResources/Tenwaystomakelecturesmoredynamic.aspx",
+                "https://www.missouristate.edu/chhs/4256.htm"]
+    url_fast = ["https://tomprof.stanford.edu/posting/491",
+                "www.montana.edu%2Ffacultyexcellence%2FPapers%2Flecture.pdf&h=ATOoZvoecXZQokiY2ApCWeP4lMK1h-aZIF3"
+                "rC6XU_dOtRdx4vBn9fBEcSJMA3i40D5P-QOrdve6qFCxX6rD1MhNwD7VkXnYpyhMRJD8RFnR6zc35vSjRjOBXh0G5ag5C"
+                "K3zQd1WkxbY98LjG1nQo18bAc0I",
+                "http://www.bbcactive.com/BBCActiveIdeasandResources/Tenwaystomakelecturesmoredynamic.aspx"]
+    print(str(percent))
+    if percent[0] >= 25:
+        extra_string = "A lot of students thinks the lecture is moving too slow, maybe you should check out this " + \
+                       url_slow[random.randrange(0, len(url_slow))]
+    elif percent[2] >= 25:
+        extra_string = "A lot of students thinks the lecture is moving too fast, maybe you should check out this " + \
+                       url_fast[random.randrange(0, len(url_fast))]
+    else:
+        extra_string = "Your students are happy and you are doing a good job, keep it up!"
+    data = json.dumps({
+        "recipient": {"id": recipient},
+        "message": {"text": "Feedback for " + str(subject) + "\n" +
+                            "Total number of participants: " + str(percent[3]) + "\n"
+                            + str(percent[0]) + "% of participants thinks the lectures are too slow.\n"
+                            + str(percent[1]) + "% of participants thinks the lectures are OK.\n"
+                            + str(percent[2]) + "% of participants thinks the lectures are too fast.\n" +
+                            extra_string
+                    }
+    })
     txt = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
-                        data=json.dumps({
-                            "recipient": {"id": recipient},
-                            "message": {"text": "Feedback for " + subject + "\n" +
-                                        "Total number of participants : " + str(percent[3]) + "\n" +
-                                        str(percent[0]) + "% of participants thinks lecture is too slow" +
-                                        str(percent[1]) + "% of participants thinks lecture moves ok" +
-                                        str(percent[2]) + "% of participants thinks lecture is too fast"
-                                        }
-                        }), headers={'Content-type': 'application/json'})
+                        data=data, headers={'Content-type': 'application/json'})
     if txt.status_code != requests.codes.ok:
         print(txt.text)
 
@@ -214,17 +234,17 @@ def lec_feed(token, recipient):
                                      {
                                          "content_type": "text",
                                          "title": "Too slow",
-                                         "payload": "Too slow"
+                                         "payload": "0"
                                      },
                                      {
                                          "content_type": "text",
                                          "title": "It's all right",
-                                         "payload": "It's all right"
+                                         "payload": "1"
                                      },
                                      {
                                          "content_type": "text",
                                          "title": "Too fast",
-                                         "payload": "Too fast"
+                                         "payload": "2"
                                      }
                                  ]
                              }
@@ -452,10 +472,34 @@ def get_feedback_day(token, recipient, year, days, week):
         print(supp.text)
 
 
-def present_single_lecture_feedback():
-    pass
+def present_single_lecture_feedback(token, recipient, feedback_list):
+    """
+    feedback for one lecture
+    :param token String
+    :param recipient int
+    :param feedback_list list[lecture_id, [feedbacks]]
+    """
 
+    slow = feedback_list[1].count(0)
+    normal = feedback_list[1].count(1)
+    fast = feedback_list[1].count(2)
+    total = slow + normal + fast
+    slow = round(slow / total * 100)
+    normal = round(normal / total * 100)
+    fast = round(fast / total * 100)
 
+    data = json.dumps({
+        "recipient": {"id": recipient},
+        "message": {"text": str(total) + ' responses.\n'
+                    + str(slow) + '% of students thought the lecture was too slow.\n'
+                    + str(normal) + '% of students thought the lecture was OK.\n'
+                    + str(fast) + '% of students thought the lecture was too fast.'}
+    })
+
+    txt = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
+                        data=data, headers={'Content-type': 'application/json'})
+    if txt.status_code != requests.codes.ok:
+        print(txt.text)
 
 
 """
