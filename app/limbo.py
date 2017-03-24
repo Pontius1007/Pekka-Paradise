@@ -150,7 +150,8 @@ def handle_messages():
             response_handler.present_single_lecture_feedback(PAT, sender, feedback_list)
             response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
             #TODO - Get week, day and extract the data from the database. Print error message if no lecture today
-
+            #TODO - Add check to see if a lecture has feedback before getting the information
+            #TODO - error handling
 
 
         elif payload == "get schedule" or incoming_message.lower() == "get schedule":
