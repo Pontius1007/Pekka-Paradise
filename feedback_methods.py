@@ -77,3 +77,16 @@ def user_has_feedback_for_lecture(user_name, lecture):
         print(e)
     return False
 
+
+def get_day():
+    return datetime.datetime.today().weekday() + 1
+
+
+def get_week():
+    date = datetime.date.today()
+    return datetime.date.isocalendar(date)[1]
+
+
+def get_year():
+    date = datetime.date.today()
+    return date.year

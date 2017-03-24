@@ -140,6 +140,19 @@ def handle_messages():
                                                            " to the active lecture.\nFeedback denied!")
                 response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
 
+        elif "today" in incoming_message.lower() and "lecture" in incoming_message.lower():
+            print("I entered the correct method")
+            year = feedback_methods.get_year()
+            week = feedback_methods.get_week()
+            day = feedback_methods.get_day()
+
+            feedback_list = feedback_methods.get_single_lecture_feed(year, week, day)
+            response_handler.present_single_lecture_feedback(PAT, sender, feedback_list)
+            response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
+            #TODO - Get week, day and extract the data from the database. Print error message if no lecture today
+
+
+
         elif payload == "get schedule" or incoming_message.lower() == "get schedule":
             subject = user_methods.get_subject_from_user(user_name)
             response_handler.text_message(PAT, sender, subject_info.printable_schedule(subject_info.get_schedule(subject)))
