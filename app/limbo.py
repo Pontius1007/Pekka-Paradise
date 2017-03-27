@@ -190,9 +190,9 @@ def handle_messages():
                     # TODO: store feedback.
                     subject = user_methods.get_subject_from_user(user_name)
                     if feedback_methods.add_feedback_evaluation(user_name, subject, int(payload_split[1]),
-                                                                int(payload_split[1]), int(payload_split[1]),
-                                                                int(payload_split[1]), int(payload_split[1]),
-                                                                int(payload_split[1]), int(payload_split[1])):
+                                                                int(payload_split[2]), int(payload_split[3]),
+                                                                int(payload_split[4]), int(payload_split[5]),
+                                                                int(payload_split[6]), int(payload_split[7])):
                         response_handler.text_message(PAT, sender, 'Feedback received!')
                         response_handler.has_course(PAT, sender, subject)
                     else:
