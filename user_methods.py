@@ -7,11 +7,8 @@ def has_user(user_name):
     :param user_name:
     :return:
     """
-    try:
-        if models.UserFacebook.query.get(user_name) is not None:
-            return True
-    except Exception as e:
-        print(e)
+    if models.UserFacebook.query.get(user_name) is not None:
+        return True
     return False
 
 
