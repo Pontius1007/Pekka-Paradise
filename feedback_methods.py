@@ -80,14 +80,34 @@ def user_has_feedback_for_lecture(user_name, lecture):
 
 
 def get_day():
+    """
+    :return day:
+    """
     return datetime.datetime.today().weekday() + 1
 
 
 def get_week():
+    """
+    :return week:
+    """
     date = datetime.date.today()
     return datetime.date.isocalendar(date)[1]
 
 
 def get_year():
+    """
+    :return year:
+    """
     date = datetime.date.today()
     return date.year
+
+
+def get_lecture_object(lecture_id):
+    """
+    :param lecture_id:
+    :return true or false:
+    """
+    try:
+        return models.Lecture.query.get(lecture_id)
+    except Exception as e:
+        print(e)
