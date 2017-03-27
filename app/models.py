@@ -63,3 +63,52 @@ class LectureFeedback(db.Model):
 
     def __repr__(self):
         return '<Feedback %r>' % self.user_id
+
+
+class LectureFeedbackEvaluation(db.Model):
+    __tablename__ = 'lecturefeedbakevaluation'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.String(100), db.ForeignKey('userfacebook.user_id'))
+    lecture_id = db.Column(db.Integer, db.ForeignKey('lecture.id'))
+    # All the bellow are a score from 1 to 5.
+    increased_knowledge = db.Column(db.Integer)
+    well_organized = db.Column(db.Integer)
+    logical = db.Column(db.Integer)
+    use_of_slides = db.Column(db.Integer)
+    use_of_time = db.Column(db.Integer)
+    presenter_knowledgeable = db.Column(db.Integer)
+    general_score = db.Column(db.Integer)
+
+    def __init__(self, increased_knowledge, well_organized, logical, use_of_slides, use_of_time,
+                 presenter_knowledgeable, general_score):
+        if self.is_inside_bounds(increased_knowledge):
+            self.increased_knowledge = increased_knowledge
+        else:
+            raise ValueError
+        if self.is_inside_bounds(well_organized):
+            self.well_organized = well_organized
+        else:
+            raise ValueError
+        if self.is_inside_bounds(logical):
+            self.logical = logical
+        else:
+            raise ValueError
+        if self.is_inside_bounds(use_of_slides):
+            self.use_of_slides = use_of_slides
+        else:
+            raise ValueError
+        if self.is_inside_bounds(use_of_time):
+            self.use_of_time = use_of_time
+        else:
+            raise ValueError
+        if self.is_inside_bounds(presenter_knowledgeable):
+            self.presenter_knowledgeable = presenter_knowledgeable
+        else:
+            raise ValueError
+        if self.is_inside_bounds(general_score):
+            self.general_score = general_score
+        else:
+            raise ValueError
+
+    def is_inside_bounds(self, score):
+        return 1 <= score <= 5
