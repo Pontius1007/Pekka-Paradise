@@ -1,5 +1,6 @@
 import unittest
-import user_methods
+
+from alt import user_methods
 
 
 class DbTests(unittest.TestCase):

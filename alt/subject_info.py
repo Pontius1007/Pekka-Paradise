@@ -1,8 +1,10 @@
 # -*- coding utf-8 -*-
 
-import requests
-import ime_data_fetch
 from datetime import date
+
+import requests
+
+from alt import ime_data_fetch
 
 # a list of weekdays to use in printing course schedules
 week = ["mandag", "tirsdag", "onsdag", "torsdag", "fredag"]

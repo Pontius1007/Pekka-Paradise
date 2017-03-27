@@ -3,18 +3,12 @@ import json
 import requests
 from flask import request
 
-import bot_feedback
-import feedback_methods
-import ime_data_fetch
-import lecture_methods
-import subject_info
-import user_methods
-import lecture_feedback_db_methods
-import message_split
+from alt import bot_feedback, feedback_methods, ime_data_fetch, lecture_feedback_db_methods, lecture_methods, \
+    message_split, subject_info, user_methods
+from alt.config import PAT
+from alt.config import VERIFY_TOKEN
 from app import app
 from app import responses
-from config import PAT
-from config import VERIFY_TOKEN
 
 response_handler = responses
 
@@ -195,7 +189,7 @@ def handle_messages():
             elif "get_lecture_feedback_day" in payload.split()[0]:
                 # Lets the user select a lecture
                 feedback_list = feedback_methods.get_single_lecture_feed(payload.split()[1], payload.split()[2],
-                                                                payload.split()[3])
+                                                                         payload.split()[3])
                 response_handler.present_single_lecture_feedback(PAT, sender, feedback_list)
                 response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
 

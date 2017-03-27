@@ -1,6 +1,7 @@
-from app import db, models
 import datetime
-import lecture_methods
+
+from alt import lecture_methods
+from app import db, models
 
 
 def add_entry(user_name, subject_name, feedback):

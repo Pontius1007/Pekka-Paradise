@@ -1,8 +1,5 @@
-import lecture_methods
-import lecture_feedback_db_methods
 import json
-from app import responses
-import random
+
 import requests
 
 
