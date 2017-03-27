@@ -155,7 +155,7 @@ def handle_messages():
                 if feedback_list:
                     print("Entered the if")
                     feedback_list = feedback_methods.get_single_lecture_feed(year, week, day, subject)
-                    if feedback_list[0] is None:
+                    if feedback_list[0] is not None:
                         print(feedback_list)
                         print("Entered feedback_list")
                         response_handler.present_single_lecture_feedback(PAT, sender, feedback_list)
