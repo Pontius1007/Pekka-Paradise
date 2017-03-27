@@ -4,7 +4,6 @@ import unittest
 import requests
 import ime_data_fetch
 import subject_info
-import user_methods
 
 
 class Testerino(unittest.TestCase):
