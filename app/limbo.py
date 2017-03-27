@@ -155,10 +155,15 @@ def handle_messages():
                 if feedback_list:
                     print("Entered the if")
                     feedback_list = feedback_methods.get_single_lecture_feed(year, week, day, subject)
-                    response_handler.present_single_lecture_feedback(PAT, sender, feedback_list)
-                    response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
-                    print("Feedback-list")
-                    print(feedback_list)
+                    if feedback_list:
+                        print("Entered feedback_list")
+                        response_handler.present_single_lecture_feedback(PAT, sender, feedback_list)
+                        response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
+                        print("Feedback-list")
+                        print(feedback_list)
+                    else:
+                        response_handler.text_message(PAT, sender, "No feedback for the given lecture on this date")
+                        response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
                 else:
                     response_handler.text_message(PAT, sender, "Shit didnt work yo")
                     response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
