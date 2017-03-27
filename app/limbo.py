@@ -10,6 +10,7 @@ import lecture_methods
 import subject_info
 import user_methods
 import lecture_feedback_db_methods
+import message_split
 from app import app
 from app import responses
 from config import PAT
@@ -109,7 +110,13 @@ def handle_messages():
 
         elif payload == "get schedule":
             subject = user_methods.get_subject_from_user(user_name)
-            response_handler.text_message(PAT, sender, subject_info.printable_schedule(subject_info.get_schedule(subject)))
+            schedule = subject_info.printable_schedule(subject_info.get_schedule(subject))
+            if len(schedule) > 640:
+                msg_list = message_split.message_split(schedule)
+                for msg in msg_list:
+                    response_handler.text_message(PAT, sender, msg)
+            else:
+                response_handler.text_message(PAT, sender, schedule)
             response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
 
         elif payload == "get info":
