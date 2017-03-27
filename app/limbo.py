@@ -75,6 +75,8 @@ def handle_messages():
                                                        "All lectures\n"
                                                        "A specific lecture\n"
                                                        "You can type most of the commands in chat. Just give it a try!")
+            response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
+            
         elif incoming_message.lower() == "status":
             subject = user_methods.get_subject_from_user(user_name)
             year = feedback_methods.get_year()
