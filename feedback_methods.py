@@ -117,7 +117,7 @@ def user_has_feedback_for_lecture_evaluation(user_name, lecture):
     :param lecture:
     """
     try:
-        return models.LectureFeedback.query.filter_by(user_id=user_name, lecture_id=lecture.id).count() > 0
+        return models.LectureFeedbackEvaluation.query.filter_by(user_id=user_name, lecture_id=lecture.id).count() > 0
     except Exception as e:
         print(e)
     return False

@@ -124,7 +124,7 @@ def handle_messages():
             # Adds feedback if the subject has a lecture on the given day
             # and if the user has not already given feedback
             if feedback_methods.add_entry(user_name, user_methods.get_subject_from_user(user_name), payload):
-                response_handler.text_message(PAT, sender, "You chose: " + "'" + payload + "'" + "\nFeedback Received!")
+                response_handler.text_message(PAT, sender, "You chose: " + "'" + payload + "'" + "\nFeedback received!")
                 response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
             else:
                 response_handler.text_message(PAT, sender, "There is either no lecture active in the selected"
@@ -189,10 +189,11 @@ def handle_messages():
                 elif len(payload_split) == 8:
                     # TODO: store feedback.
                     subject = user_methods.get_subject_from_user(user_name)
-                    if feedback_methods.add_feedback_evaluation(user_name, subject, payload_split[1], payload_split[1],
-                                                                payload_split[1], payload_split[1], payload_split[1],
-                                                                payload_split[1], payload_split[1]):
-                        response_handler.text_message(PAT, sender, 'Feedback recieved!')
+                    if feedback_methods.add_feedback_evaluation(user_name, subject, int(payload_split[1]),
+                                                                int(payload_split[1]), int(payload_split[1]),
+                                                                int(payload_split[1]), int(payload_split[1]),
+                                                                int(payload_split[1]), int(payload_split[1])):
+                        response_handler.text_message(PAT, sender, 'Feedback received!')
                         response_handler.has_course(PAT, sender, subject)
                     else:
                         response_handler.text_message(PAT, sender, "There is either no lecture active in the selected "
