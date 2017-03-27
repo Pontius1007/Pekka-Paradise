@@ -71,12 +71,13 @@ def handle_messages():
             day = feedback_methods.get_day()
             user = get_full_name(sender, PAT)
             lecture_id_current = lecture_methods.get_lecture_from_date(year, week, day, subject)
+            lecture = feedback_methods.get_lecture_object(lecture_id_current)
 
             if user_methods.has_user(user_name):
                 sub = user_methods.get_subject_from_user(user_name) + " : " + \
                       subject_info.course_name(user_methods.get_subject_from_user(user_name))
                 response_handler.user_info(PAT, sender, user_name, sub)
-                if feedback_methods.user_has_feedback_for_lecture(user, lecture_id_current):
+                if feedback_methods.user_has_feedback_for_lecture(user, lecture):
                     response_handler.text_message(PAT, sender, "You have given feedback for " + subject + " today")
                     response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
                 else:
@@ -85,8 +86,9 @@ def handle_messages():
                                                                "chat to do so.")
                     response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
             else:
-                sub = "no subject"
-            response_handler.user_info(PAT, sender, user_name, sub)
+                response_handler.text_message(PAT, sender, "We seem to not be able to detect you in the database. "
+                                                           "Please report this to the staff")
+                response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
 
             # TODO user_has_feedback for lecture in feedback methods
             # TODO get lecture id
