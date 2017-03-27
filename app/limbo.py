@@ -151,10 +151,10 @@ def handle_messages():
             # Gathers the feedback from today's lecture:
 
             if lecture_methods.check_lecture_in_db(subject):
-                feedback_list = feedback_methods.get_single_lecture_feed(year, week, day)
+                feedback_list = feedback_methods.get_single_lecture_feed(year, week, day, subject)
                 if feedback_list:
                     print("Entered the if")
-                    feedback_list = feedback_methods.get_single_lecture_feed(year, week, day)
+                    feedback_list = feedback_methods.get_single_lecture_feed(year, week, day, subject)
                     response_handler.present_single_lecture_feedback(PAT, sender, feedback_list)
                     response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
                     print("Feedback-list")
