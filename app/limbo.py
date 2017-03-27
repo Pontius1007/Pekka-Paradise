@@ -98,7 +98,7 @@ def handle_messages():
                                                   "lectures this semester.")
                     response_handler.has_course(PAT, sender, subject)
 
-        elif payload == "questions about the lecture":
+        elif payload == "evaluation_questions":
             subject = user_methods.get_subject_from_user(user_name)
 
             if lecture_methods.check_lecture_in_db(subject):
