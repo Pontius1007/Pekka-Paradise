@@ -42,7 +42,8 @@ def handle_messages():
         print(payload)
         # End test
         user_name = get_full_name(sender, PAT)
-        if "hei" in incoming_message.lower() or "hallo" in incoming_message.lower() or "yo" in incoming_message.lower():
+        if "hei" in incoming_message.lower() or "hallo" in incoming_message.lower() or "yo" in incoming_message.lower()\
+                or "hi" in incoming_message.lower():
             response_handler.greeting_message(PAT, sender, user_name)
             if user_methods.has_user(user_name):
                 response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
@@ -64,6 +65,16 @@ def handle_messages():
                                                        "and other information type 'Status'.")
             response_handler.text_message(PAT, sender, "You can also type 'Hei' or 'Hallo' at any time "
                                                        "to receive a greeting that shows your options.")
+            response_handler.text_message(PAT, sender, "Here is a list of commands you can use. This is "
+                                                       "recommended for the experienced user:\n"
+                                                       "Change subject\n"
+                                                       "Lecture feedback\n"
+                                                       "How did today's lecture go?\n"
+                                                       "Get schedule\n"
+                                                       "Get info\n"
+                                                       "All lectures\n"
+                                                       "A specific lecture\n"
+                                                       "You can type most of the commands in chat. Just give it a try!")
         elif incoming_message.lower() == "status":
             subject = user_methods.get_subject_from_user(user_name)
             year = feedback_methods.get_year()
@@ -78,7 +89,9 @@ def handle_messages():
                       subject_info.course_name(user_methods.get_subject_from_user(user_name))
                 response_handler.user_info(PAT, sender, user_name, sub)
                 if feedback_methods.user_has_feedback_for_lecture(user, lecture):
-                    response_handler.text_message(PAT, sender, "You have given feedback for " + subject + " today")
+                    response_handler.text_message(PAT, sender, "You have given feedback for "
+                                                  + subject + " today. Well done! Be proud of yourself and "
+                                                              "remember to check in tomorrow.")
                     response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
                 else:
                     response_handler.text_message(PAT, sender, "No feedback for the given lecture on this date. "
@@ -90,11 +103,7 @@ def handle_messages():
                                                            "Please report this to the staff")
                 response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
 
-            # TODO user_has_feedback for lecture in feedback methods
-            # TODO get lecture id
-
         # Checks if the subject has lectures in the database, adds them if not.
-
         elif payload == "lecture feedback" or incoming_message.lower() == "lecture feedback":
             subject = user_methods.get_subject_from_user(user_name)
 
