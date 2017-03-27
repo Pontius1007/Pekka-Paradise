@@ -10,8 +10,8 @@ install:
   - "pip install -r requirements.txt"
   - "pip install coveralls"
 script:
-  - coverage run unit_tests/testing.py
-  - coverage run unit_tests/db_tests.py
+  - coverage run testing.py
+  - coverage run db_tests.py
 after_success:
   - coveralls
 notifications:
