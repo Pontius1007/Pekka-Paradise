@@ -12,7 +12,7 @@ class DbTests(unittest.TestCase):
         self.assertEqual(user_methods.get_subject_from_user("Test User1337"), "TDT4120")
         user_methods.add_subject("Test User1337", "TMA4100")
         self.assertEqual(user_methods.get_subject_from_user("Test User1337"), "TMA4100")
-
+        user_methods.add_user("Test User1337", "")
 
         user_methods.delete_user("Test User1337")
 
