@@ -49,15 +49,16 @@ def get_all_subject_feed(subject):
     return feedback_list
 
 
-def get_single_lecture_feed(year, week, day):
+def get_single_lecture_feed(year, week, day, subject):
     """
     Gets all the feedbacks from a single lecture.
     :param year: int
     :param week: int
     :param day: int
+    :param subject string
     :return: list[lecture_id, list[int]]
     """
-    lecture_id = lecture_methods.get_lecture_from_date(year, week, day)
+    lecture_id = lecture_methods.get_lecture_from_date(year, week, day, subject)
     feedback_list = []
     return_list = [lecture_id, feedback_list]
     for feedback in models.LectureFeedback.query.filter_by(lecture_id=lecture_id):
