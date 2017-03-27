@@ -90,7 +90,37 @@ def add_feedback_evaluation(user_name, subject_name, increased_knowledge, well_o
     :return: 
     """
     today = get_today()
-    # TODO: handle ValueError
+    lectures = models.Lecture.query.filter_by(subject=subject_name, year=today[0],
+                                              week_number=today[1], day_number=today[2])
+    if lectures.count() > 0:
+        if user_has_feedback_for_lecture_evaluation(user_name, lectures[0]):
+            # Reject feedback
+            return False
+        else:
+            try:
+                feedback = models.LectureFeedbackEvaluation(user_name, lectures[0].id, increased_knowledge,
+                                                            well_organized, logical, use_of_slides, use_of_time,
+                                                            presenter_knowledgeable, general_score)
+                db.session.add(feedback)
+                db.session.commit()
+                return True
+            except ValueError as e:
+                print(e)
+    # Rejact feedback
+    return False
+
+
+def user_has_feedback_for_lecture_evaluation(user_name, lecture):
+    """
+    Checks if user has already given feedbackevaluation for a lecture.
+    :param user_name:
+    :param lecture:
+    """
+    try:
+        return models.LectureFeedback.query.filter_by(user_id=user_name, lecture_id=lecture.id).count() > 0
+    except Exception as e:
+        print(e)
+    return False
 
 
 def get_today():

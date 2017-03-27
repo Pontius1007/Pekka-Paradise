@@ -188,6 +188,17 @@ def handle_messages():
                     response_handler.lecture_feedback_questions(PAT, sender, payload)
                 elif len(payload_split) == 8:
                     # TODO: store feedback.
+                    subject = user_methods.get_subject_from_user(user_name)
+                    if feedback_methods.add_feedback_evaluation(user_name, subject, payload_split[1], payload_split[1],
+                                                                payload_split[1], payload_split[1], payload_split[1],
+                                                                payload_split[1], payload_split[1]):
+                        response_handler.text_message(PAT, sender, 'Feedback recieved!')
+                        response_handler.has_course(PAT, sender, subject)
+                    else:
+                        response_handler.text_message(PAT, sender, "There is either no lecture active in the selected "
+                                                                   "subject, or you have already given feedback to the "
+                                                                   "active lecture.\nFeedback denied!")
+                        response_handler.has_course(PAT, sender, subject)
                     pass
 
             elif "get_lecture_feedback_year" in payload.split()[0]:
