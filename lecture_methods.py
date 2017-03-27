@@ -56,6 +56,19 @@ def get_lectures_from_subject(subject):
     """
     lecture_ids = []
     for lecture in models.Lecture.query.filter_by(subject=subject):
-        print(lecture)
         lecture_ids.append(lecture.id)
     return lecture_ids
+
+
+def get_lecture_from_date(year, week, day):
+    """
+    Gets lecture id from year, week and day
+    :param year: int
+    :param week: int
+    :param day: int
+    :return: lecture id, int
+    """
+    lectures = models.Lecture.query.filter_by(year=year, week_number=week, day_number=day)
+    if lectures.count():
+        lecture_id = lectures[0].id
+        return lecture_id
