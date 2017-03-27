@@ -142,21 +142,32 @@ def handle_messages():
 
         elif "today" in incoming_message.lower() and "lecture" in incoming_message.lower():
             print("I entered the correct method")
+            # Gathers the correct information about the date.
             year = feedback_methods.get_year()
             week = feedback_methods.get_week()
             day = feedback_methods.get_day()
 
-            feedback_list = feedback_methods.get_single_lecture_feed(year, week, day)
-            response_handler.present_single_lecture_feedback(PAT, sender, feedback_list)
-            response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
-            #TODO - Get week, day and extract the data from the database. Print error message if no lecture today
-            #TODO - Add check to see if a lecture has feedback before getting the information
-            #TODO - error handling
+            # Gathers the feedback from today's lecture:
+            if feedback_methods.get_single_lecture_feed(year, week, day) is not None:
+                feedback_list = feedback_methods.get_single_lecture_feed(year, week, day)
+                response_handler.present_single_lecture_feedback(PAT, sender, feedback_list)
+                response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
+                print("Feedback-list")
+                print(feedback_list)
+            else:
+                response_handler.text_message(PAT, sender, "Shit didnt work yo")
+                response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
+                print("Feedback-list")
+                print(feedback_list)
 
+            # TODO - Get week, day and extract the data from the database. Print error message if no lecture today
+            # TODO - Add check to see if a lecture has feedback before getting the information
+            # TODO - error handling
 
         elif payload == "get schedule" or incoming_message.lower() == "get schedule":
             subject = user_methods.get_subject_from_user(user_name)
-            response_handler.text_message(PAT, sender, subject_info.printable_schedule(subject_info.get_schedule(subject)))
+            response_handler.text_message(PAT, sender,
+                                          subject_info.printable_schedule(subject_info.get_schedule(subject)))
             response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
 
         elif payload == "get info" or incoming_message.lower() == "get info":
@@ -234,7 +245,7 @@ def handle_messages():
             elif "get_lecture_feedback_day" in payload.split()[0]:
                 # Lets the user select a lecture
                 feedback_list = feedback_methods.get_single_lecture_feed(payload.split()[1], payload.split()[2],
-                                                                payload.split()[3])
+                                                                         payload.split()[3])
                 response_handler.present_single_lecture_feedback(PAT, sender, feedback_list)
                 response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
 
