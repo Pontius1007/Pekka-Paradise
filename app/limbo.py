@@ -152,7 +152,7 @@ def handle_messages():
 
             if lecture_methods.check_lecture_in_db(subject):
                 feedback_list = feedback_methods.get_single_lecture_feed(year, week, day)
-                if not feedback_list:
+                if feedback_list:
                     print("Entered the if")
                     feedback_list = feedback_methods.get_single_lecture_feed(year, week, day)
                     response_handler.present_single_lecture_feedback(PAT, sender, feedback_list)
