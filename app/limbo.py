@@ -152,7 +152,7 @@ def handle_messages():
 
             if lecture_methods.check_lecture_in_db(subject):
                 feedback_list = feedback_methods.get_single_lecture_feed(year, week, day)
-                if not feedback_methods:
+                if not feedback_list:
                     feedback_list = feedback_methods.get_single_lecture_feed(year, week, day)
                     response_handler.present_single_lecture_feedback(PAT, sender, feedback_list)
                     response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
