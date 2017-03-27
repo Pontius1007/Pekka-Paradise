@@ -146,19 +146,27 @@ def handle_messages():
             year = feedback_methods.get_year()
             week = feedback_methods.get_week()
             day = feedback_methods.get_day()
+            subject = user_methods.get_subject_from_user(user_name)
 
             # Gathers the feedback from today's lecture:
-            if feedback_methods.get_single_lecture_feed(year, week, day) is not None:
+
+            if lecture_methods.check_lecture_in_db(subject):
                 feedback_list = feedback_methods.get_single_lecture_feed(year, week, day)
-                response_handler.present_single_lecture_feedback(PAT, sender, feedback_list)
-                response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
-                print("Feedback-list")
-                print(feedback_list)
+                if not feedback_methods:
+                    feedback_list = feedback_methods.get_single_lecture_feed(year, week, day)
+                    response_handler.present_single_lecture_feedback(PAT, sender, feedback_list)
+                    response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
+                    print("Feedback-list")
+                    print(feedback_list)
+                else:
+                    response_handler.text_message(PAT, sender, "Shit didnt work yo")
+                    response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
+                    print("Feedback-list")
+                    print(feedback_list)
             else:
-                response_handler.text_message(PAT, sender, "Shit didnt work yo")
+                response_handler.text_message(PAT, sender, "No  lecture present in the database. "
+                                                           "Please provide some feedback and try again")
                 response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
-                print("Feedback-list")
-                print(feedback_list)
 
             # TODO - Get week, day and extract the data from the database. Print error message if no lecture today
             # TODO - Add check to see if a lecture has feedback before getting the information
