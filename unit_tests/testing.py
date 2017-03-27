@@ -130,15 +130,5 @@ class Testerino(unittest.TestCase):
         self.assertEqual(subject_info.course_name("shallabais"), "Subject does not exist")
         self.assertEqual(subject_info.course_name(1234), "Subject does not exist")
 
-    def test_user_methods(self):
-        user = "Test User1337"
-        subject = "TDT4120"
-        user_methods.add_user(user, subject)
-        self.assertTrue(user_methods.has_user("Test User1337"))
-        self.assertEqual(user_methods.get_subject_from_user("Test User1337"), "TDT4120")
-        user_methods.add_subject("Test User1337", "TMA4100")
-        self.assertEqual(user_methods.get_subject_from_user("Test User1337"), "TMA4100")
-        user_methods.delete_user("Test User1337")
-
 if __name__ == '__main__':
     unittest.main()
