@@ -3,7 +3,6 @@ import json
 import requests
 from flask import request
 
-import message_split
 import bot_feedback
 import feedback_methods
 import ime_data_fetch
