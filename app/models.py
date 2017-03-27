@@ -66,7 +66,7 @@ class LectureFeedback(db.Model):
 
 
 class LectureFeedbackEvaluation(db.Model):
-    __tablename__ = 'lecturefeedbakevaluation'
+    __tablename__ = 'lecturefeedbackevaluation'
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.String(100), db.ForeignKey('userfacebook.user_id'))
     lecture_id = db.Column(db.Integer, db.ForeignKey('lecture.id'))
@@ -79,36 +79,38 @@ class LectureFeedbackEvaluation(db.Model):
     presenter_knowledgeable = db.Column(db.Integer)
     general_score = db.Column(db.Integer)
 
-    def __init__(self, increased_knowledge, well_organized, logical, use_of_slides, use_of_time,
+    def __init__(self, user_id, lecture_id, increased_knowledge, well_organized, logical, use_of_slides, use_of_time,
                  presenter_knowledgeable, general_score):
+        self.user_id = user_id
+        self.lecture_id = lecture_id
         if self.is_inside_bounds(increased_knowledge):
             self.increased_knowledge = increased_knowledge
         else:
-            raise ValueError
+            raise ValueError('Value out of bounds')
         if self.is_inside_bounds(well_organized):
             self.well_organized = well_organized
         else:
-            raise ValueError
+            raise ValueError('Value out of bounds')
         if self.is_inside_bounds(logical):
             self.logical = logical
         else:
-            raise ValueError
+            raise ValueError('Value out of bounds')
         if self.is_inside_bounds(use_of_slides):
             self.use_of_slides = use_of_slides
         else:
-            raise ValueError
+            raise ValueError('Value out of bounds')
         if self.is_inside_bounds(use_of_time):
             self.use_of_time = use_of_time
         else:
-            raise ValueError
+            raise ValueError('Value out of bounds')
         if self.is_inside_bounds(presenter_knowledgeable):
             self.presenter_knowledgeable = presenter_knowledgeable
         else:
-            raise ValueError
+            raise ValueError('Value out of bounds')
         if self.is_inside_bounds(general_score):
             self.general_score = general_score
         else:
-            raise ValueError
+            raise ValueError('Value out of bounds')
 
     def is_inside_bounds(self, score):
         return 1 <= score <= 5
