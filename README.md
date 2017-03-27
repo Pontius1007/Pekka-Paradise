@@ -49,6 +49,6 @@ VERIFY_TOKEN you set yourself when making the facebook page.
 
 When you get to the Page Access Token and VERIFY_TOKEN in the facebook tutorial set them on you Heroku app.
 
-## Coveralls embed
+## Code coverage from Coveralls
 
 [![Coverage Status](https://coveralls.io/repos/github/Pontius1007/Pekka-Paradise/badge.svg?branch=master)](https://coveralls.io/github/Pontius1007/Pekka-Paradise?branch=master)
