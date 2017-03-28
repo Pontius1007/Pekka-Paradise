@@ -1,10 +1,13 @@
 # -*- coding utf-8 -*-
 
 import unittest
-
+# Remove is only here for test
+from io import StringIO
+import sys
+###
 import requests
 
-from alt import ime_data_fetch, message_split, subject_info
+from alt import ime_data_fetch, message_split, subject_info, user_methods
 
 
 class Testerino(unittest.TestCase):
@@ -166,6 +169,22 @@ class Testerino(unittest.TestCase):
         self.assertEqual(message_split.message_split(melding), msg_list)
         self.assertEqual(message_split.message_split("heidu"), ["heidu"])
 
+    # REMOVE THIS
+    def test_user_methods(self):
+        user = "Test User1337"
+        subject = "TDT4120"
+        user_methods.add_user(user, subject)
+        captured_output = StringIO()
+        sys.stdout = captured_output
+        user_methods.add_user(user, subject)
+        sys.stdout = sys.__stdout__
+        self.assertEqual('User already exists', captured_output.getvalue())
+        self.assertEqual(user_methods.get_subject_from_user("Test User1337"), "TDT4120")
+        user_methods.add_subject("Test User1337", "TMA4100")
+        self.assertEqual(user_methods.get_subject_from_user("Test User1337"), "TMA4100")
+
+        user_methods.delete_user("Test User1337")
+    # Only test
 
 if __name__ == '__main__':
     unittest.main()
