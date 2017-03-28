@@ -1,16 +1,17 @@
 # -*- coding utf-8 -*-
 import unittest
-
 from alt import user_methods
 
 
 class DbTests(unittest.TestCase):
 
-    def test_user_methods(self):
+    def test_user_methods(self, capfd):
         user = "Test User1337"
         subject = "TDT4120"
         user_methods.add_user(user, subject)
-        self.assertTrue(user_methods.has_user("Test User1337"))
+        user_methods.add_user(user, subject)
+        out, err = capfd.readouterr()
+        assert out == 'User already exists'
         self.assertEqual(user_methods.get_subject_from_user("Test User1337"), "TDT4120")
         user_methods.add_subject("Test User1337", "TMA4100")
         self.assertEqual(user_methods.get_subject_from_user("Test User1337"), "TMA4100")
