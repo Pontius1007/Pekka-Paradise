@@ -8,8 +8,9 @@
 """
 
 import os
-import types
+from importlib import util
 import errno
+
 
 from flask_sqlalchemy import string_types
 from werkzeug.utils import import_string
@@ -106,7 +107,8 @@ class Config(dict):
            `silent` parameter.
         """
         filename = os.path.join(self.root_path, filename)
-        d = types.ModuleType('config')
+        d = util.module_from_spec('config')
+        # d = types.ModuleType('config')
         d.__file__ = filename
         try:
             with open(filename, mode='rb') as config_file:
