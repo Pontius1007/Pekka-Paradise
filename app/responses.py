@@ -204,8 +204,8 @@ def has_course(token, recipient, subject):
                                      },
                                      {
                                          "content_type": "text",
-                                         "title": "Lecture Feedback",
-                                         "payload": "lecture feedback"
+                                         "title": "Give Feedback",
+                                         "payload": "give feedback"
                                      },
                                      {
                                          "content_type": "text",
@@ -247,6 +247,98 @@ def lec_feed(token, recipient):
                                          "content_type": "text",
                                          "title": "Too fast",
                                          "payload": "2"
+                                     }
+                                 ]
+                             }
+                         }),
+                         headers={'Content-type': 'application/json'})
+    if supp.status_code != requests.codes.ok:
+        print(supp.text)
+
+
+def lecture_feedback_questions(token, recipient, payload):
+    """
+    Let the user give feedback from 1 to 5 on 6 different questions, given in order.
+    :param token: 
+    :param recipient: 
+    :param payload: 
+    :return: None
+    """
+    text_list = ['How much did the lecture increase your knowledge?',
+                 'How organized was the lecture?',
+                 'How logical did you think the lecture was?',
+                 'How good was the use of slides?',
+                 'How good was the use of time?',
+                 'How knowledgeable did the lecturer seem?',
+                 'How good did you think the lecture was overall?'
+                 ]
+    payload_split = payload.split()
+    text = text_list[len(payload_split) - 1]
+    payload_string = ''
+    for i in range(1, len(payload_split)):
+        payload_string = payload_string + ' ' + payload_split[i]
+    json_message = {
+        "recipient": {"id": recipient},
+        "message": {
+            "text": text,
+            "quick_replies": [
+                {
+                    "content_type": "text",
+                    "title": "1",
+                    "payload": "evaluation_questions" + payload_string + " 1"
+                },
+                {
+                    "content_type": "text",
+                    "title": "2",
+                    "payload": "evaluation_questions" + payload_string + " 2"
+                },
+                {
+                    "content_type": "text",
+                    "title": "3",
+                    "payload": "evaluation_questions" + payload_string + " 3"
+                },
+                {
+                    "content_type": "text",
+                    "title": "4",
+                    "payload": "evaluation_questions" + payload_string + " 4"
+                },
+                {
+                    "content_type": "text",
+                    "title": "5",
+                    "payload": "evaluation_questions" + payload_string + " 5"
+                }
+            ]
+        }
+    }
+    data = json.dumps(json_message)
+    supp = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
+                         data=data,
+                         headers={'Content-type': 'application/json'})
+    if supp.status_code != requests.codes.ok:
+        print(supp.text)
+
+
+def give_feedback_choice(token, recipient):
+    """
+    Gives the user the choice to select what feedback to give.
+    :param token: 
+    :param recipient:  
+    """
+    supp = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
+                         data=json.dumps({
+                             "recipient": {"id": recipient},
+                             "message": {
+                                 "text": "What kind of feedback do want to give?",
+                                 "quick_replies": [
+                                     {
+                                         "content_type": "text",
+                                         "title": "Lecture speed",
+                                         "payload": "lecture speed"
+                                     },
+                                     {
+                                         "content_type": "text",
+                                         "title": "Question about the lecture",
+                                         "payload": "evaluation_questions"
                                      }
                                  ]
                              }
