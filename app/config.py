@@ -68,6 +68,8 @@ class Config(dict):
                       the application's :attr:`~flask.Flask.root_path`.
     :param defaults: an optional dictionary of default values
     """
+    SQLALCHEMY_DATABASE_URI = "postgres://zmfgqtegrrvgfl:4654c37a586e8e982c610e93aa2453618a4970715eef4c10686da44572" \
+                              "d3d39c@ec2-184-72-216-69.compute-1.amazonaws.com:5432/d8avccro5jjpbi"
 
     def __init__(self, root_path, defaults=None):
         dict.__init__(self, defaults or {})
