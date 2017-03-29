@@ -9,6 +9,8 @@ python:
 install:
   - "pip install -r requirements.txt"
   - "pip install coveralls"
+before_script:
+  - cp config/database.yml.travis config/database.yml
 script:
   - coverage run --source app,alt testing.py
   - coverage run --source app,alt db_tests.py
