@@ -1,0 +1,8 @@
+development:
+  adapter: postgresql
+  encoding: utf8
+  database: d8avccro5jjpbi
+  username: zmfgqtegrrvgfl
+  password: 4654c37a586e8e982c610e93aa2453618a4970715eef4c10686da44572d3d39c
+  host: ec2-184-72-216-69.compute-1.amazonaws.com
+  port: 5432
