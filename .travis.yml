@@ -13,8 +13,8 @@ install:
 #  - git clone https://github.com/Pontius1007/Pekka-Paradise.git
 #  - cd Pekka-Paradise
 script:
-  - coverage run --source Pekka-Paradise testing.py
-  - coverage run --source Pekka-Paradise testing_db.py
+  - coverage run --source Pekka-Paradise -m testing.py
+  - coverage run --source Pekka-Paradise -m testing_db.py
 after_success:
   - coveralls
 notifications:
