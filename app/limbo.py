@@ -166,12 +166,20 @@ def handle_messages():
                 response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
             else:
                 feedback, feedbackevaluation = feedback_methods.get_all_subject_feed(subject)
-                # TODO: check if there is no feedback in either feedback or feedbackvaluation
                 # test
                 print('feedback', feedback, '\n', feedbackevaluation)
                 # test end
-                percent_list, percent_list_questions = bot_feedback.generate_percent(feedback, feedbackevaluation)
-                response_handler.all_feedback(PAT, sender, subject, percent_list, percent_list_questions)
+                if len(feedback) > 0:
+                    percent_list = bot_feedback.generate_percent_for_speed(feedback)
+                    response_handler.all_feedback_speed(PAT, sender, subject, percent_list)
+                else:
+                    response_handler.text_message(PAT, sender, "Course has no feedback for speed")
+                if len(feedbackevaluation)  > 0:
+                    percent_list_questions = bot_feedback.generate_percent_for_questions(feedbackevaluation)
+
+                    response_handler.all_feedback_questions(PAT, sender, subject, percent_list_questions)
+                else:
+                    response_handler.text_message(PAT, sender, "Course has no feedback for questions")
                 response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
 
         elif payload == "a_specific_lecture":

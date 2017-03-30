@@ -86,7 +86,7 @@ def user_info(token, recipient, user_name, sub):
         print(txt.text)
 
 
-def all_feedback(token, recipient, subject, percent, percent_questions):
+def all_feedback_speed(token, recipient, subject, percent):
     """
 
     :param token:
@@ -119,16 +119,38 @@ def all_feedback(token, recipient, subject, percent, percent_questions):
                             + str(percent[0]) + "% of participants thinks the lectures are too slow.\n"
                             + str(percent[1]) + "% of participants thinks the lectures are OK.\n"
                             + str(percent[2]) + "% of participants thinks the lectures are too fast.\n\n" +
-                            extra_string + "\n\n"
-                            + str(percent_questions[0]) + "increased_knowledge\n"
-                            + str(percent_questions[1]) + "well_organized\n"
-                            + str(percent_questions[2]) + "logical\n"
-                            + str(percent_questions[3]) + "use_of_slides\n"
-                            + str(percent_questions[4]) + "use_of_time\n"
-                            + str(percent_questions[5]) + "presenter_knowledgeable\n"
-                            + str(percent_questions[6]) + "general_score"
+                            extra_string
                     }
     })
+    txt = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
+                        data=data, headers={'Content-type': 'application/json'})
+    if txt.status_code != requests.codes.ok:
+        print(txt.text)
+
+
+def all_feedback_questions(token, recipient, subject, percent_questions):
+    """
+    
+    :param token: 
+    :param recipient: 
+    :param subject: 
+    :param percent_questions: 
+    :return: 
+    """
+
+    data = json.dumps({
+        "recipient": {"id": recipient},
+        "message": {"text": "Feedback for " + subject + ":\n"
+                    + str(percent_questions[0]) + "increased_knowledge\n"
+                    + str(percent_questions[1]) + "well_organized\n"
+                    + str(percent_questions[2]) + "logical\n"
+                    + str(percent_questions[3]) + "use_of_slides\n"
+                    + str(percent_questions[4]) + "use_of_time\n"
+                    + str(percent_questions[5]) + "presenter_knowledgeable\n"
+                    + str(percent_questions[6]) + "general_score"
+                    }
+    })
+
     txt = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
                         data=data, headers={'Content-type': 'application/json'})
     if txt.status_code != requests.codes.ok:
