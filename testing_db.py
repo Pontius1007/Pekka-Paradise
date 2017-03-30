@@ -77,6 +77,9 @@ class DbTests(unittest.TestCase):
         Tests the small class add_user, assumes user_methods works        
         :return: 
         """
+        self.user = "Test User1337"
+        self.subject = "TDT4120"
+        self.test_sub = "TST4" + str(random.randint(0, 2000))
         self.assertFalse(user_methods.has_user(self.user))
         add_user.add_user(self.user, self.test_sub)
         self.assertTrue(user_methods.has_user(self.user))
