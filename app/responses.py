@@ -141,13 +141,14 @@ def all_feedback_questions(token, recipient, subject, percent_questions):
     data = json.dumps({
         "recipient": {"id": recipient},
         "message": {"text": "Feedback for " + subject + ":\n"
-                    + str(percent_questions[0]) + "increased_knowledge\n"
-                    + str(percent_questions[1]) + "well_organized\n"
-                    + str(percent_questions[2]) + "logical\n"
-                    + str(percent_questions[3]) + "use_of_slides\n"
-                    + str(percent_questions[4]) + "use_of_time\n"
-                    + str(percent_questions[5]) + "presenter_knowledgeable\n"
-                    + str(percent_questions[6]) + "general_score"
+                    + "Average score for the following categories.\n"
+                    + str(percent_questions[0]) + " increased knowledge\n"
+                    + str(percent_questions[1]) + " well organized\n"
+                    + str(percent_questions[2]) + " logical\n"
+                    + str(percent_questions[3]) + " use of slides\n"
+                    + str(percent_questions[4]) + " use of time\n"
+                    + str(percent_questions[5]) + " presenter knowledgeable\n"
+                    + str(percent_questions[6]) + " general score"
                     }
     })
 
