@@ -41,9 +41,9 @@ class DbTests(unittest.TestCase):
         self.assertFalse(user_methods.subject_has_subject(test_sub))
 
         user_methods.add_subject_to_subject_table(test_sub)
-        # Test that this works
+        self.assertTrue(user_methods.subject_has_subject(test_sub))
         user_methods.remove_subject(test_sub)
-        # Test that this works
+        self.assertFalse(user_methods.subject_has_subject(test_sub))
 
 if __name__ == '__main__':
     unittest.main()
