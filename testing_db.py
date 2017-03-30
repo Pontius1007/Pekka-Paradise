@@ -6,6 +6,7 @@ import user_methods
 import random
 import add_user
 
+
 class Capturing(list):
     """
     This class is only for helping 'catch' info written to console
@@ -22,6 +23,7 @@ class Capturing(list):
 
 
 class DbTests(unittest.TestCase):
+
     def __init__(self):
         super().__init__()
         self.user = "Test User1337"
