@@ -320,7 +320,7 @@ def give_feedback_choice(token, recipient):
     """
     Gives the user the choice to select what feedback to give.
     :param token: 
-    :param recipient:  
+    :param recipient:
     """
     supp = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
                          data=json.dumps({

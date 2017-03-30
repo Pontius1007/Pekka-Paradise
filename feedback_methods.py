@@ -87,27 +87,46 @@ def add_feedback_evaluation(user_name, subject_name, increased_knowledge, well_o
     :param use_of_time: 
     :param presenter_knowledgeable: 
     :param general_score: 
-    :return: 
+    :return: Boolean
+    """
+    today = get_today()
+    lectures = models.Lecture.query.filter_by(subject=subject_name, year=today[0],
+                                              week_number=today[1], day_number=today[2])
+    try:
+        feedback = models.LectureFeedbackEvaluation(user_name, lectures[0].id, increased_knowledge,
+                                                    well_organized, logical, use_of_slides, use_of_time,
+                                                    presenter_knowledgeable, general_score)
+        db.session.add(feedback)
+        db.session.commit()
+        return True
+    except ValueError as e:
+        print(e)
+    # Reject feedback
+    return False
+
+
+def user_can_give_feedback_evaluation(user_name, subject_name):
+    """
+    Check if user can give feedback to the LectureFeedbackEvaluation table.
+    :param user_name: String
+    :param subject_name: String
+    :return: Boolean
     """
     today = get_today()
     lectures = models.Lecture.query.filter_by(subject=subject_name, year=today[0],
                                               week_number=today[1], day_number=today[2])
     if lectures.count() > 0:
-        if user_has_feedback_for_lecture_evaluation(user_name, lectures[0]):
-            # Reject feedback
-            return False
-        else:
-            try:
-                feedback = models.LectureFeedbackEvaluation(user_name, lectures[0].id, increased_knowledge,
-                                                            well_organized, logical, use_of_slides, use_of_time,
-                                                            presenter_knowledgeable, general_score)
-                db.session.add(feedback)
-                db.session.commit()
-                return True
-            except ValueError as e:
-                print(e)
-    # Rejact feedback
-    return False
+        for lecture in lectures:
+            print(lecture)
+            if user_has_feedback_for_lecture_evaluation(user_name, lecture):
+                # User has already given feedback
+                return False
+        return True
+    else:
+        print('no lecture')
+        # There are no lectures for this subject.
+        return False
+    pass
 
 
 def user_has_feedback_for_lecture_evaluation(user_name, lecture):

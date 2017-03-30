@@ -80,6 +80,7 @@ def handle_messages():
             response_handler.give_feedback_choice(PAT, sender)
 
         elif payload == "lecture speed":
+            # TODO: Check if feedback on speed of the lecture can be given.
             subject = user_methods.get_subject_from_user(user_name)
 
             if lecture_methods.check_lecture_in_db(subject):
@@ -102,9 +103,13 @@ def handle_messages():
             subject = user_methods.get_subject_from_user(user_name)
 
             if lecture_methods.check_lecture_in_db(subject):
-                # TODO: test
-                response_handler.lecture_feedback_questions(PAT, sender, payload)
-                pass
+                if feedback_methods.user_can_give_feedback_evaluation(user_name,
+                                                                      user_methods.get_subject_from_user(user_name)):
+                    response_handler.lecture_feedback_questions(PAT, sender, payload)
+                else:
+                    response_handler.text_message(PAT, sender, "Feedback can not be given either because there is no "
+                                                               "lecture today, or because you have already "
+                                                               "given feedback for this lecture.")
             else:
                 schedule = subject_info.get_schedule(subject)
                 if schedule:
@@ -112,8 +117,13 @@ def handle_messages():
                     lecture_methods.add_lecture_information_db(database_entry)
                     response_handler.text_message(PAT, sender, "Lectures for the subject " + subject +
                                                   " were not in the database. It is now added")
-                    # TODO: test
-                    response_handler.lecture_feedback_questions(PAT, sender, payload)
+                    if feedback_methods.user_can_give_feedback_evaluation(user_name,
+                                                                          user_methods.get_subject_from_user(
+                                                                              user_name)):
+                        response_handler.lecture_feedback_questions(PAT, sender, payload)
+                    else:
+                        response_handler.text_message(PAT, sender, "Feedback can not be given because you have already "
+                                                                   "given feedback for this lecture.")
                 else:
                     response_handler.text_message(PAT, sender, "Lectures for the subject " + subject +
                                                   " does not exist. Likely due to the subject having no "
@@ -163,31 +173,32 @@ def handle_messages():
             response_handler.get_feedback_year(PAT, sender, years)
 
         elif payload is not None:
-
+            # TODO: put check for if the feedback can be given before the user gives their feedback
             if "evaluation_questions" in payload.split()[0]:
                 payload_split = payload.split()
                 if len(payload_split) == 1:
-                    # TODO: 1st q
+                    # 1st question
                     response_handler.lecture_feedback_questions(PAT, sender, payload)
                 elif len(payload_split) == 2:
-                    # TODO: 2nd q
+                    # 2nd question
                     response_handler.lecture_feedback_questions(PAT, sender, payload)
                 elif len(payload_split) == 3:
-                    # TODO: 3rd q
+                    # 3rd question
                     response_handler.lecture_feedback_questions(PAT, sender, payload)
                 elif len(payload_split) == 4:
-                    # TODO: 4th q
+                    # 4th question
                     response_handler.lecture_feedback_questions(PAT, sender, payload)
                 elif len(payload_split) == 5:
-                    # TODO: 5th q
+                    # 5th question
                     response_handler.lecture_feedback_questions(PAT, sender, payload)
                 elif len(payload_split) == 6:
-                    # TODO: 6th q
+                    # 6th question
                     response_handler.lecture_feedback_questions(PAT, sender, payload)
                 elif len(payload_split) == 7:
+                    # 7th question
                     response_handler.lecture_feedback_questions(PAT, sender, payload)
                 elif len(payload_split) == 8:
-                    # TODO: store feedback.
+                    # store feedback.
                     subject = user_methods.get_subject_from_user(user_name)
                     if feedback_methods.add_feedback_evaluation(user_name, subject, int(payload_split[1]),
                                                                 int(payload_split[2]), int(payload_split[3]),
