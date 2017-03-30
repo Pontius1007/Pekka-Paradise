@@ -139,9 +139,11 @@ def handle_messages():
 
         elif incoming_message.lower() == "too slow":
             payload = '0'
-            message = "too slow"
+            message_response = "too slow"
+            print(message_response)
+            print("You chose: " + "'" + message_response + "'" + "\nFeedback Received!")
             if feedback_methods.add_entry(user_name, user_methods.get_subject_from_user(user_name), payload):
-                response_handler.text_message(PAT, sender, "You chose: " + "'" + message + "'" + "\nFeedback Received!")
+                response_handler.text_message(PAT, sender, "You chose: " + "'" + message_response + "'" + "\nFeedback Received!")
                 response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
             else:
                 response_handler.text_message(PAT, sender, "There is either no lecture active in the selected"
@@ -151,9 +153,11 @@ def handle_messages():
 
         elif incoming_message.lower() == "it's all right" or incoming_message.lower() == "its all right":
             payload = '1'
-            message = "It's all right"
+            message_response = "It's all right"
+            print(message_response)
+            print("You chose: " + "'" + message_response + "'" + "\nFeedback Received!")
             if feedback_methods.add_entry(user_name, user_methods.get_subject_from_user(user_name), payload):
-                response_handler.text_message(PAT, sender, "You chose: " + "'" + message + "'" + "\nFeedback Received!")
+                response_handler.text_message(PAT, sender, "You chose: " + "'" + message_response + "'" + "\nFeedback Received!")
                 response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
             else:
                 response_handler.text_message(PAT, sender, "There is either no lecture active in the selected"
@@ -163,9 +167,11 @@ def handle_messages():
 
         elif incoming_message.lower() == "too fast":
             payload = '2'
-            message = "too fast"
+            message_response = "too fast"
+            print(message_response)
+            print("You chose: " + "'" + message_response + "'" + "\nFeedback Received!")
             if feedback_methods.add_entry(user_name, user_methods.get_subject_from_user(user_name), payload):
-                response_handler.text_message(PAT, sender, "You chose: " + "'" + message + "'" + "\nFeedback Received!")
+                response_handler.text_message(PAT, sender, "You chose: " + "'" + message_response + "'" + "\nFeedback Received!")
                 response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
             else:
                 response_handler.text_message(PAT, sender, "There is either no lecture active in the selected"
