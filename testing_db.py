@@ -62,6 +62,11 @@ class DbTests(unittest.TestCase):
 
         # Check that user_methods throws exceptions when given wrong args
         self.assertRaises(Exception, user_methods.has_user(1337))
+        self.assertRaises(Exception, user_methods.subject_has_subject(1337))
+        self.assertRaises(Exception, user_methods.add_subject_to_subject_table(1337))
+        self.assertRaises(Exception, user_methods.get_subject_from_user(1337))
+        self.assertRaises(Exception, user_methods.add_user(1337, 1337))
+        self.assertRaises(Exception, user_methods.add_subject(1337, 1337))
         # TODO Exceptions, can be triggered by adding wrong datatype or too long data
 
 if __name__ == '__main__':
