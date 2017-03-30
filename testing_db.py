@@ -22,7 +22,7 @@ class DbTests(unittest.TestCase):
     def test_user_methods(self):
         user = "Test User1337"
         subject = "TDT4120"
-        user_methods.add_user(user, subject)
+        # user_methods.add_user(user, subject)
         with Capturing as output:
             user_methods.add_user(user, subject)
         self.assertEqual('User already exists', str(output[0]))
