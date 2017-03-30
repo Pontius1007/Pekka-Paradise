@@ -22,7 +22,7 @@ class DbTests(unittest.TestCase):
 
     def test_user_methods(self):
         """
-        Tests the various methods in user_methods.py
+        Tests the various methods in user_methods.py as described onwards
         :return: 
         """
         user = "Test User1337"
