@@ -52,6 +52,16 @@ class DbTests(unittest.TestCase):
         user_methods.remove_subject(test_sub)
         self.assertFalse(user_methods.subject_has_subject(test_sub))
 
+        # Now assume methods for adding and removing subjects and users are working
+        # Add new user with subject not in db, just to test
+        self.assertFalse(user_methods.subject_has_subject(test_sub))
+        user_methods.add_user(user, test_sub)
+        self.assertTrue(user_methods.subject_has_subject(test_sub))
+        user_methods.delete_user(user)
+        user_methods.remove_subject(test_sub)
+
+
+        # TODO Exceptions, can be triggered by adding wrong datatype or too long data
 
 if __name__ == '__main__':
     unittest.main()
