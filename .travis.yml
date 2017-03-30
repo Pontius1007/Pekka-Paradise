@@ -14,6 +14,6 @@ before_script:
   - cd Pekka-Paradise
 script:
   - coverage run --source=Pekka-Paradise testing.py
-  - coverage run --source=Pekka-Paradise tests_db.py
+  - coverage run --source=Pekka-Paradise testing_db.py
 after_success:
   - coveralls

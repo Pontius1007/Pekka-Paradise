@@ -4,7 +4,7 @@ import requests
 from flask import request
 
 import message_split
-from alt import bot_feedback, feedback_methods, ime_data_fetch, lecture_feedback_db_methods, lecture_methods, \
+import bot_feedback, feedback_methods, ime_data_fetch, lecture_feedback_db_methods, lecture_methods, \
     subject_info, user_methods
 from app import app
 from app import responses

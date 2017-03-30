@@ -5,7 +5,7 @@ import unittest
 import requests
 
 import message_split
-from alt import ime_data_fetch, subject_info
+import ime_data_fetch, subject_info
 
 
 class Testerino(unittest.TestCase):
