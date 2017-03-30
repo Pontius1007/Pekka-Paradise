@@ -10,8 +10,8 @@ install:
   - "pip install -r requirements.txt"
   - "pip install coveralls"
 script:
-  - coverage run --source app,alt testing.py
-  - coverage run --source app,alt db_tests.py
+  - coverage run --source Pekka-Paradise testing.py
+  - coverage run --source Pekka-Paradise tests_db.py
 after_success:
   - coveralls
 notifications:
