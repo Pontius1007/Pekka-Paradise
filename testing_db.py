@@ -24,17 +24,14 @@ class Capturing(list):
 
 class DbTests(unittest.TestCase):
 
-    def __init__(self):
-        super().__init__()
-        self.user = "Test User1337"
-        self.subject = "TDT4120"
-        self.test_sub = "TST4" + str(random.randint(0, 2000))
-
     def test_user_methods(self):
         """
         Tests the various methods in user_methods.py as described onwards
         :return: 
         """
+        self.user = "Test User1337"
+        self.subject = "TDT4120"
+        self.test_sub = "TST4" + str(random.randint(0, 2000))
         # Checks that added user is added to database with correct subject
         user_methods.add_user(self.user, self.subject)
         with Capturing() as output:
