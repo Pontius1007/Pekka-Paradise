@@ -18,8 +18,8 @@ def generate_percent_for_speed(feedback):
 def generate_percent_for_questions(feedbackevaluation):
     """
     Calculates percentages for feedback numbers
-    :param feedbackevaluation: 
-    :return: , percentage for questions
+    :param feedbackevaluation: feedback[category[]]
+    :return: percentage for questions
     """
     increased_knowledge = 0
     well_organized = 0

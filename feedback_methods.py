@@ -59,14 +59,34 @@ def get_single_lecture_feed(year, week, day, subject):
     :param week: int
     :param day: int
     :param subject string
-    :return: list[lecture_id, list[int]]
+    :return: feedback_list[lecture_id, list[int]], feedback_question_list[]
     """
     lecture_id = lecture_methods.get_lecture_from_date(year, week, day, subject)
     feedback_list = []
     return_list = [lecture_id, feedback_list]
     for feedback in models.LectureFeedback.query.filter_by(lecture_id=lecture_id):
         feedback_list.append(int(feedback.feedback))
+
     return return_list
+
+
+def get_single_lecture_feedback_questions(year, week, day, subject):
+    """
+    Gets all the feedbacks from a single lecture from the LectureFeedbackEvaluation table.
+    :param year: int
+    :param week: int
+    :param day: int
+    :param subject: String
+    :return: 
+    """
+    lecture_id = lecture_methods.get_lecture_from_date(year, week, day, subject)
+    feedback_question_list = []
+    for feedback in models.LectureFeedbackEvaluation.query.filter_by(lecture_id):
+        feedback_question_list.append([feedback.increased_knowledge, feedback.well_organized, feedback.logical,
+                                       feedback.use_of_slides, feedback.use_of_time, feedback.presenter_knowledgeable,
+                                       feedback.general_score])
+    return feedback_question_list
+
 
 
 def user_has_feedback_for_lecture(user_name, lecture):

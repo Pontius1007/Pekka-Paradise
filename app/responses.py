@@ -594,12 +594,13 @@ def get_feedback_day(token, recipient, year, days, week):
         print(supp.text)
 
 
-def present_single_lecture_feedback(token, recipient, feedback_list):
+def present_single_lecture_feedback(token, recipient, feedback_list, feedback_questions):
     """
     feedback for one lecture
     :param token String
     :param recipient int
     :param feedback_list list[lecture_id, [feedbacks]]
+    :param feedback_questions: list[]
     """
 
     slow = feedback_list[1].count(0)
@@ -615,7 +616,16 @@ def present_single_lecture_feedback(token, recipient, feedback_list):
         "message": {"text": 'A total of ' + str(total) + ' students have given their response.\n'
                     + str(slow) + '% of students thought the lecture was too slow.\n'
                     + str(normal) + '% of students thought the lecture was OK.\n'
-                    + str(fast) + '% of students thought the lecture was too fast.'}
+                    + str(fast) + '% of students thought the lecture was too fast.'
+                    + "Average score for the following categories.\n"
+                    + str(feedback_questions[0]) + " increased knowledge\n"
+                    + str(feedback_questions[1]) + " well organized\n"
+                    + str(feedback_questions[2]) + " logical\n"
+                    + str(feedback_questions[3]) + " use of slides\n"
+                    + str(feedback_questions[4]) + " use of time\n"
+                    + str(feedback_questions[5]) + " presenter knowledgeable\n"
+                    + str(feedback_questions[6]) + " general score"
+                    }
     })
 
     txt = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},

@@ -110,8 +110,6 @@ def handle_messages():
         elif payload == "give feedback":
             response_handler.give_feedback_choice(PAT, sender)
 
-            # TODO: Check if feedback on speed of the lecture can be given.
-
         elif payload == "lecture speed" or incoming_message.lower() == "lecture speed":
 
             subject = user_methods.get_subject_from_user(user_name)
@@ -260,9 +258,6 @@ def handle_messages():
                 response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
             else:
                 feedback, feedbackevaluation = feedback_methods.get_all_subject_feed(subject)
-                # test
-                print('feedback', feedback, '\n', feedbackevaluation)
-                # test end
                 if len(feedback) > 0:
                     percent_list = bot_feedback.generate_percent_for_speed(feedback)
                     response_handler.all_feedback_speed(PAT, sender, subject, percent_list)
@@ -369,10 +364,17 @@ def handle_messages():
 
             elif "get_lecture_feedback_day" in payload.split()[0]:
                 subject = user_methods.get_subject_from_user(user_name)
-                # Lets the user select a lecture
-                feedback_list = feedback_methods.get_single_lecture_feed(payload.split()[1], payload.split()[2],
-                                                                         payload.split()[3], subject)
-                response_handler.present_single_lecture_feedback(PAT, sender, feedback_list)
+                # Gives the user feedback from the selected day.
+                feedback_list = feedback_methods.get_single_lecture_feed(payload.split()[1],
+                                                                         payload.split()[2],
+                                                                         payload.split()[3],
+                                                                         subject)
+                feedback_questions_list = feedback_methods.get_single_lecture_feedback_questions(payload.split()[1],
+                                                                                                 payload.split()[2],
+                                                                                                 payload.split()[3],
+                                                                                                 subject)
+                feedback_questions = bot_feedback.generate_percent_for_questions(feedback_questions_list)
+                response_handler.present_single_lecture_feedback(PAT, sender, feedback_list, feedback_questions)
                 response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
 
         elif ime_data_fetch.subject_exists_boolean(incoming_message.upper().split()[0]):
