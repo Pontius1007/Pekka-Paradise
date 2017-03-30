@@ -81,7 +81,7 @@ def get_single_lecture_feedback_questions(year, week, day, subject):
     """
     lecture_id = lecture_methods.get_lecture_from_date(year, week, day, subject)
     feedback_question_list = []
-    for feedback in models.LectureFeedbackEvaluation.query.filter_by(lecture_id):
+    for feedback in models.LectureFeedbackEvaluation.query.filter_by(lecture_id=lecture_id):
         feedback_question_list.append([feedback.increased_knowledge, feedback.well_organized, feedback.logical,
                                        feedback.use_of_slides, feedback.use_of_time, feedback.presenter_knowledgeable,
                                        feedback.general_score])
