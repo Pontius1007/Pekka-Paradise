@@ -17,3 +17,5 @@ script:
   - coverage run --source=Pekka-Paradise Pekka-Paradise testing_db.py
 after_success:
   - coveralls
+notifications:
+  email: false
