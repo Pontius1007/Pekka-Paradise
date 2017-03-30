@@ -1,9 +1,9 @@
 # -*- coding utf-8 -*-
-import unittest
 import sys
+import unittest
 from io import StringIO
 
-from alt import user_methods
+import user_methods
 
 
 class DbTests(unittest.TestCase):

@@ -3,7 +3,7 @@ import random
 
 import requests
 
-from alt import ime_data_fetch
+import ime_data_fetch
 
 
 # This file consists of responses sent to the user as JSON objects

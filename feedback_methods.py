@@ -1,6 +1,6 @@
 import datetime
 
-from alt import lecture_methods
+import lecture_methods
 from app import db, models
 
 

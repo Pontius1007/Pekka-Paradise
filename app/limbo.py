@@ -3,12 +3,13 @@ import json
 import requests
 from flask import request
 
+import message_split
 from alt import bot_feedback, feedback_methods, ime_data_fetch, lecture_feedback_db_methods, lecture_methods, \
-    message_split, subject_info, user_methods
-from alt.config import PAT
-from alt.config import VERIFY_TOKEN
+    subject_info, user_methods
 from app import app
 from app import responses
+from config import PAT
+from config import VERIFY_TOKEN
 
 response_handler = responses
 
