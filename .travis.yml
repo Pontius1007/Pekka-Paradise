@@ -9,10 +9,9 @@ python:
 install:
   - "pip install -r requirements.txt"
   - "pip install coveralls"
-
 script:
-  - coverage run --source=Pekka-Paradise,Pekka-Paradise/app testing.py
-  - coverage run --source=Pekka-Paradise,Pekka-Paradise/app testing_db.py
+  - coverage run --source=Pekka-Paradise,app testing.py
+  - coverage run --source=Pekka-Paradise,app testing_db.py
 after_success:
   - coveralls
 notifications:
