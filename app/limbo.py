@@ -130,8 +130,6 @@ def handle_messages():
             # and if the user has not already given feedback
             payload = '0'
             message_response = "too slow"
-            print(message_response)
-            print("You chose: " + "'" + message_response + "'" + "\nFeedback Received!")
             if feedback_methods.add_entry(user_name, user_methods.get_subject_from_user(user_name), payload):
                 response_handler.text_message(PAT, sender, "You chose: " + "'" +
                                               message_response + "'" + "\nFeedback Received!")
@@ -147,8 +145,6 @@ def handle_messages():
             # and if the user has not already given feedback
             payload = '1'
             message_response = "It's all right"
-            print(message_response)
-            print("You chose: " + "'" + message_response + "'" + "\nFeedback Received!")
             if feedback_methods.add_entry(user_name, user_methods.get_subject_from_user(user_name), payload):
                 response_handler.text_message(PAT, sender, "You chose: " + "'" +
                                               message_response + "'" + "\nFeedback Received!")
@@ -164,8 +160,6 @@ def handle_messages():
             # and if the user has not already given feedback
             payload = '2'
             message_response = "too fast"
-            print(message_response)
-            print("You chose: " + "'" + message_response + "'" + "\nFeedback Received!")
             if feedback_methods.add_entry(user_name, user_methods.get_subject_from_user(user_name), payload):
                 response_handler.text_message(PAT, sender, "You chose: " + "'" +
                                               message_response + "'" + "\nFeedback Received!")
