@@ -107,3 +107,14 @@ def subject_has_subject(subject_name):
     except Exception as e:
         print(e)
     return False
+
+
+def remove_subject(subject_name):
+    """
+    This method is only used for testing, and is used to
+    remove dummy subject from db
+    :param subject_name: 
+    :return: 
+    """
+    db.session.delete(models.Subject.query.get(subject_name))
+    db.session.commit()
