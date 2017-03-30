@@ -60,7 +60,8 @@ class DbTests(unittest.TestCase):
         user_methods.delete_user(user)
         user_methods.remove_subject(test_sub)
 
-
+        # Check that user_methods throws exceptions when given wrong args
+        self.assertRaises(Exception, user_methods.has_user(1337))
         # TODO Exceptions, can be triggered by adding wrong datatype or too long data
 
 if __name__ == '__main__':
