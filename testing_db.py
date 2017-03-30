@@ -3,6 +3,7 @@ import sys
 import unittest
 from io import StringIO
 import user_methods
+import random
 
 
 class Capturing(list):
@@ -27,10 +28,16 @@ class DbTests(unittest.TestCase):
             user_methods.add_user(user, subject)
         if len(output) > 0:
             self.assertEqual('User already exists', str(output[0]))
-        self.assertEqual(user_methods.get_subject_from_user("Test User1337"), "TDT4120")
-        user_methods.add_subject("Test User1337", "TMA4100")
-        self.assertEqual(user_methods.get_subject_from_user("Test User1337"), "TMA4100")
-        user_methods.delete_user("Test User1337")
+        else:
+            print("Something went wrong")
+        self.assertTrue(user_methods.has_user(user))
+        self.assertEqual(user_methods.get_subject_from_user(user), subject)
+        test_sub = "TST4" + str(random.randint(0, 2000))
+        user_methods.add_subject(user, test_sub)
+        self.assertEqual(user_methods.get_subject_from_user(user), test_sub)
+        user_methods.remove_subject(test_sub)
+        self.assertRaises(Exception, user_methods.get_subject_from_user(user))
+        user_methods.delete_user(user)
 
 
 if __name__ == '__main__':
