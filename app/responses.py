@@ -48,7 +48,6 @@ def test_graph(token, recipient):
     Sends the feedback as a graph(?) to the user in this case lecturer
     :param token:
     :param recipient:
-    :param image:
     :return:
     """
     img = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
