@@ -35,10 +35,15 @@ class DbTests(unittest.TestCase):
         test_sub = "TST4" + str(random.randint(0, 2000))
         user_methods.add_subject(user, test_sub)
         self.assertEqual(user_methods.get_subject_from_user(user), test_sub)
-        user_methods.remove_subject(test_sub)
-        self.assertRaises(Exception, user_methods.get_subject_from_user(user))
         user_methods.delete_user(user)
+        self.assertFalse(user_methods.has_user(user))
+        user_methods.remove_subject(test_sub)
+        self.assertFalse(user_methods.subject_has_subject(test_sub))
 
+        user_methods.add_subject_to_subject_table(test_sub)
+        # Test that this works
+        user_methods.remove_subject(test_sub)
+        # Test that this works
 
 if __name__ == '__main__':
     unittest.main()
