@@ -13,7 +13,7 @@ before_script:
   - git clone https://github.com/Pontius1007/Pekka-Paradise.git
   - cd Pekka-Paradise
 script:
-  - coverage run --source=Pekka-Paradise testing.py test
-  - coverage run --source=Pekka-Paradise tests_db.py test
+  - coverage run --source=Pekka-Paradise testing.py
+  - coverage run --source=Pekka-Paradise tests_db.py
 after_success:
   - coveralls
