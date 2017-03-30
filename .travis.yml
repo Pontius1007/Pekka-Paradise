@@ -9,9 +9,7 @@ python:
 install:
   - "pip install -r requirements.txt"
   - "pip install coveralls"
-#before_script:
-#  - git clone https://github.com/Pontius1007/Pekka-Paradise.git
-#  - cd Pekka-Paradise
+
 script:
   - coverage run --source Pekka-Paradise testing.py
   - coverage run --source Pekka-Paradise testing_db.py
