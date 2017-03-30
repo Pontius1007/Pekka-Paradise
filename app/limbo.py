@@ -110,6 +110,7 @@ def handle_messages():
                     response_handler.text_message(PAT, sender, "Feedback can not be given either because there is no "
                                                                "lecture today, or because you have already "
                                                                "given feedback for this lecture.")
+                    response_handler.has_course(PAT, sender, subject)
             else:
                 schedule = subject_info.get_schedule(subject)
                 if schedule:
@@ -122,8 +123,10 @@ def handle_messages():
                                                                               user_name)):
                         response_handler.lecture_feedback_questions(PAT, sender, payload)
                     else:
-                        response_handler.text_message(PAT, sender, "Feedback can not be given because you have already "
+                        response_handler.text_message(PAT, sender, "Feedback can not be given either because there is "
+                                                                   "no lecture today, or because you have already "
                                                                    "given feedback for this lecture.")
+                        response_handler.has_course(PAT, sender, subject)
                 else:
                     response_handler.text_message(PAT, sender, "Lectures for the subject " + subject +
                                                   " does not exist. Likely due to the subject having no "

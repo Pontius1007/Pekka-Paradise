@@ -335,7 +335,7 @@ def give_feedback_choice(token, recipient):
                                      },
                                      {
                                          "content_type": "text",
-                                         "title": "Question about the lecture",
+                                         "title": "Lecture questions",
                                          "payload": "evaluation_questions"
                                      }
                                  ]
