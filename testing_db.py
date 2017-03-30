@@ -7,6 +7,9 @@ import random
 
 
 class Capturing(list):
+    """
+    This class is only for helping 'catch' info written to console
+    """
     def __enter__(self):
         self._stdout = sys.stdout
         sys.stdout = self._stringio = StringIO()
