@@ -52,15 +52,16 @@ def get_all_subject_feed(subject):
     return feedback_list, feedbackevaluation_list
 
 
-def get_single_lecture_feed(year, week, day):
+def get_single_lecture_feed(year, week, day, subject):
     """
     Gets all the feedbacks from a single lecture.
     :param year: int
     :param week: int
     :param day: int
+    :param subject string
     :return: list[lecture_id, list[int]]
     """
-    lecture_id = lecture_methods.get_lecture_from_date(year, week, day)
+    lecture_id = lecture_methods.get_lecture_from_date(year, week, day, subject)
     feedback_list = []
     return_list = [lecture_id, feedback_list]
     for feedback in models.LectureFeedback.query.filter_by(lecture_id=lecture_id):
@@ -156,3 +157,37 @@ def get_today():
     """
     date = datetime.date.today()
     return [date.year, datetime.date.isocalendar(date)[1], datetime.datetime.today().weekday() + 1]
+
+
+def get_day():
+    """
+    :return day:
+    """
+    return datetime.datetime.today().weekday() + 1
+
+
+def get_week():
+    """
+    :return week:
+    """
+    date = datetime.date.today()
+    return datetime.date.isocalendar(date)[1]
+
+
+def get_year():
+    """
+    :return year:
+    """
+    date = datetime.date.today()
+    return date.year
+
+
+def get_lecture_object(lecture_id):
+    """
+    :param lecture_id:
+    :return true or false:
+    """
+    try:
+        return models.Lecture.query.get(lecture_id)
+    except Exception as e:
+        print(e)
