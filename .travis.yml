@@ -10,8 +10,8 @@ install:
   - "pip install -r requirements.txt"
   - "pip install coveralls"
 script:
-  - coverage run --omit='home/travis/virtualenv/*' testing.py
-  - coverage run --omit='home/travis/virtualenv/*' testing_db.py
+  - coverage run --omit 'home/travis/virtualenv/*' testing.py
+  - coverage run --omit 'home/travis/virtualenv/*' testing_db.py
 after_success:
   - coveralls
 notifications:
