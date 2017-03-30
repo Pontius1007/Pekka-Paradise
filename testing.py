@@ -126,6 +126,7 @@ class Testerino(unittest.TestCase):
         """
         This method tests the course_name method in subject_info.py
         """
+
         self.assertEqual(subject_info.course_name("tdt4100"), "Objektorientert programmering")
         self.assertEqual(subject_info.course_name("tdt4120"), "Algoritmer og datastrukturer")
         self.assertEqual(subject_info.course_name("shallabais"), "Subject does not exist")
