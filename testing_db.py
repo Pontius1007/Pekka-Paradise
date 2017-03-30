@@ -2,7 +2,6 @@
 import sys
 import unittest
 from io import StringIO
-
 import user_methods
 
 
