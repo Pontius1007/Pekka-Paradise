@@ -373,15 +373,15 @@ def handle_messages():
                                                                                                  payload.split()[2],
                                                                                                  payload.split()[3],
                                                                                                  subject)
-                # if len(feedback_list) > 0:  # TODO: Prevent zero division from happening.
-                #     response_handler.present_single_lecture_feedback(PAT, sender, feedback_list)
-                # else:
-                #     response_handler.text_message(PAT, sender, "This lecture has no feedback for lecture speed")
-                # if len(feedback_questions_list) > 0:
-                #     feedback_questions = bot_feedback.generate_percent_for_questions(feedback_questions_list)
-                #     response_handler.present_single_lecture_feedback_questions(PAT, sender, feedback_questions)
-                # else:
-                #     response_handler.text_message(PAT, sender, "This lecture has no feedback for lecture questions")
+                if len(feedback_list) > 0:  # TODO: Prevent zero division from happening.
+                    response_handler.present_single_lecture_feedback(PAT, sender, feedback_list)
+                else:
+                    response_handler.text_message(PAT, sender, "This lecture has no feedback for lecture speed")
+                if len(feedback_questions_list) > 0:
+                    feedback_questions = bot_feedback.generate_percent_for_questions(feedback_questions_list)
+                    response_handler.present_single_lecture_feedback_questions(PAT, sender, feedback_questions)
+                else:
+                    response_handler.text_message(PAT, sender, "This lecture has no feedback for lecture questions")
 
                 response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
 
