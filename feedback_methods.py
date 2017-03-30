@@ -37,12 +37,19 @@ def get_all_subject_feed(subject):
     :return: List [subject, feed1, feed2, feed3]
     """
     ids = lecture_methods.get_lectures_from_subject(subject)
-    feedback_list = [subject]
+    feedback_list = []
+    feedbackevaluation_list = []
     if len(ids) > 0:
         for lec_id in ids:
             for feedback in models.LectureFeedback.query.filter_by(lecture_id=lec_id):
                 feedback_list.append(int(feedback.feedback))
-    return feedback_list
+            for feedbackevaluation in models.LectureFeedbackEvaluation.query.filter_by(lecture_id=lec_id):
+                feedbackevaluation_list.append([feedbackevaluation.increased_knowledge,
+                                                feedbackevaluation.well_organized, feedbackevaluation.logical,
+                                                feedbackevaluation.use_of_slides, feedbackevaluation.use_of_time,
+                                                feedbackevaluation.presenter_knowledgeable,
+                                                feedbackevaluation.general_score])
+    return feedback_list, feedbackevaluation_list
 
 
 def get_single_lecture_feed(year, week, day):

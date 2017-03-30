@@ -86,7 +86,7 @@ def user_info(token, recipient, user_name, sub):
         print(txt.text)
 
 
-def all_feedback(token, recipient, subject, percent):
+def all_feedback(token, recipient, subject, percent, percent_questions):
     """
 
     :param token:
@@ -103,7 +103,7 @@ def all_feedback(token, recipient, subject, percent):
                 "rC6XU_dOtRdx4vBn9fBEcSJMA3i40D5P-QOrdve6qFCxX6rD1MhNwD7VkXnYpyhMRJD8RFnR6zc35vSjRjOBXh0G5ag5C"
                 "K3zQd1WkxbY98LjG1nQo18bAc0I",
                 "http://www.bbcactive.com/BBCActiveIdeasandResources/Tenwaystomakelecturesmoredynamic.aspx"]
-    print(str(percent))
+    print('percent for speed:', str(percent))
     if percent[0] >= 25:
         extra_string = "A lot of students thinks the lecture is moving too slow, maybe you should check out this: " + \
                        url_slow[random.randrange(0, len(url_slow))]
@@ -119,7 +119,14 @@ def all_feedback(token, recipient, subject, percent):
                             + str(percent[0]) + "% of participants thinks the lectures are too slow.\n"
                             + str(percent[1]) + "% of participants thinks the lectures are OK.\n"
                             + str(percent[2]) + "% of participants thinks the lectures are too fast.\n\n" +
-                            extra_string
+                            extra_string + "\n\n"
+                            + str(percent_questions[0]) + "increased_knowledge\n"
+                            + str(percent_questions[1]) + "well_organized\n"
+                            + str(percent_questions[2]) + "logical\n"
+                            + str(percent_questions[3]) + "use_of_slides\n"
+                            + str(percent_questions[4]) + "use_of_time\n"
+                            + str(percent_questions[5]) + "presenter_knowledgeable\n"
+                            + str(percent_questions[6]) + "general_score"
                     }
     })
     txt = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
