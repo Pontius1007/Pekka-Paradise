@@ -72,3 +72,13 @@ def get_lecture_from_date(year, week, day):
     if lectures.count():
         lecture_id = lectures[0].id
         return lecture_id
+
+
+def add_and_remove_test(remove, lecture_inf):
+    if not remove:
+        new_lecture = models.Lecture(lecture_inf[0], lecture_inf[1], lecture_inf[2], lecture_inf[3], lecture_inf[4],
+                                     lecture_inf[5], lecture_inf[6])
+        db.session.add(new_lecture)
+    elif remove:
+        db.session.delete(models.Lecture.query.get(lecture_inf[0]))
+    db.session.commit()
