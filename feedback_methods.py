@@ -107,7 +107,7 @@ def add_feedback_evaluation(user_name, subject_name, increased_knowledge, well_o
                 return True
             except ValueError as e:
                 print(e)
-    # Rejact feedback
+    # Reject feedback
     return False
 
 
