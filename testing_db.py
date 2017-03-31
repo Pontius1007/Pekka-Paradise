@@ -91,7 +91,7 @@ class DbTests(unittest.TestCase):
         lecture_info.append("P")
         # Add user and test lecture
         user_methods.add_user(name, lecture_info[0])
-        lecture_methods.add_and_remove_test(True, lecture_info)
+        lecture_methods.add_and_remove_test(False, lecture_info)
 
         # Checks the various feedback methods
         self.assertTrue(feedback_methods.add_entry(name, lecture_info[0], "1"))
@@ -104,6 +104,7 @@ class DbTests(unittest.TestCase):
         feedback_methods.remove_all_feedback(name)
         user_methods.delete_user(name)
         user_methods.remove_subject(lecture_info[0])
+        lecture_methods.add_and_remove_test(True, lecture_info)
 
     @staticmethod
     def get_today():
