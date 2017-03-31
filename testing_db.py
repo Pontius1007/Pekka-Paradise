@@ -4,6 +4,9 @@ import unittest
 from io import StringIO
 import user_methods
 import random
+import feedback_methods
+import datetime
+import lecture_methods
 
 
 class Capturing(list):
@@ -71,6 +74,45 @@ class DbTests(unittest.TestCase):
         self.assertRaises(Exception, user_methods.add_user(1337, 1337))
         self.assertRaises(Exception, user_methods.add_subject(1337, 1337))
 
+    def test_feedback_methods(self):
+        """
+        This methods tests feedback methods, and assumes user_methods work.
+        Starts by adding 'dummy' user and lectures to db and then tests the 
+        various, methods in feedback_methods.py.        # subj year(int) week(int) day(int)  start_t end_t  room
+        :return: 
+        """
+        today = self.get_today()
+        name = "TESTER LASTNAME"
+        lecture_info = ["TST4200"]
+        for item in today:
+            lecture_info.append(item)
+        lecture_info.append("01:00")
+        lecture_info.append("24:59")
+        lecture_info.append("P")
+        # Add user and test lecture
+        user_methods.add_user(name, lecture_info[0])
+        lecture_methods.add_and_remove_test(True, lecture_info)
+
+        # Checks the various feedback methods
+        self.assertTrue(feedback_methods.add_entry(name, lecture_info[0], "1"))
+        self.assertFalse(feedback_methods.add_entry(name, lecture_info[0], "0"))
+        feedback_methods.remove_all_feedback(name)
+        self.assertTrue(feedback_methods.add_entry(name, lecture_info[0], "1"))
+        self.assertEqual(feedback_methods.get_all_subject_feed(lecture_info[0]), [lecture_info[0], "1"])
+
+        # Remove user, test feedback and lecture
+        feedback_methods.remove_all_feedback(name)
+        user_methods.delete_user(name)
+        user_methods.remove_subject(lecture_info[0])
+
+    @staticmethod
+    def get_today():
+        """
+        Returns year, week and day.
+        :return: [year, week, day]
+        """
+        date = datetime.date.today()
+        return [date.year, datetime.date.isocalendar(date)[1], datetime.datetime.today().weekday() + 1]
 
 if __name__ == '__main__':
     unittest.main()

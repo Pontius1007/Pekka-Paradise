@@ -48,7 +48,7 @@ def get_all_subject_feed(subject):
 
 def get_single_lecture_feed(year, week, day):
     """
-    Gets all the feedbacks from a single lecture.
+    Gets all the feedback from a single lecture.
     :param year: int
     :param week: int
     :param day: int
@@ -141,5 +141,5 @@ def remove_all_feedback(user_name):
     :return: 
     """
     db.session.delete(models.LectureFeedback.query.get(user_name))
-    db.session.delete(models.LectureFeedback.query.get(user_name))
+    # db.session.delete(models.LectureFeedback.query.get(user_name))
     db.session.commit()
