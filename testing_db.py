@@ -4,7 +4,6 @@ import unittest
 from io import StringIO
 import user_methods
 import random
-import add_user
 
 
 class Capturing(list):
