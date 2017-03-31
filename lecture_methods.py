@@ -75,6 +75,12 @@ def get_lecture_from_date(year, week, day):
 
 
 def add_and_remove_test(remove, lecture_inf):
+    """
+    Only for testing, adds or removes a lecture depending on 'remove'. 
+    :param remove: bool
+    :param lecture_inf: [subject, year(int), week(int), day(int), start_time end_time, room] 
+    :return: 
+    """
     if not remove:
         new_lecture = models.Lecture(lecture_inf[0], lecture_inf[1], lecture_inf[2], lecture_inf[3], lecture_inf[4],
                                      lecture_inf[5], lecture_inf[6])
