@@ -131,3 +131,15 @@ def get_today():
     """
     date = datetime.date.today()
     return [date.year, datetime.date.isocalendar(date)[1], datetime.datetime.today().weekday() + 1]
+
+
+def remove_all_feedback(user_name):
+    """
+    This method is only used for testing and removes
+    test data from database
+    :param user_name: 
+    :return: 
+    """
+    db.session.delete(models.LectureFeedback.query.get(user_name))
+    db.session.delete(models.LectureFeedback.query.get(user_name))
+    db.session.commit()
