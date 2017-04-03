@@ -50,12 +50,13 @@ def handle_messages():
             else:
                 response_handler.no_course(PAT, sender)
 
-        elif payload == "change subject" or incoming_message.lower() == "change subject":
+        elif payload == "change subject" or "change subject" in incoming_message.lower():
             response_handler.text_message(PAT, sender, "You can change course at any time simply by "
                                                        "writing the course code on the form [TAG][CODE]\n"
                                                        "ex. TDT4120")
+            response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
 
-        elif incoming_message.lower() == "help":
+        elif "help" in incoming_message.lower():
 
             response_handler.text_message(PAT, sender, "Are you lost ...? ")
             response_handler.text_message(PAT, sender, "You can change course at any time simply by "
@@ -68,7 +69,7 @@ def handle_messages():
             response_handler.text_message(PAT, sender, "Here is a list of commands you can use. This is "
                                                        "recommended for the experienced user:\n"
                                                        "Change subject\n"
-                                                       "Lecture feedback\n"
+                                                       "Give feedback\n"
                                                        "How did today's lecture go?\n"
                                                        "Get schedule\n"
                                                        "Get info\n"
@@ -77,7 +78,7 @@ def handle_messages():
                                                        "You can type most of the commands in chat. Just give it a try!")
             response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
 
-        elif incoming_message.lower() == "status":
+        elif "status" in incoming_message.lower():
             subject = user_methods.get_subject_from_user(user_name)
             year = feedback_methods.get_year()
             week = feedback_methods.get_week()
@@ -97,7 +98,7 @@ def handle_messages():
                     response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
                 else:
                     response_handler.text_message(PAT, sender, "No feedback for the given lecture on this date. "
-                                                               "Please press 'Lecture Feedback' or write it in the "
+                                                               "Please press 'Give Feedback' or write it in the "
                                                                "chat to do so.")
                     response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
             else:
@@ -107,10 +108,10 @@ def handle_messages():
 
         # Checks if the subject has lectures in the database, adds them if not.
 
-        elif payload == "give feedback":
+        elif payload == "give feedback" or "give feedback" in incoming_message.lower():
             response_handler.give_feedback_choice(PAT, sender)
 
-        elif payload == "lecture speed" or incoming_message.lower() == "lecture speed":
+        elif payload == "lecture speed" or "lecture speed" in incoming_message.lower():
 
             subject = user_methods.get_subject_from_user(user_name)
 
@@ -164,7 +165,7 @@ def handle_messages():
                                                   "lectures this semester.")
                     response_handler.has_course(PAT, sender, subject)
 
-        elif incoming_message.lower() == "too slow":
+        elif "too slow" in incoming_message.lower():
             # Adds feedback if the subject has a lecture on the given day
             # and if the user has not already given feedback
 
@@ -180,7 +181,7 @@ def handle_messages():
                                                            " to the active lecture.\nFeedback denied!")
                 response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
 
-        elif incoming_message.lower() == "it's all right" or incoming_message.lower() == "its all right":
+        elif "it's all right" in incoming_message.lower() or "its all right" in incoming_message.lower():
             # Adds feedback if the subject has a lecture on the given day
             # and if the user has not already given feedback
             payload = '1'
@@ -195,7 +196,7 @@ def handle_messages():
                                                            " to the active lecture.\nFeedback denied!")
                 response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
 
-        elif incoming_message.lower() == "too fast":
+        elif "too fast" in incoming_message.lower():
             # Adds feedback if the subject has a lecture on the given day
             # and if the user has not already given feedback
             payload = '2'
@@ -234,22 +235,22 @@ def handle_messages():
                                                            "Please provide some feedback and try again.")
                 response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
 
-        elif payload == "get schedule" or incoming_message.lower() == "get schedule":
+        elif payload == "get schedule" or "get schedule" in incoming_message.lower():
             subject = user_methods.get_subject_from_user(user_name)
             response_handler.text_message(PAT, sender,
                                           subject_info.printable_schedule(subject_info.get_schedule(subject)))
             response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
 
-        elif payload == "get info" or incoming_message.lower() == "get info":
+        elif payload == "get info" or "get info" in incoming_message.lower():
             subject = user_methods.get_subject_from_user(user_name)
             response_handler.text_message(PAT, sender,
                                           subject_info.printable_course_info(subject_info.get_course_json(subject)))
             response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
 
-        elif payload == "get feedback" or incoming_message.lower() == "get feedback":
+        elif payload == "get feedback" or "get feedback" in incoming_message.lower():
             response_handler.get_feedback_specific_or_all(PAT, sender)
 
-        elif payload == "all_lectures" or incoming_message.lower() == "all lectures":
+        elif payload == "all_lectures" or "all lectures" in incoming_message.lower():
             subject = user_methods.get_subject_from_user(user_name)
             if not lecture_methods.check_lecture_in_db(subject):
                 response_handler.text_message(PAT, sender, "Course has no feedback.")
@@ -269,9 +270,8 @@ def handle_messages():
                     response_handler.text_message(PAT, sender, "Course has no feedback for lecture questions.")
                 response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
 
-        elif payload == "a_specific_lecture" or incoming_message.lower() == "a specific lecture":
+        elif payload == "a_specific_lecture" or "a specific lecture" in incoming_message.lower():
             # Let the user choose what year to get feedback from.
-            # TODO: check if lectures are in database.
             years = lecture_feedback_db_methods.get_year(user_methods.get_subject_from_user(user_name))
             if len(years) > 0:
                 response_handler.get_feedback_year(PAT, sender, years)
