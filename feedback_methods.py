@@ -78,7 +78,7 @@ def get_single_lecture_feedback_questions(year, week, day, subject):
     :param week: int
     :param day: int
     :param subject: String
-    :return: 
+    :return:
     """
     lecture_id = lecture_methods.get_lecture_from_date(year, week, day, subject)
     feedback_question_list = []
@@ -87,7 +87,6 @@ def get_single_lecture_feedback_questions(year, week, day, subject):
                                        feedback.use_of_slides, feedback.use_of_time, feedback.presenter_knowledgeable,
                                        feedback.general_score])
     return feedback_question_list
-
 
 
 def user_has_feedback_for_lecture(user_name, lecture):

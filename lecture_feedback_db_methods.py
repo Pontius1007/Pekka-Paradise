@@ -1,4 +1,4 @@
-from app import db, models
+from app import models
 
 
 def get_year(course):
