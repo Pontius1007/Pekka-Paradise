@@ -164,18 +164,6 @@ def handle_messages():
                                                   "lectures this semester.")
                     response_handler.has_course(PAT, sender, subject)
 
-        elif payload == "0" or payload == "1" or payload == "2":
-            # Adds feedback if the subject has a lecture on the given day
-            # and if the user has not already given feedback
-            if feedback_methods.add_entry(user_name, user_methods.get_subject_from_user(user_name), payload):
-                response_handler.text_message(PAT, sender, "You chose: " + "'" + payload + "'" + "\nFeedback received!")
-                response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
-            else:
-                response_handler.text_message(PAT, sender, "There is either no lecture active in the selected"
-                                                           " subject, or you have already given feedback"
-                                                           " to the active lecture.\nFeedback denied!")
-                response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
-
         elif incoming_message.lower() == "too slow":
             # Adds feedback if the subject has a lecture on the given day
             # and if the user has not already given feedback
@@ -382,7 +370,7 @@ def handle_messages():
                                                                                                  payload.split()[2],
                                                                                                  payload.split()[3],
                                                                                                  subject)
-                if len(feedback_list[1]) > 0:  # TODO: Prevent zero division from happening.
+                if len(feedback_list[1]) > 0:
                     response_handler.present_single_lecture_feedback(PAT, sender, feedback_list)
                 else:
                     response_handler.text_message(PAT, sender, "This lecture has no feedback for lecture speed")
