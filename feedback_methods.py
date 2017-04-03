@@ -6,9 +6,9 @@ import lecture_methods
 def add_entry(user_name, subject_name, feedback):
     """
     add feedback to lecturefeedback-table if feedback has not already been given by the user for the active lecture.
-    :param user_name:
-    :param subject_name:
-    :param feedback:
+    :param user_name: String
+    :param subject_name: String
+    :param feedback: String
     :return: True or False
     """
     today = get_today()
@@ -33,8 +33,9 @@ def add_entry(user_name, subject_name, feedback):
 
 def get_all_subject_feed(subject):
     """
-    :param subject:
-    :return: List [subject, feed1, feed2, feed3]
+    :param subject: String
+    :return: feedback_list[feed1, feed2, feed3], feedbackevaluation_list[lecture_feedback[int]] there are 7 entries in 
+    each lecture_feedback
     """
     ids = lecture_methods.get_lectures_from_subject(subject)
     feedback_list = []
@@ -91,8 +92,8 @@ def get_single_lecture_feedback_questions(year, week, day, subject):
 def user_has_feedback_for_lecture(user_name, lecture):
     """
     Checks if user has already given feedback for a lecture.
-    :param user_name:
-    :param lecture:
+    :param user_name: String
+    :param lecture: int
     """
     try:
         return models.LectureFeedback.query.filter_by(user_id=user_name, lecture_id=lecture.id).count() > 0
@@ -104,16 +105,16 @@ def user_has_feedback_for_lecture(user_name, lecture):
 def add_feedback_evaluation(user_name, subject_name, increased_knowledge, well_organized, logical, use_of_slides,
                             use_of_time, presenter_knowledgeable, general_score):
     """
-    Takes in scores and makes a lecturefeedbackevaluation adn stores in database.
-    :param user_name:
-    :param subject_name:
-    :param increased_knowledge:
-    :param well_organized:
-    :param logical:
-    :param use_of_slides:
-    :param use_of_time:
-    :param presenter_knowledgeable:
-    :param general_score:
+    Takes in scores and makes a lecturefeedbackevaluation and stores in database. 
+    :param user_name: String
+    :param subject_name: String
+    :param increased_knowledge: int
+    :param well_organized: int
+    :param logical: int
+    :param use_of_slides: int
+    :param use_of_time: int
+    :param presenter_knowledgeable: int
+    :param general_score: int
     :return: Boolean
     """
     today = get_today()
@@ -159,8 +160,8 @@ def user_can_give_feedback_evaluation(user_name, subject_name):
 def user_has_feedback_for_lecture_evaluation(user_name, lecture):
     """
     Checks if user has already given feedbackevaluation for a lecture.
-    :param user_name:
-    :param lecture:
+    :param user_name: String
+    :param lecture: int
     """
     try:
         return models.LectureFeedbackEvaluation.query.filter_by(user_id=user_name, lecture_id=lecture.id).count() > 0
@@ -180,14 +181,14 @@ def get_today():
 
 def get_day():
     """
-    :return day:
+    :return day: int
     """
     return datetime.datetime.today().weekday() + 1
 
 
 def get_week():
     """
-    :return week:
+    :return week: int
     """
     date = datetime.date.today()
     return datetime.date.isocalendar(date)[1]
@@ -195,7 +196,7 @@ def get_week():
 
 def get_year():
     """
-    :return year:
+    :return year: int
     """
     date = datetime.date.today()
     return date.year
@@ -203,8 +204,8 @@ def get_year():
 
 def get_lecture_object(lecture_id):
     """
-    :param lecture_id:
-    :return true or false:
+    :param lecture_id: int
+    :return lecture: query object
     """
     try:
         return models.Lecture.query.get(lecture_id)
