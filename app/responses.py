@@ -389,9 +389,9 @@ def get_feedback_specific_or_all(token, recipient):
 def get_feedback_year(token, recipient, years):
     """
     Lets the user choose to get feedback for a specific lecture or all lectures.
-    :param token:
-    :param recipient:
-    :param years:
+    :param token: String
+    :param recipient: int
+    :param years: list[int]
     """
 
     # Makes initial json object.
@@ -541,7 +541,7 @@ def get_feedback_day(token, recipient, year, days, week):
     :param year: String
     :param days: List[int]
     :param week: String
-    :return:
+    :return: None
     """
 
     # Makes initial json object.
@@ -657,7 +657,13 @@ def add_weeks_to_json(weeks, weeks_string, json_message, year):
 
 
 def add_days_to_json(day, json_message, year, week):
-
+    """
+    Adds buttons with the name of a day on it.
+    :param day: int
+    :param json_message: json
+    :param year: String
+    :param week: String
+    """
     lecture_day = ''
     if day == 1:
         lecture_day = 'Monday'
@@ -681,5 +687,3 @@ def add_days_to_json(day, json_message, year, week):
         "title": lecture_day,
         "payload": "get_lecture_feedback_day " + str(year) + ' ' + str(week) + ' ' + str(day)
     })
-
-
