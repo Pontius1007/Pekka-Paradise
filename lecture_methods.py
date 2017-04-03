@@ -87,6 +87,6 @@ def add_and_remove_test(remove, lecture_inf):
                                      lecture_inf[5], lecture_inf[6])
         db.session.add(new_lecture)
     elif remove:
-        for row in models.Lecture.query.filter_by(subject_id=lecture_inf[0]):
+        for row in models.Lecture.query.filter_by(subject=lecture_inf[0]):
             db.session.delete(row)
     db.session.commit()
