@@ -89,7 +89,6 @@ def get_single_lecture_feedback_questions(year, week, day, subject):
     return feedback_question_list
 
 
-
 def user_has_feedback_for_lecture(user_name, lecture):
     """
     Checks if user has already given feedback for a lecture.
