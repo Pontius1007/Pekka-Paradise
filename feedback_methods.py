@@ -77,7 +77,7 @@ def get_single_lecture_feedback_questions(year, week, day, subject):
     :param week: int
     :param day: int
     :param subject: String
-    :return: 
+    :return:
     """
     lecture_id = lecture_methods.get_lecture_from_date(year, week, day, subject)
     feedback_question_list = []
@@ -86,7 +86,6 @@ def get_single_lecture_feedback_questions(year, week, day, subject):
                                        feedback.use_of_slides, feedback.use_of_time, feedback.presenter_knowledgeable,
                                        feedback.general_score])
     return feedback_question_list
-
 
 
 def user_has_feedback_for_lecture(user_name, lecture):
@@ -105,16 +104,16 @@ def user_has_feedback_for_lecture(user_name, lecture):
 def add_feedback_evaluation(user_name, subject_name, increased_knowledge, well_organized, logical, use_of_slides,
                             use_of_time, presenter_knowledgeable, general_score):
     """
-    Takes in scores and makes a lecturefeedbackevaluation adn stores in database. 
-    :param user_name: 
-    :param subject_name: 
-    :param increased_knowledge: 
-    :param well_organized: 
-    :param logical: 
-    :param use_of_slides: 
-    :param use_of_time: 
-    :param presenter_knowledgeable: 
-    :param general_score: 
+    Takes in scores and makes a lecturefeedbackevaluation adn stores in database.
+    :param user_name:
+    :param subject_name:
+    :param increased_knowledge:
+    :param well_organized:
+    :param logical:
+    :param use_of_slides:
+    :param use_of_time:
+    :param presenter_knowledgeable:
+    :param general_score:
     :return: Boolean
     """
     today = get_today()

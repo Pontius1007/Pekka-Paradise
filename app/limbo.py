@@ -76,7 +76,7 @@ def handle_messages():
                                                        "A specific lecture\n"
                                                        "You can type most of the commands in chat. Just give it a try!")
             response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
-            
+
         elif incoming_message.lower() == "status":
             subject = user_methods.get_subject_from_user(user_name)
             year = feedback_methods.get_year()
@@ -273,7 +273,7 @@ def handle_messages():
                     response_handler.all_feedback_speed(PAT, sender, subject, percent_list)
                 else:
                     response_handler.text_message(PAT, sender, "Course has no feedback for lecture speed")
-                if len(feedbackevaluation)  > 0:
+                if len(feedbackevaluation) > 0:
                     percent_list_questions = bot_feedback.generate_percent_for_questions(feedbackevaluation)
 
                     response_handler.all_feedback_questions(PAT, sender, subject, percent_list_questions)

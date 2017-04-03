@@ -625,7 +625,6 @@ def present_single_lecture_feedback_questions(token, recipient, feedback_questio
         print(txt.text)
 
 
-
 """
 HELPING METHODS FOR CREATING JSON OBJECT
 """

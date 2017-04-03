@@ -26,6 +26,7 @@ def get_schedule(sub_code):
                                 + sub_code.upper() + "&year=" + current_year + "&version=1").json()
         try:
             trigger_key_error = schedule['course']['summarized']
+            print(trigger_key_error)
             return schedule
         except KeyError:
             return False
@@ -120,7 +121,7 @@ def printable_course_info(course):
                         course['assessment'][0]['codeName'], course['assessment'][0]['gradeRuleSchemeName']))
     return info_string
 
-  
+
 def course_name(code):
     """
     A method that fetches the name of a course
@@ -132,4 +133,3 @@ def course_name(code):
     if c == 'Subject does not exist' or c == 'Not valid':
         return c
     return c['course']['name']
-

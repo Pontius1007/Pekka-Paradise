@@ -37,5 +37,3 @@ def subject_exists_boolean(code):
     except ValueError:
         return False
     return False
-
-
