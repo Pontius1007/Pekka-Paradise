@@ -104,9 +104,9 @@ class DbTests(unittest.TestCase):
 
         # Remove user, test feedback and lecture
         feedback_methods.remove_all_feedback(name)
+        lecture_methods.add_and_remove_test(True, lecture_info)
         user_methods.delete_user(name)
         user_methods.remove_subject(lecture_info[0])
-        lecture_methods.add_and_remove_test(True, lecture_info)
 
     @staticmethod
     def get_today():
