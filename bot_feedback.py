@@ -3,8 +3,8 @@
 def generate_percent_for_speed(feedback):
     """
     Returns feedback numbers
-    :param feedback:
-    :return: percentage for speed of the lecture
+    :param feedback: list[int]
+    :return: list[int_slow, int_ok, int_fast, total] percentage for speed of the lecture
     """
     slow = feedback.count(0)
     ok = feedback.count(1)
@@ -19,7 +19,7 @@ def generate_percent_for_questions(feedbackevaluation):
     """
     Calculates percentages for feedback numbers
     :param feedbackevaluation: feedback[category[]]
-    :return: percentage for questions
+    :return: list[int] percentage for questions
     """
     increased_knowledge = 0
     well_organized = 0

@@ -636,7 +636,7 @@ def add_weeks_to_json(weeks, weeks_string, json_message, year):
     Adds buttons for several weeks to the json message
     :param weeks: list[int]
     :param weeks_string: String
-    :param json_message:
+    :param json_message: json
     :param year: String
     """
 
