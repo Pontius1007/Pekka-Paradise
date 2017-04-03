@@ -51,4 +51,4 @@ When you get to the Page Access Token and VERIFY_TOKEN in the facebook tutorial 
 
 ## Code coverage from Coveralls
 
-[![Coverage Status](https://coveralls.io/repos/github/Pontius1007/Pekka-Paradise/badge.svg?branch=testing)](https://coveralls.io/github/Pontius1007/Pekka-Paradise?branch=testing)
+[![Coverage Status](https://coveralls.io/repos/github/Pontius1007/Pekka-Paradise/badge.svg)](https://coveralls.io/github/Pontius1007/Pekka-Paradise)
