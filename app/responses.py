@@ -610,13 +610,13 @@ def present_single_lecture_feedback_questions(token, recipient, feedback_questio
     data = json.dumps({
         "recipient": {"id": recipient},
         "message": {"text": "Average score for the following categories.\n"
-                    + str(feedback_questions[0]) + " Increased knowledge\n"
-                    + str(feedback_questions[1]) + " Organization\n"
-                    + str(feedback_questions[2]) + " Logical\n"
-                    + str(feedback_questions[3]) + " Use of slides\n"
-                    + str(feedback_questions[4]) + " Use of time\n"
-                    + str(feedback_questions[5]) + " Presenters knowledge\n"
-                    + str(feedback_questions[6]) + " General score"
+                    + " Increased knowledge: " + str(feedback_questions[0]) + "\n"
+                    + " Organization: " + str(feedback_questions[1]) + "\n"
+                    + " Logical: " + str(feedback_questions[2]) + "\n"
+                    + " Use of slides: " + str(feedback_questions[3]) + "\n"
+                    + " Use of time: " + str(feedback_questions[4]) + "\n"
+                    + " Presenters knowledge: " + str(feedback_questions[5]) + "\n"
+                    + " General score: " + str(feedback_questions[6])
                     }
     })
     txt = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},

@@ -41,7 +41,7 @@ def printable_schedule(schedule):
     :return: a string with the schedule
     """
     if not schedule:
-        return "No schedule available"
+        return "No schedule available."
 
     schedule = schedule['course']['summarized']
     schedule_string = "Timeplan for " + schedule[0]['courseName'] + ":\n"

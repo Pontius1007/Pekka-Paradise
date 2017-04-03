@@ -252,7 +252,7 @@ def handle_messages():
         elif payload == "all_lectures" or incoming_message.lower() == "all lectures":
             subject = user_methods.get_subject_from_user(user_name)
             if not lecture_methods.check_lecture_in_db(subject):
-                response_handler.text_message(PAT, sender, "Course has no feedback")
+                response_handler.text_message(PAT, sender, "Course has no feedback.")
                 response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
             else:
                 feedback, feedbackevaluation = feedback_methods.get_all_subject_feed(subject)
@@ -276,7 +276,7 @@ def handle_messages():
             if len(years) > 0:
                 response_handler.get_feedback_year(PAT, sender, years)
             else:
-                response_handler.text_message(PAT, sender, 'No feedback for th selected subject.')
+                response_handler.text_message(PAT, sender, 'No feedback for the selected subject.')
                 response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
 
         elif payload is not None:
@@ -395,7 +395,10 @@ def handle_messages():
             response_handler.has_course(PAT, sender, user_methods.get_subject_from_user(user_name))
 
         else:
-            response_handler.text_message(PAT, sender, "Type 'help' to see what you can do with L.I.M.B.O.")
+            response_handler.text_message(PAT, sender, "Type 'help' to see what you can do with L.I.M.B.O.\nIf you "
+                                                       "tried to enter a subject-code\nand got this message, you "
+                                                       "either\nmisspelled it or the subject you are looking for\nis "
+                                                       "not a subject at NTNU.")
 
     return "ok"
 
