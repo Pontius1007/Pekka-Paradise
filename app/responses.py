@@ -12,10 +12,10 @@ import ime_data_fetch
 def greeting_message(token, recipient, user_name):
     """
     Sends personal greeting message to the user
-    :param token:
-    :param recipient:
-    :param user_name:
-    :return:
+    :param token: String
+    :param recipient: int
+    :param user_name: String
+    :return: None
     """
     message = "Hello " + user_name.split()[0] + "!\nWhat can I do for you today?" + \
               "\nIf you are new to the bot and would like some help, please press 'Help' in chat"
@@ -31,10 +31,10 @@ def greeting_message(token, recipient, user_name):
 def text_message(token, recipient, message):
     """
     Sends any string(message) to the user
-    :param token:
-    :param recipient:
-    :param message:
-    :return:
+    :param token: String
+    :param recipient: int
+    :param message: String
+    :return: None
     """
     txt = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
                         data=json.dumps({
@@ -45,38 +45,14 @@ def text_message(token, recipient, message):
         print(txt.text)
 
 
-def test_graph(token, recipient):
-    """
-    Sends the feedback as a graph(?) to the user in this case lecturer
-    :param token:
-    :param recipient:
-    :param image:
-    :return:
-    """
-    img = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
-                        data=json.dumps({
-                            "recipient": {"id": recipient},
-                            "message": {
-                                "attachment": {
-                                  "type": "image",
-                                  "payload": {
-                                  }
-                                }
-                              },
-                            "filedata": "@lordi_lead.jpg;type=image/jpg"
-                        }), headers={'Content-type': 'application/json'})
-    if img.status_code != requests.codes.ok:
-        print(img.text)
-
-
 def user_info(token, recipient, user_name, sub):
     """
     Shows our information about the user to the user
-    :param token:
-    :param sub:
-    :param recipient:
-    :param user_name:
-    :return:
+    :param token: String
+    :param recipient: int
+    :param user_name: String
+    :param sub: String
+    :return: None
     """
     message = "Hello " + user_name + "!\nYou currently have " + sub + " selected"
     txt = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
@@ -88,14 +64,14 @@ def user_info(token, recipient, user_name, sub):
         print(txt.text)
 
 
-def all_feedback(token, recipient, subject, percent):
+def all_feedback_speed(token, recipient, subject, percent):
     """
-
-    :param token:
-    :param recipient:
-    :param subject:
+    Presents feedback from all lectures from LectureFeedback of a subject to the user.
+    :param token: String
+    :param recipient: int
+    :param subject: String
     :param percent: index 0-2 contains percents of slow, ok and fast index 3 contains total number
-    :return:
+    :return: None
     """
     url_slow = ["http://www.bbcactive.com/BBCActiveIdeasandResources/Tenwaystomakelecturesmoredynamic.aspx",
                 "http://www.bbcactive.com/BBCActiveIdeasandResources/Tenwaystomakelecturesmoredynamic.aspx",
@@ -105,7 +81,7 @@ def all_feedback(token, recipient, subject, percent):
                 "rC6XU_dOtRdx4vBn9fBEcSJMA3i40D5P-QOrdve6qFCxX6rD1MhNwD7VkXnYpyhMRJD8RFnR6zc35vSjRjOBXh0G5ag5C"
                 "K3zQd1WkxbY98LjG1nQo18bAc0I",
                 "http://www.bbcactive.com/BBCActiveIdeasandResources/Tenwaystomakelecturesmoredynamic.aspx"]
-    print(str(percent))
+    print('percent for speed:', str(percent))
     if percent[0] >= 25:
         extra_string = "A lot of students thinks the lecture is moving too slow, maybe you should check out this: " + \
                        url_slow[random.randrange(0, len(url_slow))]
@@ -124,6 +100,36 @@ def all_feedback(token, recipient, subject, percent):
                             extra_string
                     }
     })
+    txt = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
+                        data=data, headers={'Content-type': 'application/json'})
+    if txt.status_code != requests.codes.ok:
+        print(txt.text)
+
+
+def all_feedback_questions(token, recipient, subject, percent_questions):
+    """
+    Presents feedback from all lectures from LectureFeedbackEvaluation of a subject to the user.
+    :param token: String
+    :param recipient: int
+    :param subject: String
+    :param percent_questions: list[int]
+    :return: None
+    """
+
+    data = json.dumps({
+        "recipient": {"id": recipient},
+        "message": {"text": "Feedback for " + subject + ":\n"
+                    + "Average score for the following categories.\n"
+                    + str(percent_questions[0]) + " increased knowledge\n"
+                    + str(percent_questions[1]) + " well organized\n"
+                    + str(percent_questions[2]) + " logical\n"
+                    + str(percent_questions[3]) + " use of slides\n"
+                    + str(percent_questions[4]) + " use of time\n"
+                    + str(percent_questions[5]) + " presenter knowledgeable\n"
+                    + str(percent_questions[6]) + " general score"
+                    }
+    })
+
     txt = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
                         data=data, headers={'Content-type': 'application/json'})
     if txt.status_code != requests.codes.ok:
@@ -149,9 +155,8 @@ def all_feedback(token, recipient, subject, percent):
 def no_course(token, recipient):
     """
     Sends quick replies available to the user without a course selected
-    :param token:
-    :param recipient:
-    :return:
+    :param token: String
+    :param recipient: int
     """
     supp = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
                          data=json.dumps({
@@ -175,10 +180,10 @@ def no_course(token, recipient):
 def has_course(token, recipient, subject):
     """
     Sends quick replies available to the user with a course selected
-    :param token:
-    :param recipient:
-    :param subject:
-    :return:
+    :param token: String
+    :param recipient: int
+    :param subject: String
+    :return: None
     """
     subject_name = ime_data_fetch.get_subject_name(subject)
     supp = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
@@ -223,9 +228,9 @@ def has_course(token, recipient, subject):
 def lec_feed(token, recipient):
     """
     Lets the user choose whether a lecture is too fast, slow or ok
-    :param token:
-    :param recipient:
-    :return:
+    :param token: String
+    :param recipient: int
+    :return: None
     """
     supp = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
                          data=json.dumps({
@@ -259,9 +264,9 @@ def lec_feed(token, recipient):
 def lecture_feedback_questions(token, recipient, payload):
     """
     Let the user give feedback from 1 to 5 on 6 different questions, given in order.
-    :param token: 
-    :param recipient: 
-    :param payload: 
+    :param token: String
+    :param recipient: int
+    :param payload: String
     :return: None
     """
     text_list = ['How much did the lecture increase your knowledge?',
@@ -321,8 +326,8 @@ def lecture_feedback_questions(token, recipient, payload):
 def give_feedback_choice(token, recipient):
     """
     Gives the user the choice to select what feedback to give.
-    :param token: 
-    :param recipient:  
+    :param token: String
+    :param recipient: int
     """
     supp = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
                          data=json.dumps({
@@ -337,7 +342,7 @@ def give_feedback_choice(token, recipient):
                                      },
                                      {
                                          "content_type": "text",
-                                         "title": "Question about the lecture",
+                                         "title": "Lecture questions",
                                          "payload": "evaluation_questions"
                                      }
                                  ]
@@ -356,9 +361,8 @@ THIS SECTION FOR FEEDBACK FROM LECTURES
 def get_feedback_specific_or_all(token, recipient):
     """
     Lets the user choose to get feedback for a specific lecture or all lectures.
-    :param token:
-    :param recipient:
-    :return:
+    :param token: String
+    :param recipient: int
     """
     supp = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
                          data=json.dumps({
@@ -387,9 +391,9 @@ def get_feedback_specific_or_all(token, recipient):
 def get_feedback_year(token, recipient, years):
     """
     Lets the user choose to get feedback for a specific lecture or all lectures.
-    :param token:
-    :param recipient:
-    :param years:
+    :param token: String
+    :param recipient: int
+    :param years: list[int]
     """
 
     # Makes initial json object.
@@ -539,7 +543,7 @@ def get_feedback_day(token, recipient, year, days, week):
     :param year: String
     :param days: List[int]
     :param week: String
-    :return:
+    :return: None
     """
 
     # Makes initial json object.
@@ -587,13 +591,41 @@ def present_single_lecture_feedback(token, recipient, feedback_list):
         "message": {"text": 'A total of ' + str(total) + ' students have given their response.\n'
                     + str(slow) + '% of students thought the lecture was too slow.\n'
                     + str(normal) + '% of students thought the lecture was OK.\n'
-                    + str(fast) + '% of students thought the lecture was too fast.'}
+                    + str(fast) + '% of students thought the lecture was too fast.'
+                    }
     })
 
     txt = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
                         data=data, headers={'Content-type': 'application/json'})
     if txt.status_code != requests.codes.ok:
         print(txt.text)
+
+
+def present_single_lecture_feedback_questions(token, recipient, feedback_questions):
+    """
+    feedback for one lecture
+    :param token: String
+    :param recipient: int
+    :param feedback_questions: list[]
+    """
+
+    data = json.dumps({
+        "recipient": {"id": recipient},
+        "message": {"text": "Average score for the following categories.\n"
+                    + str(feedback_questions[0]) + " Increased knowledge\n"
+                    + str(feedback_questions[1]) + " Organization\n"
+                    + str(feedback_questions[2]) + " Logical\n"
+                    + str(feedback_questions[3]) + " Use of slides\n"
+                    + str(feedback_questions[4]) + " Use of time\n"
+                    + str(feedback_questions[5]) + " Presenters knowledge\n"
+                    + str(feedback_questions[6]) + " General score"
+                    }
+    })
+    txt = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
+                        data=data, headers={'Content-type': 'application/json'})
+    if txt.status_code != requests.codes.ok:
+        print(txt.text)
+
 
 
 """
@@ -606,7 +638,7 @@ def add_weeks_to_json(weeks, weeks_string, json_message, year):
     Adds buttons for several weeks to the json message
     :param weeks: list[int]
     :param weeks_string: String
-    :param json_message:
+    :param json_message: json
     :param year: String
     """
 
@@ -627,7 +659,13 @@ def add_weeks_to_json(weeks, weeks_string, json_message, year):
 
 
 def add_days_to_json(day, json_message, year, week):
-
+    """
+    Adds buttons with the name of a day on it.
+    :param day: int
+    :param json_message: json
+    :param year: String
+    :param week: String
+    """
     lecture_day = ''
     if day == 1:
         lecture_day = 'Monday'
@@ -651,5 +689,3 @@ def add_days_to_json(day, json_message, year, week):
         "title": lecture_day,
         "payload": "get_lecture_feedback_day " + str(year) + ' ' + str(week) + ' ' + str(day)
     })
-
-

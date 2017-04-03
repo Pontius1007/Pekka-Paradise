@@ -66,7 +66,9 @@ def gather_lecture_information(schedule):
         return "No schedule available"
 
     for i in range(0, len(schedule['course']['summarized'])):
-        if schedule['course']['summarized'][i]['acronym'] == 'FOR':
+        if schedule['course']['summarized'][i]['acronym'] == 'FOR' \
+                or schedule['course']['summarized'][i]['acronym'] == 'F/Ø':
+            print(i)
             single_lecture = []
             single_lecture.extend(
                 (schedule['course']['summarized'][i]['courseCode'], schedule['course']['summarized'][i]['from'],
