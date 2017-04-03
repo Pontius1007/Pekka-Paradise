@@ -10,8 +10,8 @@ install:
   - "pip install -r requirements.txt"
   - "pip install coveralls"
 script:
-  - coverage run --source=. --omit='db_repository/*' testing.py
-  - coverage run --source=. --omit='db_repository/*' testing_db.py
+  - coverage run --omit='db_repository/*' --source=. testing.py
+  - coverage run --omit='db_repository/*' --source=. testing_db.py
 after_success:
   - coveralls
 notifications:
