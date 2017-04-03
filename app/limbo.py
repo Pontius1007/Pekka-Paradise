@@ -134,6 +134,7 @@ def handle_messages():
         elif payload == "evaluation_questions" or "lecture questions" in incoming_message.lower():
             # User wants to give feedback for a lecture.
             subject = user_methods.get_subject_from_user(user_name)
+            payload = "evaluation_questions"  # if user typed 'lecture questions' the payload will be None
 
             if lecture_methods.check_lecture_in_db(subject):
                 if feedback_methods.user_can_give_feedback_evaluation(user_name,
