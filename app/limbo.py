@@ -277,7 +277,6 @@ def handle_messages():
             response_handler.get_feedback_year(PAT, sender, years)
 
         elif payload is not None:
-            # TODO: put check for if the feedback can be given before the user gives their feedback
             if "evaluation_questions" in payload.split()[0]:
                 payload_split = payload.split()
                 if len(payload_split) == 1:
@@ -373,7 +372,7 @@ def handle_messages():
                                                                                                  payload.split()[2],
                                                                                                  payload.split()[3],
                                                                                                  subject)
-                if len(feedback_list) > 0:  # TODO: Prevent zero division from happening.
+                if len(feedback_list[1]) > 0:  # TODO: Prevent zero division from happening.
                     response_handler.present_single_lecture_feedback(PAT, sender, feedback_list)
                 else:
                     response_handler.text_message(PAT, sender, "This lecture has no feedback for lecture speed")
