@@ -1,11 +1,10 @@
 # -*- coding utf-8 -*-
 
 import unittest
-
 import requests
-
 import message_split
-import ime_data_fetch, subject_info
+import ime_data_fetch
+import subject_info
 
 
 class Testerino(unittest.TestCase):
