@@ -116,5 +116,7 @@ def remove_subject(subject_name):
     :param subject_name: 
     :return: 
     """
-    db.session.delete(models.Subject.query.get(subject_name))
+    for row in models.Subject.query.filter_by(subject_id=subject_name):
+        db.session.delete(row)
     db.session.commit()
+
