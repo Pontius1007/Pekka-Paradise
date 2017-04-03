@@ -192,9 +192,12 @@ def remove_all_feedback(user_name):
     :param user_name: 
     :return: 
     """
-    db.session.delete(models.LectureFeedback.query.get(user_name))
+    for row in models.LectureFeedback.query.filter_by(user_id=user_name):
+        db.session.delete(row)
     # db.session.delete(models.LectureFeedback.query.get(user_name))
+    # Remove the other feedback thingy
     db.session.commit()
+
 
 def get_day():
     """
