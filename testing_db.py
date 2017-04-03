@@ -97,8 +97,10 @@ class DbTests(unittest.TestCase):
         self.assertTrue(feedback_methods.add_entry(name, lecture_info[0], "1"))
         self.assertFalse(feedback_methods.add_entry(name, lecture_info[0], "0"))
         feedback_methods.remove_all_feedback(name)
+        # Add method to add feedback evaluation stuff
         self.assertTrue(feedback_methods.add_entry(name, lecture_info[0], "1"))
-        self.assertEqual(feedback_methods.get_all_subject_feed(lecture_info[0]), [lecture_info[0], "1"])
+        feedback, feedbackevaluation = feedback_methods.get_all_subject_feed(lecture_info[0])
+        self.assertEqual(feedback, [lecture_info[0], "1"])
 
         # Remove user, test feedback and lecture
         feedback_methods.remove_all_feedback(name)
