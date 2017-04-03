@@ -3,7 +3,7 @@ cache:
   pip: true
 branches:
   only:
-  - "testing_2"
+  - "testing"
 python:
   - "3.6"
 install:
