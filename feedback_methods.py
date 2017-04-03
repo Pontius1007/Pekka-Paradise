@@ -34,7 +34,7 @@ def add_entry(user_name, subject_name, feedback):
 def get_all_subject_feed(subject):
     """
     :param subject: String
-    :return: feedback_list[feed1, feed2, feed3], feedbackevaluation_list[lecture_feedback[int]] there are 7 entries in 
+    :return: feedback_list[feed1, feed2, feed3], feedbackevaluation_list[lecture_feedback[int]] there are 7 entries in
     each lecture_feedback
     """
     ids = lecture_methods.get_lectures_from_subject(subject)
@@ -105,7 +105,7 @@ def user_has_feedback_for_lecture(user_name, lecture):
 def add_feedback_evaluation(user_name, subject_name, increased_knowledge, well_organized, logical, use_of_slides,
                             use_of_time, presenter_knowledgeable, general_score):
     """
-    Takes in scores and makes a lecturefeedbackevaluation and stores in database. 
+    Takes in scores and makes a lecturefeedbackevaluation and stores in database.
     :param user_name: String
     :param subject_name: String
     :param increased_knowledge: int
