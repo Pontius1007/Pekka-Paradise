@@ -18,7 +18,6 @@ def __message_splitter(in_message):
                 right = in_message[i+1:]
                 message_list = [left, right]
                 return message_list
-        return [in_message]
 
 
 def message_split(message):

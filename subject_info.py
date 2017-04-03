@@ -92,8 +92,6 @@ def get_course_json(sub_code):
             return 'Subject does not exist'
     except TypeError:
         return 'Subject does not exist'
-    except ValueError:
-        return 'Not valid'
     return course
 
 
