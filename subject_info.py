@@ -76,7 +76,7 @@ def gather_lecture_information(schedule):
             try:
                 single_lecture.extend(schedule['course']['summarized'][i]['rooms'][0]['romNavn'])
             except IndexError:
-                single_lecture.extend("")
+                single_lecture.extend("None")
             lecture_information.append(single_lecture)
     return lecture_information
 
