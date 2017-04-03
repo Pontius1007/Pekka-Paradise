@@ -112,7 +112,7 @@ class Testerino(unittest.TestCase):
              course['credit'], course['studyLevelName'],
              course['assessment'][0]['codeName'], course['assessment'][0]['gradeRuleSchemeName'],
              course['assessment'][0]['date']))
-        
+
         self.assertEqual(subject_info.printable_course_info(subject_info.get_course_json("tdt4145")), info_string)
 
         course = subject_info.get_course_json("tdt4140")
