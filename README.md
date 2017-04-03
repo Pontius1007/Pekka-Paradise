@@ -4,6 +4,9 @@ Repository for TDT4140 - Programutvikling
 Link to the page: https://www.facebook.com/LIMBOBOT/
 
 Only testers can interact with the bot in it's current state.
+## Code coverage from Coveralls
+
+[![Coverage Status](https://coveralls.io/repos/github/Pontius1007/Pekka-Paradise/badge.svg?branch=testing)](https://coveralls.io/github/Pontius1007/Pekka-Paradise?branch=testing)
 
 ## Virtualenvironment set-up
 Assuming you already have python 3.6 installed, navigate to your local version of the respository and open cmd.
@@ -48,7 +51,3 @@ VERIFY_TOKEN you set yourself when making the facebook page.
 [Jump to #2 and follow untill #5 to set up facebook page](https://blog.hartleybrody.com/fb-messenger-bot/)
 
 When you get to the Page Access Token and VERIFY_TOKEN in the facebook tutorial set them on you Heroku app.
-
-## Code coverage from Coveralls
-
-[![Coverage Status](https://coveralls.io/repos/github/Pontius1007/Pekka-Paradise/badge.svg)](https://coveralls.io/github/Pontius1007/Pekka-Paradise)
