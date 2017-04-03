@@ -53,6 +53,3 @@ else:
     print(len(schedule))
     print(schedule)
 """
-
-
-
