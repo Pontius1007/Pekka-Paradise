@@ -131,7 +131,7 @@ def handle_messages():
                                                   "lectures this semester.")
                     response_handler.has_course(PAT, sender, subject)
 
-        elif payload == "evaluation_questions" "lecture questions" in incoming_message.lower():
+        elif payload == "evaluation_questions" or "lecture questions" in incoming_message.lower():
             # User wants to give feedback for a lecture.
             subject = user_methods.get_subject_from_user(user_name)
 
