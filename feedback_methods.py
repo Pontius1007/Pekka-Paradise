@@ -60,7 +60,7 @@ def get_single_lecture_feed(year, week, day, subject):
     :param week: int
     :param day: int
     :param subject string
-    :return: feedback_list[lecture_id, list[int]], feedback_question_list[]
+    :return: feedback_list[lecture_id, list[int]]
     """
     lecture_id = lecture_methods.get_lecture_from_date(year, week, day, subject)
     feedback_list = []
