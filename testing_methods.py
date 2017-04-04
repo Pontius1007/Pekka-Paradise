@@ -292,23 +292,30 @@ class UserMethodTests(unittest.TestCase):
         user_methods.add_user(self.user, self.test_sub)
         self.assertTrue(user_methods.subject_has_subject(self.test_sub))
 
-        self.assertRaises(Exception, user_methods.has_user(1337))
-        self.assertRaises(Exception, user_methods.subject_has_subject(1337))
-        self.assertRaises(Exception, user_methods.add_subject_to_subject_table(1337))
-        self.assertRaises(Exception, user_methods.get_subject_from_user(1337))
-        self.assertRaises(Exception, user_methods.add_user(1337, 1337))
-        self.assertRaises(Exception, user_methods.add_subject(1337, 1337))
-
+    def test_exceptions(self):
+        """
+        Checks that the various methods throws exceptions when given wrong args
+        :return: 
+        """
+        try:
+            self.assertRaises(Exception, user_methods.has_user(1337))
+            self.assertRaises(Exception, user_methods.subject_has_subject(1337))
+            self.assertRaises(Exception, user_methods.add_subject_to_subject_table(1337))
+            self.assertRaises(Exception, user_methods.get_subject_from_user(1337))
+            self.assertRaises(Exception, user_methods.add_user(1337, 1337))
+            self.assertRaises(Exception, user_methods.add_subject(1337, 1337))
+        except SQLAlchemyError as e:
+            print("This went wrong\n" + str(e))
 
     def tearDown(self):
-        # try:
-        user_methods.delete_user(self.user)
-        # except SQLAlchemyError:
-        #    print("No user to remove in db")
-        # try:
-        user_methods.remove_subject(self.test_sub)
-        # except SQLAlchemyError:
-        #    print("No subject to remove db")
+        try:
+            user_methods.delete_user(self.user)
+        except SQLAlchemyError:
+            print("No user to remove in db")
+        try:
+            user_methods.remove_subject(self.test_sub)
+        except SQLAlchemyError:
+            print("No subject to remove db")
 
 
 class FeedbackMethodsTest(unittest.TestCase):
