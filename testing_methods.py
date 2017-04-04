@@ -312,6 +312,7 @@ class FeedbackMethodsTest(unittest.TestCase):
         """
         self.today = self.get_today()
         self.name = "TESTER LAST_NAME"
+        self.test_sub = "TST4" + str(random.randint(0, 2000))
         self.lecture_info = ["TST4200"]
         for item in self.today:
             self.lecture_info.append(item)
@@ -323,7 +324,7 @@ class FeedbackMethodsTest(unittest.TestCase):
 
     def test_feedback_methods(self):
         """
-        This methods tests feedback methods, and assumes user_methods work.      
+        Tests feedback methods, and assumes user_methods work.      
         lecture info : [subject(str), year(int), week(int), day(int), start_time(str), end_time(str), room(str)]
         :return: 
         """
@@ -331,19 +332,28 @@ class FeedbackMethodsTest(unittest.TestCase):
         self.assertTrue(feedback_methods.add_entry(self.name, self.lecture_info[0], "1"))
         self.assertFalse(feedback_methods.add_entry(self.name, self.lecture_info[0], "0"))
         feedback_methods.remove_all_feedback(self.name)
-        # TODO add test for feedback evaluation
+
+        self.assertTrue(lecture_methods.check_lecture_in_db(self.lecture_info[0]))
+        self.assertFalse(lecture_methods.check_lecture_in_db("TDT420"))
+        self.assertFalse(lecture_methods.check_lecture_in_db(self.test_sub))
         self.assertTrue(feedback_methods.add_entry(self.name, self.lecture_info[0], "1"))
         self.assertEqual(feedback_methods.get_single_lecture_feed(self.lecture_info[1], self.lecture_info[2],
                                                                   self.lecture_info[3], self.lecture_info[0])[1], [1])
+        self.assertTrue(feedback_methods.add_feedback_evaluation(self.name, self.lecture_info[0], 5, 5, 5, 5, 5, 5, 5))
+        self.assertFalse(feedback_methods.add_feedback_evaluation(self.name, self.lecture_info[0], 5, 5, 5, 5, 5, 5, 5))
         feedback, feedback_evaluation = feedback_methods.get_all_subject_feed(self.lecture_info[0])
         self.assertEqual(feedback, [1])
+        self.assertEqual(feedback_evaluation, [5, 5, 5, 5, 5, 5, 5])
+        self.assertEqual(
+            feedback_methods.get_single_lecture_feedback_questions(
+                self.lecture_info[1], self.lecture_info[2], self.lecture_info[3], self.lecture_info[0])[1],
+            [5, 5, 5, 5, 5, 5, 5])
 
     def tearDown(self):
         """
         Removes test data from the database if it exists
         :return: 
         """
-        # TODO remove lecture_feedback_evaluation first
         try:
             feedback_methods.remove_all_feedback(self.name)
         except SQLAlchemyError:
