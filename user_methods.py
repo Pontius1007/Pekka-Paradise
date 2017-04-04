@@ -60,7 +60,7 @@ def add_subject(user_name, subject_name):
 
 def get_subject_from_user(user_name):
     """
-    get subject from userfacebook
+    get subject from UserFacebook
     :param user_name:
     :return: subject_name
     """
@@ -74,11 +74,12 @@ def get_subject_from_user(user_name):
 
 def delete_user(user_name):
     """
-    deletes a user in userfacebook
+    deletes a user in UserFacebook table
     :param user_name:
     """
     if models.UserFacebook.query.get(user_name) is not None:
-        db.session.delete(models.UserFacebook.query.get(user_name))
+        for row in models.UserFacebook.query.filter_by(user_id=user_name):
+            db.session.delete(row)
         db.session.commit()
 
 
