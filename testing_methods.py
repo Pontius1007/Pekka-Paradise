@@ -352,20 +352,13 @@ class FeedbackMethodsTest(unittest.TestCase):
                 self.lecture_info[1], self.lecture_info[2], self.lecture_info[3], self.lecture_info[0])[0],
             [5, 5, 5, 5, 5, 5, 5])
 
-        self.assertRaises(
-            ValueError, feedback_methods.add_feedback_evaluation(self.name, self.lecture_info[0], 6, 5, 5, 5, 5, 5, 5))
-        self.assertRaises(
-            ValueError, feedback_methods.add_feedback_evaluation(self.name, self.lecture_info[0], 5, 6, 5, 5, 5, 5, 5))
-        self.assertRaises(
-            ValueError, feedback_methods.add_feedback_evaluation(self.name, self.lecture_info[0], 5, 5, 6, 5, 5, 5, 5))
-        self.assertRaises(
-            ValueError, feedback_methods.add_feedback_evaluation(self.name, self.lecture_info[0], 5, 5, 5, 6, 5, 5, 5))
-        self.assertRaises(
-            ValueError, feedback_methods.add_feedback_evaluation(self.name, self.lecture_info[0], 5, 5, 5, 5, 6, 5, 5))
-        self.assertRaises(
-            ValueError, feedback_methods.add_feedback_evaluation(self.name, self.lecture_info[0], 5, 5, 5, 5, 5, 6, 5))
-        self.assertRaises(
-            ValueError, feedback_methods.add_feedback_evaluation(self.name, self.lecture_info[0], 5, 5, 5, 5, 5, 5, 6))
+        self.assertFalse(feedback_methods.add_feedback_evaluation(self.name, self.lecture_info[0], 6, 5, 5, 5, 5, 5, 5))
+        self.assertFalse(feedback_methods.add_feedback_evaluation(self.name, self.lecture_info[0], 5, 6, 5, 5, 5, 5, 5))
+        self.assertFalse(feedback_methods.add_feedback_evaluation(self.name, self.lecture_info[0], 5, 5, 6, 5, 5, 5, 5))
+        self.assertFalse(feedback_methods.add_feedback_evaluation(self.name, self.lecture_info[0], 5, 5, 5, 6, 5, 5, 5))
+        self.assertFalse(feedback_methods.add_feedback_evaluation(self.name, self.lecture_info[0], 5, 5, 5, 5, 6, 5, 5))
+        self.assertFalse(feedback_methods.add_feedback_evaluation(self.name, self.lecture_info[0], 5, 5, 5, 5, 5, 6, 5))
+        self.assertFalse(feedback_methods.add_feedback_evaluation(self.name, self.lecture_info[0], 5, 5, 5, 5, 5, 5, 6))
 
     def tearDown(self):
         """
