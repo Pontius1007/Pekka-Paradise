@@ -343,10 +343,10 @@ class FeedbackMethodsTest(unittest.TestCase):
         self.assertFalse(feedback_methods.add_feedback_evaluation(self.name, self.lecture_info[0], 5, 5, 5, 5, 5, 5, 5))
         feedback, feedback_evaluation = feedback_methods.get_all_subject_feed(self.lecture_info[0])
         self.assertEqual(feedback, [1])
-        self.assertEqual(feedback_evaluation, [5, 5, 5, 5, 5, 5, 5])
+        self.assertEqual(feedback_evaluation[0], [5, 5, 5, 5, 5, 5, 5])
         self.assertEqual(
             feedback_methods.get_single_lecture_feedback_questions(
-                self.lecture_info[1], self.lecture_info[2], self.lecture_info[3], self.lecture_info[0])[1][0],
+                self.lecture_info[1], self.lecture_info[2], self.lecture_info[3], self.lecture_info[0])[1],
             [5, 5, 5, 5, 5, 5, 5])
 
     def tearDown(self):
