@@ -248,76 +248,63 @@ class IMETest(unittest.TestCase):
 
 class UserMethodTests(unittest.TestCase):
 
-    def setUp(self):
-        """
-        Fills the database with test user and test subject
-        :return: 
-        """
-        self.user = "Test User1337"
-        self.subject = "TDT4120"
-        self.test_sub = "TST4" + str(random.randint(0, 2000))
+    # def setUp(self):
+    #     """
+    #     Fills the database with test user and test subject
+    #     :return:
+    #     """
+    #     self.user = "Test User1337"
+    #     self.subject = "TDT4120"
+    #     self.test_sub = "TST4" + str(random.randint(0, 2000))
 
     def test_user_methods(self):
         """
         Tests the various methods in user_methods.py as described onwards
         :return: 
         """
-        user_methods.add_user(self.user, self.subject)
+
+        user = "Test User1337"
+        subject = "TDT4120"
+        test_sub = "TST4" + str(random.randint(0, 2000))
+        # Checks that added user is added to database with correct subject
+        user_methods.add_user(user, subject)
         with Capturing() as output:
             # Checks that there is some response if user is already in db
-            user_methods.add_user(self.user, self.subject)
+            user_methods.add_user(user, subject)
         if len(output) > 0:  # This should always trigger as long as the DB is initially empty
             self.assertEqual('User already exists', str(output[0]))
-        self.assertTrue(user_methods.has_user(self.user))
-        self.assertEqual(user_methods.get_subject_from_user(self.user), self.subject)
+        self.assertTrue(user_methods.has_user(user))
+        self.assertEqual(user_methods.get_subject_from_user(user), subject)
 
         # Updates subject for user and checks that it updates in db
-        user_methods.add_subject(self.user, self.test_sub)
-        self.assertEqual(user_methods.get_subject_from_user(self.user), self.test_sub)
+        user_methods.add_subject(user, test_sub)
+        self.assertEqual(user_methods.get_subject_from_user(user), test_sub)
         # Removes user then subject and verifies that they are removed from db
-        user_methods.delete_user(self.user)
-        self.assertFalse(user_methods.has_user(self.user))
-        user_methods.remove_subject(self.test_sub)
-        self.assertFalse(user_methods.subject_has_subject(self.test_sub))
+        user_methods.delete_user(user)
+        self.assertFalse(user_methods.has_user(user))
+        user_methods.remove_subject(test_sub)
+        self.assertFalse(user_methods.subject_has_subject(test_sub))
         # Adds and removes subject independently from user
-        user_methods.add_subject_to_subject_table(self.test_sub)
-        self.assertTrue(user_methods.subject_has_subject(self.test_sub))
-        user_methods.remove_subject(self.test_sub)
-        self.assertFalse(user_methods.subject_has_subject(self.test_sub))
+        user_methods.add_subject_to_subject_table(test_sub)
+        self.assertTrue(user_methods.subject_has_subject(test_sub))
+        user_methods.remove_subject(test_sub)
+        self.assertFalse(user_methods.subject_has_subject(test_sub))
 
         # Now assume methods for adding and removing subjects and users are working
         # Add new user with subject not in db, just to test
-        self.assertFalse(user_methods.subject_has_subject(self.test_sub))
-        user_methods.add_user(self.user, self.test_sub)
-        self.assertTrue(user_methods.subject_has_subject(self.test_sub))
+        self.assertFalse(user_methods.subject_has_subject(test_sub))
+        user_methods.add_user(user, test_sub)
+        self.assertTrue(user_methods.subject_has_subject(test_sub))
+        user_methods.delete_user(user)
+        user_methods.remove_subject(test_sub)
 
-    def test_exceptions(self):
-        """
-        Checks that the various methods throws exceptions when given wrong args
-        :return: 
-        """
-        user_methods.delete_user(self.user)
-        user_methods.remove_subject(self.test_sub)
-
-        try:
-            self.assertRaises(Exception, user_methods.has_user(1337))
-            self.assertRaises(Exception, user_methods.subject_has_subject(1337))
-            self.assertRaises(Exception, user_methods.add_subject_to_subject_table(1337))
-            self.assertRaises(Exception, user_methods.get_subject_from_user(1337))
-            self.assertRaises(Exception, user_methods.add_user(1337, 1337))
-            self.assertRaises(Exception, user_methods.add_subject(1337, 1337))
-        except SQLAlchemyError as e:
-            print("This went wrong\n" + str(e))
-
-    # def tearDown(self):
-    #     try:
-    #         user_methods.delete_user(self.user)
-    #     except SQLAlchemyError:
-    #         print("No user to remove in db")
-    #     try:
-    #         user_methods.remove_subject(self.test_sub)
-    #     except SQLAlchemyError:
-    #         print("No subject to remove db")
+        # Check that user_methods throws exceptions when given wrong args
+        self.assertRaises(Exception, user_methods.has_user(1337))
+        self.assertRaises(Exception, user_methods.subject_has_subject(1337))
+        self.assertRaises(Exception, user_methods.add_subject_to_subject_table(1337))
+        self.assertRaises(Exception, user_methods.get_subject_from_user(1337))
+        self.assertRaises(Exception, user_methods.add_user(1337, 1337))
+        self.assertRaises(Exception, user_methods.add_subject(1337, 1337))
 
 
 class FeedbackMethodsTest(unittest.TestCase):
