@@ -28,7 +28,8 @@ class Capturing(list):
         sys.stdout = self._stdout
 
 
-class DbTests(unittest.TestCase):
+class IMETest(unittest.TestCase):
+
     def test_subject_exists_boolean(self):
         """
         This method tests the subject_exists_boolean method in ime_data_fetch.py
@@ -240,6 +241,9 @@ class DbTests(unittest.TestCase):
 
         self.assertEqual(message_split.message_split(melding), msg_list)
         self.assertEqual(message_split.message_split("heidu"), ["heidu"])
+
+
+class DbTests(unittest.TestCase):
 
     def test_user_methods(self):
         """
