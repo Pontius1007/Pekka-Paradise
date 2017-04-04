@@ -257,7 +257,6 @@ class UserMethodTests(unittest.TestCase):
         self.subject = "TDT4120"
         self.test_sub = "TST4" + str(random.randint(0, 2000))
 
-
     def test_user_methods(self):
         """
         Tests the various methods in user_methods.py as described onwards
@@ -297,6 +296,9 @@ class UserMethodTests(unittest.TestCase):
         Checks that the various methods throws exceptions when given wrong args
         :return: 
         """
+        user_methods.delete_user(self.user)
+        user_methods.remove_subject(self.test_sub)
+
         try:
             self.assertRaises(Exception, user_methods.has_user(1337))
             self.assertRaises(Exception, user_methods.subject_has_subject(1337))
@@ -306,9 +308,6 @@ class UserMethodTests(unittest.TestCase):
             self.assertRaises(Exception, user_methods.add_subject(1337, 1337))
         except SQLAlchemyError as e:
             print("This went wrong\n" + str(e))
-
-        user_methods.delete_user(self.user)
-        user_methods.remove_subject(self.test_sub)
 
     # def tearDown(self):
     #     try:
