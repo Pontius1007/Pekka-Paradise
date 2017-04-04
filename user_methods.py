@@ -3,7 +3,7 @@ from app import db, models
 
 def has_user(user_name):
     """
-    check if user in userfacebook exists
+    check if user in UserFacebook exists
     :param user_name:
     :return:
     """
@@ -17,7 +17,7 @@ def has_user(user_name):
 
 def add_user(user_name, subject_name):
     """
-    Add a user and subject to userfacebook
+    Add a user and subject to UserFacebook
     Also adds subject to Subject-table if it is not present.
     :param user_name:
     :param subject_name:
@@ -38,7 +38,7 @@ def add_user(user_name, subject_name):
 
 def add_subject(user_name, subject_name):
     """
-    Add subject to userfacebook
+    Add subject to UserFacebook
     Also adds subject to Subject-table if it is not present.
     :param user_name:
     :param subject_name:

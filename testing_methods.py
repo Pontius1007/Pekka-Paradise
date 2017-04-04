@@ -256,14 +256,14 @@ class UserMethodTests(unittest.TestCase):
         self.user = "Test User1337"
         self.subject = "TDT4120"
         self.test_sub = "TST4" + str(random.randint(0, 2000))
-        # Checks that added user is added to database with correct subject
-        user_methods.add_user(self.user, self.subject)
+
 
     def test_user_methods(self):
         """
         Tests the various methods in user_methods.py as described onwards
         :return: 
         """
+        user_methods.add_user(self.user, self.subject)
         with Capturing() as output:
             # Checks that there is some response if user is already in db
             user_methods.add_user(self.user, self.subject)
@@ -307,15 +307,18 @@ class UserMethodTests(unittest.TestCase):
         except SQLAlchemyError as e:
             print("This went wrong\n" + str(e))
 
-    def tearDown(self):
-        try:
-            user_methods.delete_user(self.user)
-        except SQLAlchemyError:
-            print("No user to remove in db")
-        try:
-            user_methods.remove_subject(self.test_sub)
-        except SQLAlchemyError:
-            print("No subject to remove db")
+        user_methods.delete_user(self.user)
+        user_methods.remove_subject(self.test_sub)
+
+    # def tearDown(self):
+    #     try:
+    #         user_methods.delete_user(self.user)
+    #     except SQLAlchemyError:
+    #         print("No user to remove in db")
+    #     try:
+    #         user_methods.remove_subject(self.test_sub)
+    #     except SQLAlchemyError:
+    #         print("No subject to remove db")
 
 
 class FeedbackMethodsTest(unittest.TestCase):
