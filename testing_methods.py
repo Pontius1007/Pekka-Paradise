@@ -305,14 +305,14 @@ class UserMethodTests(unittest.TestCase):
         self.assertRaises(Exception, user_methods.add_subject(1337, 1337))
 
     def tearDown(self):
-        try:
-            user_methods.delete_user(self.user)
-        except SQLAlchemyError:
-            print("No user to remove in db")
-        try:
-            user_methods.remove_subject(self.test_sub)
-        except SQLAlchemyError:
-            print("No subject to remove db")
+        # try:
+        user_methods.delete_user(self.user)
+        # except SQLAlchemyError:
+        #    print("No user to remove in db")
+        # try:
+        user_methods.remove_subject(self.test_sub)
+        # except SQLAlchemyError:
+        #    print("No subject to remove db")
 
 
 class FeedbackMethodsTest(unittest.TestCase):
