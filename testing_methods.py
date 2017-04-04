@@ -315,7 +315,7 @@ class DbTests(unittest.TestCase):
         # Add method to add feedback evaluation stuff
         self.assertTrue(feedback_methods.add_entry(name, lecture_info[0], "1"))
         self.assertEqual(feedback_methods.get_single_lecture_feed(lecture_info[1], lecture_info[2], lecture_info[3],
-                                                                  lecture_info[0])[1], 1)
+                                                                  lecture_info[0])[1], [1])
         feedback, feedback_evaluation = feedback_methods.get_all_subject_feed(lecture_info[0])
         self.assertEqual(feedback, [1])
 
