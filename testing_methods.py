@@ -340,9 +340,14 @@ class FeedbackMethodsTest(unittest.TestCase):
         self.assertEqual(feedback_methods.get_single_lecture_feed(self.lecture_info[1], self.lecture_info[2],
                                                                   self.lecture_info[3], self.lecture_info[0])[1], [1])
         self.assertTrue(feedback_methods.user_can_give_feedback_evaluation(self.name, self.lecture_info[0]))
+        self.assertFalse(feedback_methods.add_feedback_evaluation(self.name, self.lecture_info[0], 7, 7, 7, 7, 7, 7, 7))
         self.assertTrue(feedback_methods.add_feedback_evaluation(self.name, self.lecture_info[0], 5, 5, 5, 5, 5, 5, 5))
         self.assertFalse(feedback_methods.user_can_give_feedback_evaluation(self.name, self.lecture_info[0]))
         self.assertFalse(feedback_methods.user_can_give_feedback_evaluation(self.name, "TDT420"))
+        # Test date methods in lecture_methods
+        self.assertEqual(self.lecture_info[1], feedback_methods.get_year())
+        self.assertEqual(self.lecture_info[2], feedback_methods.get_week())
+        self.assertEqual(self.lecture_info[3], feedback_methods.get_day())
         self.assertFalse(feedback_methods.add_feedback_evaluation(self.name, self.lecture_info[0], 5, 5, 5, 5, 5, 5, 5))
         feedback, feedback_evaluation = feedback_methods.get_all_subject_feed(self.lecture_info[0])
         self.assertEqual(feedback, [1])
@@ -351,14 +356,10 @@ class FeedbackMethodsTest(unittest.TestCase):
             feedback_methods.get_single_lecture_feedback_questions(
                 self.lecture_info[1], self.lecture_info[2], self.lecture_info[3], self.lecture_info[0])[0],
             [5, 5, 5, 5, 5, 5, 5])
-
-        self.assertFalse(feedback_methods.add_feedback_evaluation(self.name, self.lecture_info[0], 6, 5, 5, 5, 5, 5, 5))
-        self.assertFalse(feedback_methods.add_feedback_evaluation(self.name, self.lecture_info[0], 5, 6, 5, 5, 5, 5, 5))
-        self.assertFalse(feedback_methods.add_feedback_evaluation(self.name, self.lecture_info[0], 5, 5, 6, 5, 5, 5, 5))
-        self.assertFalse(feedback_methods.add_feedback_evaluation(self.name, self.lecture_info[0], 5, 5, 5, 6, 5, 5, 5))
-        self.assertFalse(feedback_methods.add_feedback_evaluation(self.name, self.lecture_info[0], 5, 5, 5, 5, 6, 5, 5))
-        self.assertFalse(feedback_methods.add_feedback_evaluation(self.name, self.lecture_info[0], 5, 5, 5, 5, 5, 6, 5))
-        self.assertFalse(feedback_methods.add_feedback_evaluation(self.name, self.lecture_info[0], 5, 5, 5, 5, 5, 5, 6))
+        # TODO not everything is tested here
+        self.assertFalse(feedback_methods.add_feedback_evaluation(self.name, self.lecture_info[0], 6, 7, 7, 6, 6, 6, 7))
+        self.assertRaises(Exception, feedback_methods.user_has_feedback_for_lecture(12, "HEI"))
+        self.assertRaises(Exception, feedback_methods.user_can_give_feedback_evaluation(12,12))
 
     def tearDown(self):
         """
