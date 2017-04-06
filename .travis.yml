@@ -4,6 +4,8 @@ cache:
 branches:
   only:
   - "testing"
+  - "dev"
+  - "master"
 python:
   - "3.6"
 install:
