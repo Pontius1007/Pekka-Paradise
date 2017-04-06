@@ -114,10 +114,8 @@ def remove_subject(subject_name):
     """
     This method is only used for testing, and is used to
     remove dummy subject from db
-    :param subject_name: 
-    :return: 
+    :param subject_name: String
     """
     for row in models.Subject.query.filter_by(subject_id=subject_name):
         db.session.delete(row)
     db.session.commit()
-
