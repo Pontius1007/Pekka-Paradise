@@ -145,7 +145,6 @@ def user_can_give_feedback_evaluation(user_name, subject_name):
                                               week_number=today[1], day_number=today[2])
     if lectures.count() > 0:
         for lecture in lectures:
-            print(lecture)
             if user_has_feedback_for_lecture_evaluation(user_name, lecture):
                 # User has already given feedback
                 return False

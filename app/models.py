@@ -71,7 +71,7 @@ class LectureFeedbackEvaluation(db.Model):
     user_id = db.Column(db.String(100), db.ForeignKey('userfacebook.user_id'))
     lecture_id = db.Column(db.Integer, db.ForeignKey('lecture.id'))
     # All the bellow are a score from 1 to 5.
-    increased_knowledge = db.Column(db.Integer)
+    increased_knowledge = db.Column(db.Integer, )
     well_organized = db.Column(db.Integer)
     use_of_slides = db.Column(db.Integer)
     use_of_time = db.Column(db.Integer)
@@ -108,7 +108,7 @@ class LectureFeedbackEvaluation(db.Model):
         else:
             raise ValueError('Value out of bounds')
         if self.is_inside_bounds(next_lecture):
-            self.logical = next_lecture
+            self.next_lecture = next_lecture
         else:
             raise ValueError('Value out of bounds')
 

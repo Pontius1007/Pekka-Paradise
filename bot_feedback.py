@@ -30,9 +30,6 @@ def generate_percent_for_questions(feedbackevaluation):
     next_lecture = 0
     feedbackeval_total = len(feedbackevaluation)
     for feedbackeval in feedbackevaluation:
-        # bugtest
-        print(feedbackeval)
-        # bugtest end
         increased_knowledge += feedbackeval[0]
         well_organized += feedbackeval[1]
         use_of_slides += feedbackeval[2]
