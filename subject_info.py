@@ -1,8 +1,10 @@
 # -*- coding utf-8 -*-
 
-import requests
-import ime_data_fetch
 from datetime import date
+
+import requests
+
+import ime_data_fetch
 
 # a list of weekdays to use in printing course schedules
 week = ["mandag", "tirsdag", "onsdag", "torsdag", "fredag"]
@@ -26,6 +28,7 @@ def get_schedule(sub_code):
                                 + sub_code.upper() + "&year=" + current_year + "&version=1").json()
         try:
             trigger_key_error = schedule['course']['summarized']
+            # trigger_key_error is only user to trigger an exception and the information stored in it is not needed.
             return schedule
         except KeyError:
             return False
@@ -40,7 +43,7 @@ def printable_schedule(schedule):
     :return: a string with the schedule
     """
     if not schedule:
-        return "No schedule available"
+        return "No schedule available."
 
     schedule = schedule['course']['summarized']
     schedule_string = "Timeplan for " + schedule[0]['courseName'] + ":\n"
@@ -64,7 +67,9 @@ def gather_lecture_information(schedule):
         return "No schedule available"
 
     for i in range(0, len(schedule['course']['summarized'])):
-        if schedule['course']['summarized'][i]['acronym'] == 'FOR':
+        if schedule['course']['summarized'][i]['acronym'] == 'FOR' \
+                or schedule['course']['summarized'][i]['acronym'] == 'F/Ø':
+            print(i)
             single_lecture = []
             single_lecture.extend(
                 (schedule['course']['summarized'][i]['courseCode'], schedule['course']['summarized'][i]['from'],
@@ -73,7 +78,7 @@ def gather_lecture_information(schedule):
             try:
                 single_lecture.extend(schedule['course']['summarized'][i]['rooms'][0]['romNavn'])
             except IndexError:
-                single_lecture.extend("")
+                single_lecture.extend("None")
             lecture_information.append(single_lecture)
     return lecture_information
 
@@ -90,8 +95,6 @@ def get_course_json(sub_code):
             return 'Subject does not exist'
     except TypeError:
         return 'Subject does not exist'
-    except ValueError:
-        return 'Not valid'
     return course
 
 
@@ -118,7 +121,7 @@ def printable_course_info(course):
                         course['assessment'][0]['codeName'], course['assessment'][0]['gradeRuleSchemeName']))
     return info_string
 
-  
+
 def course_name(code):
     """
     A method that fetches the name of a course
@@ -130,4 +133,3 @@ def course_name(code):
     if c == 'Subject does not exist' or c == 'Not valid':
         return c
     return c['course']['name']
-

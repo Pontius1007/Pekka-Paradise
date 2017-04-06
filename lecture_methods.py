@@ -60,15 +60,33 @@ def get_lectures_from_subject(subject):
     return lecture_ids
 
 
-def get_lecture_from_date(year, week, day):
+def get_lecture_from_date(year, week, day, subject):
     """
     Gets lecture id from year, week and day
     :param year: int
     :param week: int
     :param day: int
+    :param subject String
     :return: lecture id, int
     """
-    lectures = models.Lecture.query.filter_by(year=year, week_number=week, day_number=day)
+    lectures = models.Lecture.query.filter_by(year=year, week_number=week, day_number=day, subject=subject)
     if lectures.count():
         lecture_id = lectures[0].id
         return lecture_id
+
+
+def add_and_remove_test(remove, lecture_inf):
+    """
+    Only for testing, adds or removes a lecture depending on 'remove'. 
+    :param remove: bool
+    :param lecture_inf: [subject, year(int), week(int), day(int), start_time end_time, room] 
+    :return: 
+    """
+    if not remove:
+        new_lecture = models.Lecture(lecture_inf[0], lecture_inf[1], lecture_inf[2], lecture_inf[3], lecture_inf[4],
+                                     lecture_inf[5], lecture_inf[6])
+        db.session.add(new_lecture)
+    elif remove:
+        for row in models.Lecture.query.filter_by(subject=lecture_inf[0]):
+            db.session.delete(row)
+    db.session.commit()

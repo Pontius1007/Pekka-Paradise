@@ -1,11 +1,19 @@
 language: python
 cache:
   pip: true
+branches:
+  only:
+  - "testing"
+  - "dev"
+  - "master"
 python:
   - "3.6"
 install:
   - "pip install -r requirements.txt"
-script: 
-  - pytest
+  - "pip install coveralls"
+script:
+  - coverage run --omit='db_repository/*' --source=. testing_methods.py
+after_success:
+  - coveralls
 notifications:
   email: false
