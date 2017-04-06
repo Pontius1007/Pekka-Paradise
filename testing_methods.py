@@ -259,7 +259,6 @@ class UserMethodTests(unittest.TestCase):
     def test_user_methods(self):
         """
         Tests the various methods in user_methods.py as described onwards
-        :return: 
         """
         # Checks that added user is added to database with correct subject
         user_methods.add_user(self.user, self.subject)
@@ -307,7 +306,6 @@ class FeedbackMethodsTest(unittest.TestCase):
     def setUp(self):
         """
         Populates the database with various test data
-        :return: 
         """
         self.today = self.get_today()
         self.name = "TESTER LAST_NAME"
@@ -323,9 +321,8 @@ class FeedbackMethodsTest(unittest.TestCase):
 
     def test_feedback_methods(self):
         """
-        Tests feedback methods, and assumes user_methods work.      
+        Tests feedback methods, and assumes user_methods work.
         lecture info : [subject(str), year(int), week(int), day(int), start_time(str), end_time(str), room(str)]
-        :return: 
         """
         # Checks the various feedback methods
         # Checks the various feedback methods
@@ -357,7 +354,6 @@ class FeedbackMethodsTest(unittest.TestCase):
     def tearDown(self):
         """
         Removes test data from the database if it exists
-        :return: 
         """
         try:
             feedback_methods.remove_all_feedback(self.name)
@@ -384,6 +380,7 @@ class FeedbackMethodsTest(unittest.TestCase):
         """
         date = datetime.date.today()
         return [date.year, datetime.date.isocalendar(date)[1], datetime.datetime.today().weekday() + 1]
+
 
 if __name__ == '__main__':
     unittest.main()
