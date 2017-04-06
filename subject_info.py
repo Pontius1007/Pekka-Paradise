@@ -28,6 +28,7 @@ def get_schedule(sub_code):
                                 + sub_code.upper() + "&year=" + current_year + "&version=1").json()
         try:
             trigger_key_error = schedule['course']['summarized']
+            # trigger_key_error is only user to trigger an exception and the information stored in it is not needed.
             return schedule
         except KeyError:
             return False
@@ -42,7 +43,7 @@ def printable_schedule(schedule):
     :return: a string with the schedule
     """
     if not schedule:
-        return "No schedule available"
+        return "No schedule available."
 
     schedule = schedule['course']['summarized']
     schedule_string = "Timeplan for " + schedule[0]['courseName'] + ":\n"
@@ -77,7 +78,7 @@ def gather_lecture_information(schedule):
             try:
                 single_lecture.extend(schedule['course']['summarized'][i]['rooms'][0]['romNavn'])
             except IndexError:
-                single_lecture.extend("")
+                single_lecture.extend("None")
             lecture_information.append(single_lecture)
     return lecture_information
 
@@ -120,7 +121,7 @@ def printable_course_info(course):
                         course['assessment'][0]['codeName'], course['assessment'][0]['gradeRuleSchemeName']))
     return info_string
 
-  
+
 def course_name(code):
     """
     A method that fetches the name of a course
@@ -132,4 +133,3 @@ def course_name(code):
     if c == 'Subject does not exist' or c == 'Not valid':
         return c
     return c['course']['name']
-

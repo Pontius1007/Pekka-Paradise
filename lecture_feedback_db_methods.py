@@ -1,4 +1,4 @@
-from app import db, models
+from app import models
 
 
 def get_year(course):
@@ -78,7 +78,6 @@ def get_day_of_lecture_in_week(course, year, week):
         if models.Lecture.query.filter_by(subject=course) is not None:
             lecture_days = []
             lectures = models.Lecture.query.filter_by(subject=course, year=int(year), week_number=int(week))
-            print(lectures[0])
             for lecture in lectures:
                 if lecture.day_number not in lecture_days:
                     lecture_days.append(lecture.day_number)
