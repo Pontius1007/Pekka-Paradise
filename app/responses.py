@@ -122,7 +122,7 @@ def all_feedback_questions(token, recipient, subject, percent_questions):
                     + str(percent_questions[1]) + " well organized\n"
                     + str(percent_questions[2]) + " use of slides\n"
                     + str(percent_questions[3]) + " use of time\n"
-                    + str(percent_questions[4]) + " presenter knowledgeable\n"
+                    + str(percent_questions[4]) + " presenters knowledge\n"
                     + str(percent_questions[5]) + " general score\n"
                     + str(percent_questions[6]) + " interest in next lecture"
                     }
