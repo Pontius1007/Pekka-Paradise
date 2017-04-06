@@ -10,7 +10,11 @@ def generate_percent_for_speed(feedback):
     ok = feedback.count(1)
     fast = feedback.count(2)
     total = float(slow + ok + fast)
-    counter = [round((slow/total)*100), round((ok/total)*100), round((fast/total)*100), round(total)]
+    try:
+        counter = [round((slow/total)*100), round((ok/total)*100), round((fast/total)*100), round(total)]
+    except ZeroDivisionError as e:
+        print(e)
+        return [0, 0, 0, 0]
 
     return counter
 
@@ -37,10 +41,16 @@ def generate_percent_for_questions(feedbackevaluation):
         presenter_knowledgeable += feedbackeval[4]
         general_score += feedbackeval[5]
         next_lecture += feedbackeval[6]
-    feedbackevaluation_counter = [round(increased_knowledge / feedbackeval_total),
-                                  round(well_organized / feedbackeval_total), round(use_of_slides / feedbackeval_total),
-                                  round(use_of_time / feedbackeval_total),
-                                  round(presenter_knowledgeable / feedbackeval_total),
-                                  round(general_score / feedbackeval_total), round(next_lecture / feedbackeval_total)]
-
+    try:
+        feedbackevaluation_counter = [round(increased_knowledge / feedbackeval_total),
+                                      round(well_organized / feedbackeval_total),
+                                      round(use_of_slides / feedbackeval_total),
+                                      round(use_of_time / feedbackeval_total),
+                                      round(presenter_knowledgeable / feedbackeval_total),
+                                      round(general_score / feedbackeval_total),
+                                      round(next_lecture / feedbackeval_total)]
+    except ZeroDivisionError as e:
+        print(e)
+        return [0, 0, 0, 0, 0, 0, 0]
+    
     return feedbackevaluation_counter
