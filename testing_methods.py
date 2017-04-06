@@ -104,8 +104,7 @@ class IMETest(unittest.TestCase):
                 except IndexError:
                     single_lecture.extend("")
                 lecture_information.append(single_lecture)
-        self.assertEqual(subject_info.gather_lecture_information(schedule),
-                         lecture_information)
+        self.assertAlmostEqual(subject_info.gather_lecture_information(schedule), lecture_information)
         self.assertEqual(subject_info.gather_lecture_information(subject_info.get_schedule("tdt123")),
                          "No schedule available")
 
@@ -344,7 +343,7 @@ class FeedbackMethodsTest(unittest.TestCase):
         self.assertTrue(feedback_methods.add_feedback_evaluation(self.name, self.lecture_info[0], 5, 5, 5, 5, 5, 5, 5))
         self.assertFalse(feedback_methods.user_can_give_feedback_evaluation(self.name, self.lecture_info[0]))
         self.assertFalse(feedback_methods.user_can_give_feedback_evaluation(self.name, "TDT420"))
-        self.assertFalse(feedback_methods.add_feedback_evaluation(self.name, self.lecture_info[0], 5, 5, 5, 5, 5, 5, 5))
+        self.assertFalse(feedback_methods.add_feedback_evaluation(self.name, self.lecture_info[0], 5, 5, 5, 7, 5, 5, 5))
         feedback, feedback_evaluation = feedback_methods.get_all_subject_feed(self.lecture_info[0])
         self.assertEqual(feedback, [1])
         self.assertEqual(feedback_evaluation[0], [5, 5, 5, 5, 5, 5, 5])
