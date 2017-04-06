@@ -122,11 +122,11 @@ def all_feedback_questions(token, recipient, subject, percent_questions):
                     + "Average score for the following categories.\n"
                     + str(percent_questions[0]) + " increased knowledge\n"
                     + str(percent_questions[1]) + " well organized\n"
-                    + str(percent_questions[2]) + " logical\n"
-                    + str(percent_questions[3]) + " use of slides\n"
-                    + str(percent_questions[4]) + " use of time\n"
-                    + str(percent_questions[5]) + " presenter knowledgeable\n"
-                    + str(percent_questions[6]) + " general score"
+                    + str(percent_questions[2]) + " use of slides\n"
+                    + str(percent_questions[3]) + " use of time\n"
+                    + str(percent_questions[4]) + " presenter knowledgeable\n"
+                    + str(percent_questions[5]) + " general score\n"
+                    + str(percent_questions[6]) + " interest in next lecture"
                     }
     })
 
