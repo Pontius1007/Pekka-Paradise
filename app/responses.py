@@ -269,11 +269,11 @@ def lecture_feedback_questions(token, recipient, payload):
     """
     text_list = ['How much did the lecture increase your knowledge?',
                  'How organized was the lecture?',
-                 'How logical did you think the lecture was?',
                  'How good was the use of slides?',
                  'How good was the use of time?',
                  'How knowledgeable did the lecturer seem?',
-                 'How good did you think the lecture was overall?'
+                 'How good did you think the lecture was overall?',
+                 'How likely are you to go to the next lecture?'
                  ]
     payload_split = payload.split()
     text = text_list[len(payload_split) - 1]
@@ -352,7 +352,7 @@ def give_feedback_choice(token, recipient):
 
 
 """
-THIS SECTION FOR FEEDBACK FROM LECTURES
+THIS SECTION FOR GIVING FEEDBACK FOR LECTURES
 """
 
 
@@ -560,7 +560,6 @@ def get_feedback_day(token, recipient, year, days, week):
 
     # Sends message.
     data = json.dumps(json_message)
-    print(data)
     supp = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
                          data=data,
                          headers={'Content-type': 'application/json'})
