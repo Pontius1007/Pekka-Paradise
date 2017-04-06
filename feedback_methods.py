@@ -184,8 +184,7 @@ def remove_all_feedback(user_name):
     """
     This method is only used for testing and removes
     test data from database
-    :param user_name: 
-    :return: 
+    :param user_name: String
     """
     for row in models.LectureFeedback.query.filter_by(user_id=user_name):
         db.session.delete(row)
@@ -226,4 +225,3 @@ def get_lecture_object(lecture_id):
         return models.Lecture.query.get(lecture_id)
     except Exception as e:
         print(e)
-
