@@ -18,8 +18,6 @@ def get_subject_name(code):
         name = course['course']['name']
     except TypeError:
         return 'Subject does not exist'
-    except ValueError:
-        return 'Not valid'
     return ''.join(code + ': ' + name)
 
 
@@ -33,7 +31,5 @@ def subject_exists_boolean(code):
         if requests.get(base_url + code).json()["course"] is not None:
             return True
     except TypeError:
-        return False
-    except ValueError:
         return False
     return False

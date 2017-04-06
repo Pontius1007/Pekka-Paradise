@@ -1,6 +1,7 @@
-from app import db, models
 import datetime
+
 import lecture_methods
+from app import db, models
 
 
 def add_entry(user_name, subject_name, feedback):
@@ -55,7 +56,7 @@ def get_all_subject_feed(subject):
 
 def get_single_lecture_feed(year, week, day, subject):
     """
-    Gets all the feedbacks from a single lecture.
+    Gets all the feedback from a single lecture.
     :param year: int
     :param week: int
     :param day: int
@@ -120,6 +121,7 @@ def add_feedback_evaluation(user_name, subject_name, increased_knowledge, well_o
     today = get_today()
     lectures = models.Lecture.query.filter_by(subject=subject_name, year=today[0],
                                               week_number=today[1], day_number=today[2])
+
     try:
         feedback = models.LectureFeedbackEvaluation(user_name, lectures[0].id, increased_knowledge,
                                                     well_organized, use_of_slides, use_of_time,
@@ -178,6 +180,20 @@ def get_today():
     return [date.year, datetime.date.isocalendar(date)[1], datetime.datetime.today().weekday() + 1]
 
 
+def remove_all_feedback(user_name):
+    """
+    This method is only used for testing and removes
+    test data from database
+    :param user_name: 
+    :return: 
+    """
+    for row in models.LectureFeedback.query.filter_by(user_id=user_name):
+        db.session.delete(row)
+    for row_2 in models.LectureFeedbackEvaluation.query.filter_by(user_id=user_name):
+        db.session.delete(row_2)
+    db.session.commit()
+
+
 def get_day():
     """
     :return day: int
@@ -210,3 +226,4 @@ def get_lecture_object(lecture_id):
         return models.Lecture.query.get(lecture_id)
     except Exception as e:
         print(e)
+

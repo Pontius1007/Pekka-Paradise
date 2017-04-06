@@ -4,6 +4,7 @@ from flask import request
 import bot_feedback
 import feedback_methods
 import ime_data_fetch
+import message_split
 import lecture_methods
 import subject_info
 import user_methods
@@ -220,7 +221,14 @@ def handle_messages():
             week = feedback_methods.get_week()
             day = feedback_methods.get_day()
             subject = user_methods.get_subject_from_user(user_name)
-
+            schedule = subject_info.printable_schedule(subject_info.get_schedule(subject))
+            if len(schedule) > 640:
+                msg_list = message_split.message_split(schedule)
+                for msg in msg_list:
+                    print(msg)
+                    response_handler.text_message(PAT, sender, msg)
+            else:
+                response_handler.text_message(PAT, sender, schedule)
             # Gathers the feedback from today's lecture:
             if lecture_methods.check_lecture_in_db(subject):
                 feedback_list = feedback_methods.get_single_lecture_feed(year, week, day, subject)
@@ -368,6 +376,7 @@ def handle_messages():
                 response_handler.get_feedback_day(PAT, sender, payload.split()[1], lecture_days, payload.split()[2])
 
             elif "get_lecture_feedback_day" in payload.split()[0]:
+
                 subject = user_methods.get_subject_from_user(user_name)
                 # Gives the user feedback from the selected day.
                 feedback_list = feedback_methods.get_single_lecture_feed(payload.split()[1],
@@ -378,6 +387,7 @@ def handle_messages():
                                                                                                  payload.split()[2],
                                                                                                  payload.split()[3],
                                                                                                  subject)
+
                 if len(feedback_list[1]) > 0:  # Checks if there is feedback in the variable.
                     response_handler.present_single_lecture_feedback(PAT, sender, feedback_list)
                 else:

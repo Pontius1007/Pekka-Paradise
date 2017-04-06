@@ -1,7 +1,9 @@
 import json
-import requests
-import ime_data_fetch
 import random
+
+import requests
+
+import ime_data_fetch
 
 
 # This file consists of responses sent to the user as JSON objects
