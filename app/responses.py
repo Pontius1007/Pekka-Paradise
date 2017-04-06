@@ -120,11 +120,11 @@ def all_feedback_questions(token, recipient, subject, percent_questions):
                     + "Average score for the following categories.\n"
                     + str(percent_questions[0]) + " increased knowledge\n"
                     + str(percent_questions[1]) + " well organized\n"
-                    + str(percent_questions[2]) + " logical\n"
-                    + str(percent_questions[3]) + " use of slides\n"
-                    + str(percent_questions[4]) + " use of time\n"
-                    + str(percent_questions[5]) + " presenter knowledgeable\n"
-                    + str(percent_questions[6]) + " general score"
+                    + str(percent_questions[2]) + " use of slides\n"
+                    + str(percent_questions[3]) + " use of time\n"
+                    + str(percent_questions[4]) + " presenter knowledgeable\n"
+                    + str(percent_questions[5]) + " general score\n"
+                    + str(percent_questions[6]) + " interest in next lecture"
                     }
     })
 
@@ -269,11 +269,11 @@ def lecture_feedback_questions(token, recipient, payload):
     """
     text_list = ['How much did the lecture increase your knowledge?',
                  'How organized was the lecture?',
-                 'How logical did you think the lecture was?',
                  'How good was the use of slides?',
                  'How good was the use of time?',
                  'How knowledgeable did the lecturer seem?',
-                 'How good did you think the lecture was overall?'
+                 'How good did you think the lecture was overall?',
+                 'How likely are you to go to the next lecture?'
                  ]
     payload_split = payload.split()
     text = text_list[len(payload_split) - 1]
@@ -352,7 +352,7 @@ def give_feedback_choice(token, recipient):
 
 
 """
-THIS SECTION FOR FEEDBACK FROM LECTURES
+THIS SECTION FOR GIVING FEEDBACK FOR LECTURES
 """
 
 
@@ -560,7 +560,6 @@ def get_feedback_day(token, recipient, year, days, week):
 
     # Sends message.
     data = json.dumps(json_message)
-    print(data)
     supp = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
                          data=data,
                          headers={'Content-type': 'application/json'})
@@ -610,13 +609,13 @@ def present_single_lecture_feedback_questions(token, recipient, feedback_questio
     data = json.dumps({
         "recipient": {"id": recipient},
         "message": {"text": "Average score for the following categories.\n"
-                    + str(feedback_questions[0]) + " Increased knowledge\n"
-                    + str(feedback_questions[1]) + " Organization\n"
-                    + str(feedback_questions[2]) + " Logical\n"
-                    + str(feedback_questions[3]) + " Use of slides\n"
-                    + str(feedback_questions[4]) + " Use of time\n"
-                    + str(feedback_questions[5]) + " Presenters knowledge\n"
-                    + str(feedback_questions[6]) + " General score"
+                    + " Increased knowledge: " + str(feedback_questions[0]) + "\n"
+                    + " Organization: " + str(feedback_questions[1]) + "\n"
+                    + " Logical: " + str(feedback_questions[2]) + "\n"
+                    + " Use of slides: " + str(feedback_questions[3]) + "\n"
+                    + " Use of time: " + str(feedback_questions[4]) + "\n"
+                    + " Presenters knowledge: " + str(feedback_questions[5]) + "\n"
+                    + " General score: " + str(feedback_questions[6])
                     }
     })
     txt = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},

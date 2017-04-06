@@ -23,24 +23,24 @@ def generate_percent_for_questions(feedbackevaluation):
     """
     increased_knowledge = 0
     well_organized = 0
-    logical = 0
     use_of_slides = 0
     use_of_time = 0
     presenter_knowledgeable = 0
     general_score = 0
+    next_lecture = 0
     feedbackeval_total = len(feedbackevaluation)
     for feedbackeval in feedbackevaluation:
         increased_knowledge += feedbackeval[0]
         well_organized += feedbackeval[1]
-        logical += feedbackeval[2]
-        use_of_slides += feedbackeval[3]
-        use_of_time += feedbackeval[4]
-        presenter_knowledgeable += feedbackeval[5]
-        general_score += feedbackeval[6]
+        use_of_slides += feedbackeval[2]
+        use_of_time += feedbackeval[3]
+        presenter_knowledgeable += feedbackeval[4]
+        general_score += feedbackeval[5]
+        next_lecture += feedbackeval[6]
     feedbackevaluation_counter = [round(increased_knowledge / feedbackeval_total),
-                                  round(well_organized / feedbackeval_total), round(logical / feedbackeval_total),
-                                  round(use_of_slides / feedbackeval_total), round(use_of_time / feedbackeval_total),
+                                  round(well_organized / feedbackeval_total), round(use_of_slides / feedbackeval_total),
+                                  round(use_of_time / feedbackeval_total),
                                   round(presenter_knowledgeable / feedbackeval_total),
-                                  round(general_score / feedbackeval_total)]
+                                  round(general_score / feedbackeval_total), round(next_lecture / feedbackeval_total)]
 
     return feedbackevaluation_counter

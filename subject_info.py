@@ -26,7 +26,7 @@ def get_schedule(sub_code):
                                 + sub_code.upper() + "&year=" + current_year + "&version=1").json()
         try:
             trigger_key_error = schedule['course']['summarized']
-            print(trigger_key_error)
+            # trigger_key_error is only user to trigger an exception and the information stored in it is not needed.
             return schedule
         except KeyError:
             return False
@@ -41,7 +41,7 @@ def printable_schedule(schedule):
     :return: a string with the schedule
     """
     if not schedule:
-        return "No schedule available"
+        return "No schedule available."
 
     schedule = schedule['course']['summarized']
     schedule_string = "Timeplan for " + schedule[0]['courseName'] + ":\n"

@@ -71,16 +71,16 @@ class LectureFeedbackEvaluation(db.Model):
     user_id = db.Column(db.String(100), db.ForeignKey('userfacebook.user_id'))
     lecture_id = db.Column(db.Integer, db.ForeignKey('lecture.id'))
     # All the bellow are a score from 1 to 5.
-    increased_knowledge = db.Column(db.Integer)
+    increased_knowledge = db.Column(db.Integer, )
     well_organized = db.Column(db.Integer)
-    logical = db.Column(db.Integer)
     use_of_slides = db.Column(db.Integer)
     use_of_time = db.Column(db.Integer)
     presenter_knowledgeable = db.Column(db.Integer)
     general_score = db.Column(db.Integer)
+    next_lecture = db.Column(db.Integer)
 
-    def __init__(self, user_id, lecture_id, increased_knowledge, well_organized, logical, use_of_slides, use_of_time,
-                 presenter_knowledgeable, general_score):
+    def __init__(self, user_id, lecture_id, increased_knowledge, well_organized, use_of_slides, use_of_time,
+                 presenter_knowledgeable, general_score, next_lecture):
         self.user_id = user_id
         self.lecture_id = lecture_id
         if self.is_inside_bounds(increased_knowledge):
@@ -89,10 +89,6 @@ class LectureFeedbackEvaluation(db.Model):
             raise ValueError('Value out of bounds')
         if self.is_inside_bounds(well_organized):
             self.well_organized = well_organized
-        else:
-            raise ValueError('Value out of bounds')
-        if self.is_inside_bounds(logical):
-            self.logical = logical
         else:
             raise ValueError('Value out of bounds')
         if self.is_inside_bounds(use_of_slides):
@@ -109,6 +105,10 @@ class LectureFeedbackEvaluation(db.Model):
             raise ValueError('Value out of bounds')
         if self.is_inside_bounds(general_score):
             self.general_score = general_score
+        else:
+            raise ValueError('Value out of bounds')
+        if self.is_inside_bounds(next_lecture):
+            self.next_lecture = next_lecture
         else:
             raise ValueError('Value out of bounds')
 

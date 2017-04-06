@@ -46,10 +46,10 @@ def get_all_subject_feed(subject):
                 feedback_list.append(int(feedback.feedback))
             for feedbackevaluation in models.LectureFeedbackEvaluation.query.filter_by(lecture_id=lec_id):
                 feedbackevaluation_list.append([feedbackevaluation.increased_knowledge,
-                                                feedbackevaluation.well_organized, feedbackevaluation.logical,
+                                                feedbackevaluation.well_organized,
                                                 feedbackevaluation.use_of_slides, feedbackevaluation.use_of_time,
                                                 feedbackevaluation.presenter_knowledgeable,
-                                                feedbackevaluation.general_score])
+                                                feedbackevaluation.general_score, feedbackevaluation.next_lecture])
     return feedback_list, feedbackevaluation_list
 
 
@@ -60,7 +60,7 @@ def get_single_lecture_feed(year, week, day, subject):
     :param week: int
     :param day: int
     :param subject string
-    :return: feedback_list[lecture_id, list[int]], feedback_question_list[]
+    :return: feedback_list[lecture_id, list[int]]
     """
     lecture_id = lecture_methods.get_lecture_from_date(year, week, day, subject)
     feedback_list = []
@@ -83,9 +83,9 @@ def get_single_lecture_feedback_questions(year, week, day, subject):
     lecture_id = lecture_methods.get_lecture_from_date(year, week, day, subject)
     feedback_question_list = []
     for feedback in models.LectureFeedbackEvaluation.query.filter_by(lecture_id=lecture_id):
-        feedback_question_list.append([feedback.increased_knowledge, feedback.well_organized, feedback.logical,
+        feedback_question_list.append([feedback.increased_knowledge, feedback.well_organized,
                                        feedback.use_of_slides, feedback.use_of_time, feedback.presenter_knowledgeable,
-                                       feedback.general_score])
+                                       feedback.general_score, feedback.next_lecture])
     return feedback_question_list
 
 
@@ -102,19 +102,19 @@ def user_has_feedback_for_lecture(user_name, lecture):
     return False
 
 
-def add_feedback_evaluation(user_name, subject_name, increased_knowledge, well_organized, logical, use_of_slides,
-                            use_of_time, presenter_knowledgeable, general_score):
+def add_feedback_evaluation(user_name, subject_name, increased_knowledge, well_organized, use_of_slides,
+                            use_of_time, presenter_knowledgeable, general_score, next_lecture):
     """
     Takes in scores and makes a lecturefeedbackevaluation and stores in database.
     :param user_name: String
     :param subject_name: String
     :param increased_knowledge: int
     :param well_organized: int
-    :param logical: int
     :param use_of_slides: int
     :param use_of_time: int
     :param presenter_knowledgeable: int
     :param general_score: int
+    :param next_lecture: int
     :return: Boolean
     """
     today = get_today()
@@ -122,8 +122,8 @@ def add_feedback_evaluation(user_name, subject_name, increased_knowledge, well_o
                                               week_number=today[1], day_number=today[2])
     try:
         feedback = models.LectureFeedbackEvaluation(user_name, lectures[0].id, increased_knowledge,
-                                                    well_organized, logical, use_of_slides, use_of_time,
-                                                    presenter_knowledgeable, general_score)
+                                                    well_organized, use_of_slides, use_of_time,
+                                                    presenter_knowledgeable, general_score, next_lecture)
         db.session.add(feedback)
         db.session.commit()
         return True
@@ -145,7 +145,6 @@ def user_can_give_feedback_evaluation(user_name, subject_name):
                                               week_number=today[1], day_number=today[2])
     if lectures.count() > 0:
         for lecture in lectures:
-            print(lecture)
             if user_has_feedback_for_lecture_evaluation(user_name, lecture):
                 # User has already given feedback
                 return False
