@@ -78,7 +78,7 @@ class IMETest(unittest.TestCase):
                                 " fra " + test_schedule[i]['from'] +
                                 " til " + test_schedule[i]['to'] + "\n")
         self.assertEqual(subject_info.printable_schedule(subject_info.get_schedule("tdt4145")), schedule_string)
-        self.assertEqual(subject_info.printable_schedule(subject_info.get_schedule("tdt123")), "No schedule available")
+        self.assertEqual(subject_info.printable_schedule(subject_info.get_schedule("tdt123")), "No schedule available.")
 
     def test_gather_lecture_information(self):
         """
@@ -354,8 +354,6 @@ class FeedbackMethodsTest(unittest.TestCase):
             [5, 5, 5, 5, 5, 5, 5])
         # TODO not everything is tested here
         self.assertFalse(feedback_methods.add_feedback_evaluation(self.name, self.lecture_info[0], 6, 7, 7, 6, 6, 6, 7))
-        self.assertRaises(Exception, feedback_methods.user_has_feedback_for_lecture(12, "HEI"))
-        self.assertRaises(Exception, feedback_methods.user_can_give_feedback_evaluation(12, 12))
 
     def tearDown(self):
         """
