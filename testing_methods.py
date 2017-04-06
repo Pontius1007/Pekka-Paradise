@@ -329,6 +329,7 @@ class FeedbackMethodsTest(unittest.TestCase):
         :return: 
         """
         # Checks the various feedback methods
+        # Checks the various feedback methods
         self.assertTrue(feedback_methods.add_entry(self.name, self.lecture_info[0], "1"))
         self.assertFalse(feedback_methods.add_entry(self.name, self.lecture_info[0], "0"))
         feedback_methods.remove_all_feedback(self.name)
@@ -343,10 +344,6 @@ class FeedbackMethodsTest(unittest.TestCase):
         self.assertTrue(feedback_methods.add_feedback_evaluation(self.name, self.lecture_info[0], 5, 5, 5, 5, 5, 5, 5))
         self.assertFalse(feedback_methods.user_can_give_feedback_evaluation(self.name, self.lecture_info[0]))
         self.assertFalse(feedback_methods.user_can_give_feedback_evaluation(self.name, "TDT420"))
-        # Test date methods in lecture_methods
-        self.assertEqual(self.lecture_info[1], feedback_methods.get_year())
-        self.assertEqual(self.lecture_info[2], feedback_methods.get_week())
-        self.assertEqual(self.lecture_info[3], feedback_methods.get_day())
         self.assertFalse(feedback_methods.add_feedback_evaluation(self.name, self.lecture_info[0], 5, 5, 5, 5, 5, 5, 5))
         feedback, feedback_evaluation = feedback_methods.get_all_subject_feed(self.lecture_info[0])
         self.assertEqual(feedback, [1])
