@@ -52,5 +52,5 @@ def generate_percent_for_questions(feedbackevaluation):
     except ZeroDivisionError as e:
         print(e)
         return [0, 0, 0, 0, 0, 0, 0]
-    
+
     return feedbackevaluation_counter
