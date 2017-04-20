@@ -500,4 +500,5 @@ def get_full_name(sender, token):
     headers = {'content-type': 'application/json'}
     response = requests.get(url, headers=headers)
     data = json.loads(response.content)
+    print("DATA:", data)
     return ''.join(data['first_name'] + ' ' + data['last_name'])
