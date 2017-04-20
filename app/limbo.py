@@ -28,13 +28,13 @@ def handle_verification():
         return 'Error, wrong validation token'
 
 
-# The wonderful logic that decides which response is sent is placed in this function
 @app.route('/', methods=['POST'])
 def handle_messages():
+    """
+    Sends response to user depending on received message
+    :return: 
+    """
     print("Handling Messages")
-    # IMPORTANT remember to add all new quick-reply titles to this list!
-    # titles = ["Change subject", "Get info", "Select Course", "Get schedule", "Lecture Feedback",
-    #           "Too slow", "It's all right", "Too fast"]
     payload = request.get_data()
     for sender, incoming_message, payload in messaging_events(payload):
         # The following statements check which options the user selected
