@@ -61,22 +61,22 @@ def handle_messages():
 
             response_handler.text_message(sender, "Are you lost ...? ")
             response_handler.text_message(sender, "You can change course at any time simply by "
-                                                       "writing the course code on the form: [TAG][CODE]\n"
-                                                       "ex. TDT4120")
+                                                  "writing the course code on the form: [TAG][CODE]\n"
+                                                  "ex. TDT4120")
             response_handler.text_message(sender, "If you want to see your currently selected course "
-                                                       "and other information type 'Status'.")
+                                                  "and other information type 'Status'.")
             response_handler.text_message(sender, "You can also type 'Hei' or 'Hallo' at any time "
-                                                       "to receive a greeting that shows your options.")
+                                                  "to receive a greeting that shows your options.")
             response_handler.text_message(sender, "Here is a list of commands you can use. This is "
-                                                       "recommended for the experienced user:\n"
-                                                       "Change subject\n"
-                                                       "Give feedback\n"
-                                                       "How did today's lecture go?\n"
-                                                       "Get schedule\n"
-                                                       "Get info\n"
-                                                       "All lectures\n"
-                                                       "A specific lecture\n"
-                                                       "You can type most of the commands in chat. Just give it a try!")
+                                                  "recommended for the experienced user:\n"
+                                                  "Change subject\n"
+                                                  "Give feedback\n"
+                                                  "How did today's lecture go?\n"
+                                                  "Get schedule\n"
+                                                  "Get info\n"
+                                                  "All lectures\n"
+                                                  "A specific lecture\n"
+                                                  "You can type most of the commands in chat. Just give it a try!")
             response_handler.has_course(sender, user_methods.get_subject_from_user(user_name))
 
         elif "status" in incoming_message.lower():
@@ -99,12 +99,12 @@ def handle_messages():
                     response_handler.has_course(sender, user_methods.get_subject_from_user(user_name))
                 else:
                     response_handler.text_message(sender, "No feedback for the given lecture on this date. "
-                                                               "Please press 'Give Feedback' or write it in the "
-                                                               "chat to do so.")
+                                                          "Please press 'Give Feedback' or write it in the "
+                                                          "chat to do so.")
                     response_handler.has_course(sender, user_methods.get_subject_from_user(user_name))
             else:
                 response_handler.text_message(sender, "We seem to not be able to detect you in the database. "
-                                                           "Please report this to the staff!")
+                                                      "Please report this to the staff!")
                 response_handler.has_course(sender, user_methods.get_subject_from_user(user_name))
 
         # Checks if the subject has lectures in the database, adds them if not.
@@ -143,8 +143,8 @@ def handle_messages():
                     response_handler.lecture_feedback_questions(sender, payload)
                 else:
                     response_handler.text_message(sender, "Feedback can not be given either because there is no "
-                                                               "lecture today, or because you have already "
-                                                               "given feedback for this lecture.")
+                                                          "lecture today, or because you have already "
+                                                          "given feedback for this lecture.")
                     response_handler.has_course(sender, subject)
             else:
                 schedule = subject_info.get_schedule(subject)
@@ -159,8 +159,8 @@ def handle_messages():
                         response_handler.lecture_feedback_questions(sender, payload)
                     else:
                         response_handler.text_message(sender, "Feedback can not be given either because there is "
-                                                                   "no lecture today, or because you have already "
-                                                                   "given feedback for this lecture.")
+                                                              "no lecture today, or because you have already "
+                                                              "given feedback for this lecture.")
                         response_handler.has_course(sender, subject)
                 else:
                     response_handler.text_message(sender, "Lectures for the subject " + subject +
@@ -179,8 +179,8 @@ def handle_messages():
                 response_handler.has_course(sender, user_methods.get_subject_from_user(user_name))
             else:
                 response_handler.text_message(sender, "There is either no lecture active in the selected"
-                                                           " subject, or you have already given feedback"
-                                                           " to the active lecture.\nFeedback denied!")
+                                                      " subject, or you have already given feedback"
+                                                      " to the active lecture.\nFeedback denied!")
                 response_handler.has_course(sender, user_methods.get_subject_from_user(user_name))
 
         elif "it's all right" in incoming_message.lower() or "its all right" in incoming_message.lower():
@@ -194,8 +194,8 @@ def handle_messages():
                 response_handler.has_course(sender, user_methods.get_subject_from_user(user_name))
             else:
                 response_handler.text_message(sender, "There is either no lecture active in the selected"
-                                                        " subject, or you have already given feedback"
-                                                       " to the active lecture.\nFeedback denied!")
+                                                      " subject, or you have already given feedback"
+                                                      " to the active lecture.\nFeedback denied!")
                 response_handler.has_course(sender, user_methods.get_subject_from_user(user_name))
 
         elif "too fast" in incoming_message.lower():
@@ -209,8 +209,8 @@ def handle_messages():
                 response_handler.has_course(sender, user_methods.get_subject_from_user(user_name))
             else:
                 response_handler.text_message(sender, "There is either no lecture active in the selected"
-                                                           " subject, or you have already given feedback"
-                                                           " to the active lecture.\nFeedback denied!")
+                                                      " subject, or you have already given feedback"
+                                                      " to the active lecture.\nFeedback denied!")
                 response_handler.has_course(sender, user_methods.get_subject_from_user(user_name))
 
         elif ("today" in incoming_message.lower() and "lecture" in incoming_message.lower()) or \
@@ -237,11 +237,11 @@ def handle_messages():
                     response_handler.has_course(sender, user_methods.get_subject_from_user(user_name))
                 else:
                     response_handler.text_message(sender, "No feedback for the given lecture on this date. "
-                                                               "Please try again at a later date.")
+                                                          "Please try again at a later date.")
                     response_handler.has_course(sender, user_methods.get_subject_from_user(user_name))
             else:
                 response_handler.text_message(sender, "No  lecture present in the database. "
-                                                           "Please provide some feedback and try again.")
+                                                      "Please provide some feedback and try again.")
                 response_handler.has_course(sender, user_methods.get_subject_from_user(user_name))
 
         elif payload == "get schedule" or "get schedule" in incoming_message.lower():
@@ -327,8 +327,8 @@ def handle_messages():
                     else:
                         # Storing the feedback failed.
                         response_handler.text_message(sender, "There is either no lecture active in the selected "
-                                                                   "subject, or you have already given feedback to the "
-                                                                   "active lecture.\nFeedback denied!")
+                                                              "subject, or you have already given feedback to the "
+                                                              "active lecture.\nFeedback denied!")
                         response_handler.has_course(sender, subject)
                     pass
 
@@ -408,9 +408,9 @@ def handle_messages():
 
         else:
             response_handler.text_message(sender, "Type 'help' to see what you can do with L.I.M.B.O.\nIf you "
-                                                       "tried to enter a subject-code and got this message, you "
-                                                       "either misspelled it or the subject you are looking for is "
-                                                       "not a subject at NTNU.")
+                                                  "tried to enter a subject-code and got this message, you "
+                                                  "either misspelled it or the subject you are looking for is "
+                                                  "not a subject at NTNU.")
             if user_methods.has_user(user_name):
                 response_handler.has_course(sender, user_methods.get_subject_from_user(user_name))
             else:
