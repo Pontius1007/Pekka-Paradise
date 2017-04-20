@@ -3,7 +3,7 @@ cache:
   pip: true
 branches:
   only:
-  - "testing"
+  - "test"
   - "dev"
   - "master"
 python:
