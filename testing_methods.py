@@ -383,6 +383,10 @@ class FeedbackMethodsTest(unittest.TestCase):
 
 
 class ResponsesTest(unittest.TestCase):
+    """
+    This class test that the various templates in responses.py are generated correctly 
+    when given some information.
+    """
     def test_greeting(self):
         test_data = json.dumps({
             "recipient": {"id": 1337},
@@ -391,6 +395,61 @@ class ResponsesTest(unittest.TestCase):
         return_data = responses.greeting_message(1337, "TEST USER")
         self.assertEqual(test_data, return_data)
 
+    def test_text(self):
+        test_data = json.dumps({
+            "recipient": {"id": 12345678},
+            "message": {"text": "THIS IS A TEST MESSAGE"}})
+        return_data = responses.text_message(12345678, "THIS IS A TEST MESSAGE")
+        self.assertEqual(test_data, return_data)
+
+    def test_user_info(self):
+        message = "Hello " + "TESTER" + "!\nYou currently have " + "TST420" + " selected"
+        test_data = json.dumps({
+            "recipient": {"id": 123456789},
+            "message": {"text": message}})
+        return_data = responses.user_info(123456789, "TESTER", "TST420")
+        self.assertEqual(test_data, return_data)
+
+    def test_all_feedback_speed(self):
+
+        test_data1 = json.dumps({
+            "recipient": {"id": 4200},
+            "message": {"text": "Feedback for " + "TST4200" + ":\n" +
+                                "Total number of participants: " + str(100) + "\n"
+                                + str(10) + "% of participants thinks the lectures are too slow.\n"
+                                + str(80) + "% of participants thinks the lectures are OK.\n"
+                                + str(10) + "% of participants thinks the lectures are too fast.\n\n" +
+                                "Your students are happy and you are doing a good job, keep it up!"
+                        }
+        })
+
+        test_data2 = json.dumps({
+            "recipient": {"id": 4200},
+            "message": {"text": "Feedback for " + "TST4200" + ":\n" +
+                                "Total number of participants: " + str(100) + "\n"
+                                + str(80) + "% of participants thinks the lectures are too slow.\n"
+                                + str(10) + "% of participants thinks the lectures are OK.\n"
+                                + str(10) + "% of participants thinks the lectures are too fast.\n\n" +
+                                "A lot of students thinks the lecture is moving too slow, maybe you should check out "
+                                "this: "
+                        }
+        })
+
+        test_data3 = json.dumps({
+            "recipient": {"id": 4200},
+            "message": {"text": "Feedback for " + "TST4200" + ":\n" +
+                                "Total number of participants: " + str(100) + "\n"
+                                + str(10) + "% of participants thinks the lectures are too slow.\n"
+                                + str(10) + "% of participants thinks the lectures are OK.\n"
+                                + str(80) + "% of participants thinks the lectures are too fast.\n\n" +
+                                "A lot of students thinks the lecture is moving too fast, maybe you should check out "
+                                "this: "
+                        }
+        })
+
+        self.assertEqual(responses.all_feedback_speed(4200, "TST4200", [10, 80, 10, 100]), test_data1)
+        self.assertAlmostEqual(responses.all_feedback_speed(4200, "TST4200", [80, 10, 10, 100]), test_data2)
+        self.assertAlmostEqual(responses.all_feedback_speed(4200, "TST4200", [10, 10, 80, 100]), test_data3)
 
 if __name__ == '__main__':
     unittest.main()
