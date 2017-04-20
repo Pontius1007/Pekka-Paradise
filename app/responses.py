@@ -8,13 +8,6 @@ import ime_data_fetch
 
 # This file consists of responses sent to the user as JSON objects
 
-# This method is responsible for sending the generated message
-def send_method(token, data):
-    txt = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
-                        data=data, headers={'Content-type': 'application/json'})
-    if txt.status_code != requests.codes.ok:
-        print(txt.text)
-
 
 # The following methods generates the message as a JSON object
 def greeting_message(token, recipient, user_name):
@@ -30,7 +23,7 @@ def greeting_message(token, recipient, user_name):
     data = json.dumps({
             "recipient": {"id": recipient},
             "message": {"text": message}})
-    send_method(token, data)
+    return token, data
 
 
 def text_message(token, recipient, message):
@@ -44,7 +37,7 @@ def text_message(token, recipient, message):
     data = json.dumps({
         "recipient": {"id": recipient},
         "message": {"text": message}})
-    send_method(token, data)
+    return token, data
 
 
 def user_info(token, recipient, user_name, sub):
@@ -60,7 +53,7 @@ def user_info(token, recipient, user_name, sub):
     data = json.dumps({
         "recipient": {"id": recipient},
         "message": {"text": message}})
-    send_method(token, data)
+    return token, data
 
 
 def all_feedback_speed(token, recipient, subject, percent):
@@ -100,7 +93,7 @@ def all_feedback_speed(token, recipient, subject, percent):
                     }
     })
 
-    send_method(token, data)
+    return token, data
 
 
 def all_feedback_questions(token, recipient, subject, percent_questions):
@@ -127,7 +120,7 @@ def all_feedback_questions(token, recipient, subject, percent_questions):
                     }
     })
 
-    send_method(token, data)
+    return token, data
 
 
 def no_course(token, recipient):
@@ -149,7 +142,7 @@ def no_course(token, recipient):
             ]
         }
     })
-    send_method(token, data)
+    return token, data
 
 
 def has_course(token, recipient, subject):
@@ -194,7 +187,7 @@ def has_course(token, recipient, subject):
             ]
         }
     })
-    send_method(token, data)
+    return token, data
 
 
 def lec_feed(token, recipient):
@@ -227,7 +220,7 @@ def lec_feed(token, recipient):
             ]
         }
     })
-    send_method(token, data)
+    return token, data
 
 
 def lecture_feedback_questions(token, recipient, payload):
@@ -285,7 +278,7 @@ def lecture_feedback_questions(token, recipient, payload):
         }
     }
     data = json.dumps(json_message)
-    send_method(token, data)
+    return token, data
 
 
 def give_feedback_choice(token, recipient):
@@ -312,7 +305,7 @@ def give_feedback_choice(token, recipient):
             ]
         }
     })
-    send_method(token, data)
+    return token, data
 
 
 """
@@ -344,7 +337,7 @@ def get_feedback_specific_or_all(token, recipient):
             ]
         }
     })
-    send_method(token, data)
+    return token, data
 
 
 def get_feedback_year(token, recipient, years):
@@ -375,7 +368,7 @@ def get_feedback_year(token, recipient, years):
 
     # Sends message.
     data = json.dumps(json_message)
-    send_method(token, data)
+    return token, data
 
 
 def get_feedback_semester(token, recipient, year, semesters):
@@ -407,7 +400,7 @@ def get_feedback_semester(token, recipient, year, semesters):
 
     # Sends message.
     data = json.dumps(json_message)
-    send_method(token, data)
+    return token, data
 
 
 def get_feedback_month(token, recipient, year, weeks_list):
@@ -444,7 +437,7 @@ def get_feedback_month(token, recipient, year, weeks_list):
 
     # Sends message.
     data = json.dumps(json_message)
-    send_method(token, data)
+    return token, data
 
 
 def get_feedback_week(token, recipient, year, week_list):
@@ -476,7 +469,7 @@ def get_feedback_week(token, recipient, year, week_list):
 
     # Sends message.
     data = json.dumps(json_message)
-    send_method(token, data)
+    return token, data
 
 
 def get_feedback_day(token, recipient, year, days, week):
@@ -505,7 +498,7 @@ def get_feedback_day(token, recipient, year, days, week):
 
     # Sends message.
     data = json.dumps(json_message)
-    send_method(token, data)
+    return token, data
 
 
 def present_single_lecture_feedback(token, recipient, feedback_list):
@@ -533,7 +526,7 @@ def present_single_lecture_feedback(token, recipient, feedback_list):
                     }
     })
 
-    send_method(token, data)
+    return token, data
 
 
 def present_single_lecture_feedback_questions(token, recipient, feedback_questions):
@@ -556,7 +549,7 @@ def present_single_lecture_feedback_questions(token, recipient, feedback_questio
                     + " Interest in the next lecture: " + str(feedback_questions[6])
                     }
     })
-    send_method(token, data)
+    return token, data
 
 
 """
