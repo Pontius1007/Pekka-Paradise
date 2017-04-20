@@ -431,7 +431,7 @@ class ResponsesTest(unittest.TestCase):
                                 + str(10) + "% of participants thinks the lectures are OK.\n"
                                 + str(10) + "% of participants thinks the lectures are too fast.\n\n" +
                                 "A lot of students thinks the lecture is moving too slow, maybe you should check out "
-                                "this: "
+                                "this: " + "THIS"
                         }
         })
 
@@ -448,6 +448,8 @@ class ResponsesTest(unittest.TestCase):
         })
 
         self.assertEqual(responses.all_feedback_speed(4200, "TST4200", [10, 80, 10, 100]), test_data1)
+        print(test_data2["message"]["text"])
+        print(test_data2["message"]["text"].split()[-1])
         # self.assertEqual(responses.all_feedback_speed(4200, "TST4200", [80, 10, 10, 100]), test_data2)
         # self.assertEqual(responses.all_feedback_speed(4200, "TST4200", [10, 10, 80, 100]), test_data3)
 
