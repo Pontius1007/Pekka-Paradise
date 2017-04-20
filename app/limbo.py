@@ -41,15 +41,11 @@ def handle_messages():
         # Response handler contains "templates" for the various messages
         # Start test
         print(payload)
-        print("sender: ", sender)
-        print("incoming_message: ", incoming_message)
         # End test
         user_name = get_full_name(sender, PAT)
         if "hei" in incoming_message.lower() or "hallo" in incoming_message.lower() or "yo" in incoming_message.lower()\
                 or "hi" in incoming_message.lower():
-            print("Before sending")  # TEST METHOD REMOVE
             send_message(PAT, send_message(PAT, response_handler.greeting_message(sender, user_name)))
-            print("After sending")   # TEST METHOD REMOVE
             if user_methods.has_user(user_name):
                 send_message(PAT, response_handler.has_course(sender, user_methods.get_subject_from_user(user_name)))
             else:

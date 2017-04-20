@@ -3,7 +3,9 @@ import sys
 from io import StringIO
 
 from sqlalchemy.exc import SQLAlchemyError
+from app import responses
 
+import json
 import user_methods
 import random
 import feedback_methods
@@ -20,6 +22,7 @@ class Capturing(list):
     """
     This class is for helping 'catch' or read text written to console
     """
+
     def __enter__(self):
         self._stdout = sys.stdout
         sys.stdout = self._stringio = StringIO()
@@ -27,12 +30,11 @@ class Capturing(list):
 
     def __exit__(self, *args):
         self.extend(self._stringio.getvalue().splitlines())
-        del self._stringio    # free up some memory
+        del self._stringio  # free up some memory
         sys.stdout = self._stdout
 
 
 class IMETest(unittest.TestCase):
-
     def test_subject_exists_boolean(self):
         """
         This method tests the subject_exists_boolean method in ime_data_fetch.py
@@ -246,7 +248,6 @@ class IMETest(unittest.TestCase):
 
 
 class UserMethodTests(unittest.TestCase):
-
     def setUp(self):
         """
         Sets the test values which are sent to the database
@@ -302,7 +303,6 @@ class UserMethodTests(unittest.TestCase):
 
 
 class FeedbackMethodsTest(unittest.TestCase):
-
     def setUp(self):
         """
         Populates the database with various test data
@@ -380,6 +380,16 @@ class FeedbackMethodsTest(unittest.TestCase):
         """
         date = datetime.date.today()
         return [date.year, datetime.date.isocalendar(date)[1], datetime.datetime.today().weekday() + 1]
+
+
+class ResponsesTest(unittest.TestCase):
+    def test_greeting(self):
+        test_data = json.dumps({
+            "recipient": {"id": 1337},
+            "message": {"text": "Hello " + "TEST" + "!\nWhat can I do for you today?" +
+                                "\nIf you are new to the bot and would like some help, please press 'Help' in chat"}})
+        return_data = responses.greeting_message(1337, "TEST USER")
+        self.assertEqual(test_data, return_data)
 
 
 if __name__ == '__main__':
