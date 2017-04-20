@@ -448,8 +448,8 @@ class ResponsesTest(unittest.TestCase):
         })
 
         self.assertEqual(responses.all_feedback_speed(4200, "TST4200", [10, 80, 10, 100]), test_data1)
-        self.assertAlmostEqual(responses.all_feedback_speed(4200, "TST4200", [80, 10, 10, 100]), test_data2)
-        self.assertAlmostEqual(responses.all_feedback_speed(4200, "TST4200", [10, 10, 80, 100]), test_data3)
+        self.assertEqual(responses.all_feedback_speed(4200, "TST4200", [80, 10, 10, 100]), test_data2)
+        self.assertEqual(responses.all_feedback_speed(4200, "TST4200", [10, 10, 80, 100]), test_data3)
 
 if __name__ == '__main__':
     unittest.main()
