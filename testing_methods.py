@@ -102,7 +102,7 @@ class IMETest(unittest.TestCase):
                 try:
                     single_lecture.extend(schedule['course']['summarized'][i]['rooms'][0]['romNavn'])
                 except IndexError:
-                    single_lecture.extend("")
+                    single_lecture.extend("None")
                 lecture_information.append(single_lecture)
         self.assertEqual(subject_info.gather_lecture_information(schedule), lecture_information)
         self.assertEqual(subject_info.gather_lecture_information(subject_info.get_schedule("tdt123")),
