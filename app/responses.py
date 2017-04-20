@@ -8,7 +8,15 @@ import ime_data_fetch
 
 # This file consists of responses sent to the user as JSON objects
 
+# This method is responsible for sending the generated message
+def send_method(token, data):
+    txt = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
+                        data=data, headers={'Content-type': 'application/json'})
+    if txt.status_code != requests.codes.ok:
+        print(txt.text)
 
+
+# The following methods generates the message as a JSON object
 def greeting_message(token, recipient, user_name):
     """
     Sends personal greeting message to the user
@@ -19,13 +27,10 @@ def greeting_message(token, recipient, user_name):
     """
     message = "Hello " + user_name.split()[0] + "!\nWhat can I do for you today?" + \
               "\nIf you are new to the bot and would like some help, please press 'Help' in chat"
-    txt = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
-                        data=json.dumps({
-                            "recipient": {"id": recipient},
-                            "message": {"text": message}
-                        }), headers={'Content-type': 'application/json'})
-    if txt.status_code != requests.codes.ok:
-        print(txt.text)
+    data = json.dumps({
+            "recipient": {"id": recipient},
+            "message": {"text": message}})
+    send_method(token, data)
 
 
 def text_message(token, recipient, message):
@@ -134,22 +139,6 @@ def all_feedback_questions(token, recipient, subject, percent_questions):
                         data=data, headers={'Content-type': 'application/json'})
     if txt.status_code != requests.codes.ok:
         print(txt.text)
-
-# This is a greeting message for first time users and will be a part of later user stories
-# We will probably use it as is, so we let it stay as a comment for now
-# def greeting_message(token, recipient):
-#    greet = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
-#                          data=json.dumps({
-#                              "recipient": {"id": recipient},
-#                              "message": {{
-#                                  "setting_type": "greeting",
-#                                  "greeting": {
-#                                      "text": "Hi {{user_first_name}}, welcome to L.I.M.B.O."
-#                                  }
-#                              }}
-#                          }), headers={'Content-type': 'application/json'})
-#    if greet.status_code != requests.codes.ok:
-#        print(greet.text)
 
 
 def no_course(token, recipient):
