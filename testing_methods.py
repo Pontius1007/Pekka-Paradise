@@ -447,7 +447,7 @@ class ResponsesTest(unittest.TestCase):
 
         self.assertTrue(
             some_data in
-            json.loads(responses.all_feedback_questions(tst_id, "TDT420", some_data))["message"]["text"].split())
+            json.loads(responses.all_feedback_questions(tst_id, "TDT420", some_data))["message"]["text"])
         self.assertEqual(json.loads(responses.all_feedback_questions(tst_id, "TDT420", some_data))["recipient"]["id"],
                          tst_id)
 
@@ -459,12 +459,12 @@ class ResponsesTest(unittest.TestCase):
         self.assertEqual(json.loads(responses.no_course(tst_id))["recipient"]["id"], tst_id)
 
     def test_has_course(self):
-        test_course = "TEST420"
+        test_course = "TDT4140"
         user_id = 1337
 
         self.assertEqual(json.loads(responses.has_course(user_id, test_course))["recipient"]["id"], user_id)
-        self.assertEqual(json.loads(responses.has_course(user_id, test_course))["message"]["text"].split()[3],
-                         test_course)
+        self.assertEqual(json.loads(responses.has_course(user_id, test_course))["message"]["text"].split()[3:5],
+                         "Software Engineering")
 
 if __name__ == '__main__':
     unittest.main()
