@@ -442,12 +442,12 @@ class ResponsesTest(unittest.TestCase):
         # print(json.loads(test_data)["message"]["text"].split()[-1]) TEST
 
     def test_all_feedback_questions(self):
-        some_data = "1331 1332 1333 1334 1335 1336 1337"
+        some_data = [1331, 1332, 1333, 1334, 1335, 1336, 1337]
         tst_id = 123
 
-        self.assertTrue(
-            some_data in
-            json.loads(responses.all_feedback_questions(tst_id, "TDT420", some_data))["message"]["text"])
+        self.assertEqual(
+            json.loads(responses.all_feedback_questions(tst_id, "TDT420", some_data))["message"]["text"].split()[10],
+            1331)
         self.assertEqual(json.loads(responses.all_feedback_questions(tst_id, "TDT420", some_data))["recipient"]["id"],
                          tst_id)
 
