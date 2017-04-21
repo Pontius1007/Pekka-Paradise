@@ -411,6 +411,14 @@ class ResponsesTest(unittest.TestCase):
         self.assertEqual(test_data, return_data)
 
     def test_all_feedback_speed(self):
+        url_slow = ["http://www.bbcactive.com/BBCActiveIdeasandResources/Tenwaystomakelecturesmoredynamic.aspx",
+                    "http://www.bbcactive.com/BBCActiveIdeasandResources/Tenwaystomakelecturesmoredynamic.aspx",
+                    "https://www.missouristate.edu/chhs/4256.htm"]
+        url_fast = ["https://tomprof.stanford.edu/posting/491",
+                    "www.montana.edu%2Ffacultyexcellence%2FPapers%2Flecture.pdf&h=ATOoZvoecXZQokiY2ApCWeP4lMK1h-aZIF3"
+                    "rC6XU_dOtRdx4vBn9fBEcSJMA3i40D5P-QOrdve6qFCxX6rD1MhNwD7VkXnYpyhMRJD8RFnR6zc35vSjRjOBXh0G5ag5C"
+                    "K3zQd1WkxbY98LjG1nQo18bAc0I",
+                    "http://www.bbcactive.com/BBCActiveIdeasandResources/Tenwaystomakelecturesmoredynamic.aspx"]
 
         test_data1 = json.dumps({
             "recipient": {"id": 4200},
@@ -423,35 +431,17 @@ class ResponsesTest(unittest.TestCase):
                         }
         })
 
-        test_data2 = json.dumps({
-            "recipient": {"id": 4200},
-            "message": {"text": "Feedback for " + "TST4200" + ":\n" +
-                                "Total number of participants: " + str(100) + "\n"
-                                + str(80) + "% of participants thinks the lectures are too slow.\n"
-                                + str(10) + "% of participants thinks the lectures are OK.\n"
-                                + str(10) + "% of participants thinks the lectures are too fast.\n\n" +
-                                "A lot of students thinks the lecture is moving too slow, maybe you should check out "
-                                "this: " + "THIS"
-                        }
-        })
-
-        test_data3 = json.dumps({
-            "recipient": {"id": 4200},
-            "message": {"text": "Feedback for " + "TST4200" + ":\n" +
-                                "Total number of participants: " + str(100) + "\n"
-                                + str(10) + "% of participants thinks the lectures are too slow.\n"
-                                + str(10) + "% of participants thinks the lectures are OK.\n"
-                                + str(80) + "% of participants thinks the lectures are too fast.\n\n" +
-                                "A lot of students thinks the lecture is moving too fast, maybe you should check out "
-                                "this: "
-                        }
-        })
-
         self.assertEqual(responses.all_feedback_speed(4200, "TST4200", [10, 80, 10, 100]), test_data1)
-        print(json.loads(test_data2)["message"]["text"])
-        print(json.loads(test_data2)["message"]["text"].split()[-1])
-        # self.assertEqual(responses.all_feedback_speed(4200, "TST4200", [80, 10, 10, 100]), test_data2)
-        # self.assertEqual(responses.all_feedback_speed(4200, "TST4200", [10, 10, 80, 100]), test_data3)
+        self.assertTrue(
+            json.loads(responses.all_feedback_speed(4200, "TST4200", [80, 10, 10, 100]))["message"]["text"].split()[-1]
+            in url_slow)
+        self.assertTrue(
+            json.loads(responses.all_feedback_speed(4200, "TST4200", [10, 10, 80, 100]))["message"]["text"].split()[-1]
+            in url_fast)
+        # print(json.loads(test_data)["message"]["text"].split()[-1]) TEST
+
+
+
 
 if __name__ == '__main__':
     unittest.main()
