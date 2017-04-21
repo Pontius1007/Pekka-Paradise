@@ -442,13 +442,18 @@ class ResponsesTest(unittest.TestCase):
         # print(json.loads(test_data)["message"]["text"].split()[-1]) TEST
 
     def test_all_feedback_questions(self):
-        some_data = [1331, 1332, 1333, 1334, 1335, 1336, 1337]
+        test_data = ['1331', '1332', '1333', '1334', '1335', '1336', '1337']
         tst_id = 123
+        test_in_generated_data = 0
+        generated_text = json.loads(
+            responses.all_feedback_questions(tst_id, "TDT420", test_data))["message"]["text"].split()
 
-        self.assertEqual(
-            json.loads(responses.all_feedback_questions(tst_id, "TDT420", some_data))["message"]["text"].split()[10],
-            1331)
-        self.assertEqual(json.loads(responses.all_feedback_questions(tst_id, "TDT420", some_data))["recipient"]["id"],
+        for word in generated_text:
+            if word in test_data:
+                test_in_generated_data += 1
+
+        self.assertTrue(len(test_in_generated_data) == 7)
+        self.assertEqual(json.loads(responses.all_feedback_questions(tst_id, "TDT420", test_data))["recipient"]["id"],
                          tst_id)
 
     def test_no_course(self):
