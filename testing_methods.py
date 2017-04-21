@@ -452,7 +452,7 @@ class ResponsesTest(unittest.TestCase):
             if word in test_data:
                 test_in_generated_data += 1
 
-        self.assertTrue(len(test_in_generated_data) == 7)
+        self.assertTrue(test_in_generated_data == 7)
         self.assertEqual(json.loads(responses.all_feedback_questions(tst_id, "TDT420", test_data))["recipient"]["id"],
                          tst_id)
 
