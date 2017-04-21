@@ -385,7 +385,8 @@ class FeedbackMethodsTest(unittest.TestCase):
 class ResponsesTest(unittest.TestCase):
     """
     This class test that the various templates in responses.py are generated correctly 
-    when given some information.
+    when given data. It works by feeding data into 'template generators' then asserting
+    that the correct data is in the following output template.
     """
     def test_greeting(self):
         test_data = json.dumps({
@@ -440,8 +441,20 @@ class ResponsesTest(unittest.TestCase):
             in url_fast)
         # print(json.loads(test_data)["message"]["text"].split()[-1]) TEST
 
+    def test_all_feedback_questions(self):
+        some_data = [1331, 1332, 1333, 1334, 1335, 1336, 1337]
+        tst_id = 123
+        self.assertTrue(
+            some_data in
+            json.loads(responses.all_feedback_questions(tst_id, "TDT420", some_data))["message"]["text"].split())
+        self.assertEqual(json.loads(responses.all_feedback_questions(tst_id, "TDT420", some_data))["recipient"]["id"],
+                         tst_id)
 
-
+    def test_no_course(self):
+        wanted_string = "You have not chosen a subject \n What would you like to do?:"
+        tst_id = 321
+        self.assertEqual(json.dumps(responses.no_course(tst_id))["message"]["text"], wanted_string)
+        self.assertEqual(json.dumps(responses.no_course(tst_id))["recipient"]["id"], tst_id)
 
 if __name__ == '__main__':
     unittest.main()
