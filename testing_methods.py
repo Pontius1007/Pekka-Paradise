@@ -444,6 +444,7 @@ class ResponsesTest(unittest.TestCase):
     def test_all_feedback_questions(self):
         some_data = [1331, 1332, 1333, 1334, 1335, 1336, 1337]
         tst_id = 123
+
         self.assertTrue(
             some_data in
             json.loads(responses.all_feedback_questions(tst_id, "TDT420", some_data))["message"]["text"].split())
@@ -453,8 +454,17 @@ class ResponsesTest(unittest.TestCase):
     def test_no_course(self):
         wanted_string = "You have not chosen a subject \n What would you like to do?:"
         tst_id = 321
-        self.assertEqual(json.dumps(responses.no_course(tst_id))["message"]["text"], wanted_string)
-        self.assertEqual(json.dumps(responses.no_course(tst_id))["recipient"]["id"], tst_id)
+
+        self.assertEqual(json.loads(responses.no_course(tst_id))["message"]["text"], wanted_string)
+        self.assertEqual(json.loads(responses.no_course(tst_id))["recipient"]["id"], tst_id)
+
+    def test_has_course(self):
+        test_course = "TEST420"
+        user_id = 1337
+
+        self.assertEqual(json.loads(responses.has_course(user_id, test_course))["recipient"]["id"], user_id)
+        self.assertEqual(json.loads(responses.has_course(user_id, test_course))["message"]["text"].split()[3],
+                         test_course)
 
 if __name__ == '__main__':
     unittest.main()
