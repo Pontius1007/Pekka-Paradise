@@ -478,5 +478,17 @@ class ResponsesTest(unittest.TestCase):
         self.assertEqual(json.loads(responses.lec_feed(tst_id))["message"]["text"], wanted_string)
         self.assertEqual(json.loads(responses.lec_feed(tst_id))["recipient"]["id"], tst_id)
 
+    def test_lecture_feedback_questions(self):
+        tst_id = 3211
+
+        json_data = json.loads(responses.lecture_feedback_questions(tst_id, "FirstText TextAfterSplit"))
+        self.assertEqual(json_data["message"]["text"], "How organized was the lecture?")
+        self.assertEqual(json_data["recipient"]["id"], tst_id)
+
+    def test_give_feedback_choice(self):
+        json_data = json.loads(responses.give_feedback_choice(13337))
+
+        self.assertEqual(json_data["recipient"]["id"], 13337)
+        self.assertEqual(json_data["message"]["text"], "What kind of feedback do want to give?")
 if __name__ == '__main__':
     unittest.main()
