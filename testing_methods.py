@@ -490,5 +490,18 @@ class ResponsesTest(unittest.TestCase):
 
         self.assertEqual(json_data["recipient"]["id"], 13337)
         self.assertEqual(json_data["message"]["text"], "What kind of feedback do want to give?")
+
+    def test_get_feedback_spec_or_all(self):
+        json_data = json.loads(responses.get_feedback_specific_or_all(1333))
+
+        self.assertEqual(json_data["recipient"]["id"], 1333)
+        self.assertEqual(json_data["message"]["text"], "Do you want feedback from all the lectures or a specific "
+                                                       "lecture?")
+
+    def test_get_feedback_year(self):
+        json_data = json.loads(responses.get_feedback_year(123456, [2017, 2018]))
+
+        self.assertEqual(json_data["recipient"]["id"], 123456)
+        self.assertEqual(json_data["message"]["text"], "Select what year you want feedback from")
 if __name__ == '__main__':
     unittest.main()
