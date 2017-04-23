@@ -471,5 +471,12 @@ class ResponsesTest(unittest.TestCase):
         self.assertEqual(json.loads(responses.has_course(user_id, test_course))["message"]["text"].split()[3:5][1],
                          "Software")
 
+    def test_lec_feed(self):
+        tst_id = 321123
+        wanted_string = "How do you think this lecture is going:"
+
+        self.assertEqual(json.loads(responses.lec_feed(tst_id))["message"]["text"], wanted_string)
+        self.assertEqual(json.loads(responses.lec_feed(tst_id))["recipient"]["id"], tst_id)
+
 if __name__ == '__main__':
     unittest.main()
