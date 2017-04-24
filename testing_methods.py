@@ -547,7 +547,7 @@ class ResponsesTest(unittest.TestCase):
         feedback_test = ['TST420', [1, 1, 1, 1, 1, 1, 1, 2, 2, 2]]
 
         json_data = json.loads(responses.present_single_lecture_feedback(test_id, feedback_test))
-        self.assertEqual(json_data["message"]["text"].split()[3], len(feedback_test))
+        self.assertEqual(json_data["message"]["text"].split()[3], str(len(feedback_test[1])))
         self.assertEqual(json_data["message"]["text"].split()[18], '70%')
 
     def test_present_lecture_questions(self):
