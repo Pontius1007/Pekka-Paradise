@@ -503,5 +503,7 @@ class ResponsesTest(unittest.TestCase):
 
         self.assertEqual(json_data["recipient"]["id"], 123456)
         self.assertEqual(json_data["message"]["text"], "Select what year you want feedback from")
+
+
 if __name__ == '__main__':
     unittest.main()
