@@ -9,65 +9,53 @@ import ime_data_fetch
 # This file consists of responses sent to the user as JSON objects
 
 
-def greeting_message(token, recipient, user_name):
+# The following methods generates the message as a JSON object
+def greeting_message(recipient, user_name):
     """
     Sends personal greeting message to the user
-    :param token: String
     :param recipient: int
     :param user_name: String
     :return: None
     """
     message = "Hello " + user_name.split()[0] + "!\nWhat can I do for you today?" + \
               "\nIf you are new to the bot and would like some help, please press 'Help' in chat"
-    txt = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
-                        data=json.dumps({
-                            "recipient": {"id": recipient},
-                            "message": {"text": message}
-                        }), headers={'Content-type': 'application/json'})
-    if txt.status_code != requests.codes.ok:
-        print(txt.text)
+    data = json.dumps({
+            "recipient": {"id": recipient},
+            "message": {"text": message}})
+    return data
 
 
-def text_message(token, recipient, message):
+def text_message(recipient, message):
     """
     Sends any string(message) to the user
-    :param token: String
     :param recipient: int
     :param message: String
     :return: None
     """
-    txt = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
-                        data=json.dumps({
-                            "recipient": {"id": recipient},
-                            "message": {"text": message}
-                        }), headers={'Content-type': 'application/json'})
-    if txt.status_code != requests.codes.ok:
-        print(txt.text)
+    data = json.dumps({
+        "recipient": {"id": recipient},
+        "message": {"text": message}})
+    return data
 
 
-def user_info(token, recipient, user_name, sub):
+def user_info(recipient, user_name, sub):
     """
     Shows our information about the user to the user
-    :param token: String
     :param recipient: int
     :param user_name: String
     :param sub: String
     :return: None
     """
     message = "Hello " + user_name + "!\nYou currently have " + sub + " selected"
-    txt = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
-                        data=json.dumps({
-                            "recipient": {"id": recipient},
-                            "message": {"text": message}
-                        }), headers={'Content-type': 'application/json'})
-    if txt.status_code != requests.codes.ok:
-        print(txt.text)
+    data = json.dumps({
+        "recipient": {"id": recipient},
+        "message": {"text": message}})
+    return data
 
 
-def all_feedback_speed(token, recipient, subject, percent):
+def all_feedback_speed(recipient, subject, percent):
     """
     Presents feedback from all lectures from LectureFeedback of a subject to the user.
-    :param token: String
     :param recipient: int
     :param subject: String
     :param percent: index 0-2 contains percents of slow, ok and fast index 3 contains total number
@@ -100,16 +88,13 @@ def all_feedback_speed(token, recipient, subject, percent):
                             extra_string
                     }
     })
-    txt = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
-                        data=data, headers={'Content-type': 'application/json'})
-    if txt.status_code != requests.codes.ok:
-        print(txt.text)
+
+    return data
 
 
-def all_feedback_questions(token, recipient, subject, percent_questions):
+def all_feedback_questions(recipient, subject, percent_questions):
     """
     Presents feedback from all lectures from LectureFeedbackEvaluation of a subject to the user.
-    :param token: String
     :param recipient: int
     :param subject: String
     :param percent_questions: list[int]
@@ -130,141 +115,109 @@ def all_feedback_questions(token, recipient, subject, percent_questions):
                     }
     })
 
-    txt = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
-                        data=data, headers={'Content-type': 'application/json'})
-    if txt.status_code != requests.codes.ok:
-        print(txt.text)
-
-# This is a greeting message for first time users and will be a part of later user stories
-# We will probably use it as is, so we let it stay as a comment for now
-# def greeting_message(token, recipient):
-#    greet = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
-#                          data=json.dumps({
-#                              "recipient": {"id": recipient},
-#                              "message": {{
-#                                  "setting_type": "greeting",
-#                                  "greeting": {
-#                                      "text": "Hi {{user_first_name}}, welcome to L.I.M.B.O."
-#                                  }
-#                              }}
-#                          }), headers={'Content-type': 'application/json'})
-#    if greet.status_code != requests.codes.ok:
-#        print(greet.text)
+    return data
 
 
-def no_course(token, recipient):
+def no_course(recipient):
     """
     Sends quick replies available to the user without a course selected
-    :param token: String
     :param recipient: int
     """
-    supp = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
-                         data=json.dumps({
-                             "recipient": {"id": recipient},
-                             "message": {
-                                 "text": "You have not chosen a subject \n What would you like to do?:",
-                                 "quick_replies": [
-                                     {
-                                         "content_type": "text",
-                                         "title": "Select Course",
-                                         "payload": "change subject"
-                                     }
-                                 ]
-                             }
-                         }),
-                         headers={'Content-type': 'application/json'})
-    if supp.status_code != requests.codes.ok:
-        print(supp.text)
+    data = json.dumps({
+        "recipient": {"id": recipient},
+        "message": {
+            "text": "You have not chosen a subject \n What would you like to do?:",
+            "quick_replies": [
+                {
+                    "content_type": "text",
+                    "title": "Select Course",
+                    "payload": "change subject"
+                }
+            ]
+        }
+    })
+    return data
 
 
-def has_course(token, recipient, subject):
+def has_course(recipient, subject):
     """
     Sends quick replies available to the user with a course selected
-    :param token: String
     :param recipient: int
     :param subject: String
     :return: None
     """
     subject_name = ime_data_fetch.get_subject_name(subject)
-    supp = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
-                         data=json.dumps({
-                             "recipient": {"id": recipient},
-                             "message": {
-                                 "text": "You have chosen: " + subject_name + "\nWhat would you like to do?:",
-                                 "quick_replies": [
-                                     {
-                                         "content_type": "text",
-                                         "title": "Get info",
-                                         "payload": "get info"
-                                     },
-                                     {
-                                         "content_type": "text",
-                                         "title": "Get schedule",
-                                         "payload": "get schedule"
-                                     },
-                                     {
-                                         "content_type": "text",
-                                         "title": "Change subject",
-                                         "payload": "change subject"
-                                     },
-                                     {
-                                         "content_type": "text",
-                                         "title": "Give Feedback",
-                                         "payload": "give feedback"
-                                     },
-                                     {
-                                         "content_type": "text",
-                                         "title": "Get feedback",
-                                         "payload": "get feedback"
-                                     }
-                                 ]
-                             }
-                         }),
-                         headers={'Content-type': 'application/json'})
-    if supp.status_code != requests.codes.ok:
-        print(supp.text)
+    data = json.dumps({
+        "recipient": {"id": recipient},
+        "message": {
+            "text": "You have chosen: " + subject_name + "\nWhat would you like to do?:",
+            "quick_replies": [
+                {
+                    "content_type": "text",
+                    "title": "Get info",
+                    "payload": "get info"
+                },
+                {
+                    "content_type": "text",
+                    "title": "Get schedule",
+                    "payload": "get schedule"
+                },
+                {
+                    "content_type": "text",
+                    "title": "Change subject",
+                    "payload": "change subject"
+                },
+                {
+                    "content_type": "text",
+                    "title": "Give Feedback",
+                    "payload": "give feedback"
+                },
+                {
+                    "content_type": "text",
+                    "title": "Get feedback",
+                    "payload": "get feedback"
+                }
+            ]
+        }
+    })
+    return data
 
 
-def lec_feed(token, recipient):
+def lec_feed(recipient):
     """
     Lets the user choose whether a lecture is too fast, slow or ok
-    :param token: String
     :param recipient: int
     :return: None
     """
-    supp = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
-                         data=json.dumps({
-                             "recipient": {"id": recipient},
-                             "message": {
-                                 "text": "How do you think this lecture is going:",
-                                 "quick_replies": [
-                                     {
-                                         "content_type": "text",
-                                         "title": "Too slow",
-                                         "payload": "0"
-                                     },
-                                     {
-                                         "content_type": "text",
-                                         "title": "It's all right",
-                                         "payload": "1"
-                                     },
-                                     {
-                                         "content_type": "text",
-                                         "title": "Too fast",
-                                         "payload": "2"
-                                     }
-                                 ]
-                             }
-                         }),
-                         headers={'Content-type': 'application/json'})
-    if supp.status_code != requests.codes.ok:
-        print(supp.text)
+    data = json.dumps({
+        "recipient": {"id": recipient},
+        "message": {
+            "text": "How do you think this lecture is going:",
+            "quick_replies": [
+                {
+                    "content_type": "text",
+                    "title": "Too slow",
+                    "payload": "0"
+                },
+                {
+                    "content_type": "text",
+                    "title": "It's all right",
+                    "payload": "1"
+                },
+                {
+                    "content_type": "text",
+                    "title": "Too fast",
+                    "payload": "2"
+                }
+            ]
+        }
+    })
+    return data
 
 
-def lecture_feedback_questions(token, recipient, payload):
+def lecture_feedback_questions(recipient, payload):
     """
     Let the user give feedback from 1 to 5 on 6 different questions, given in order.
-    :param token: String
     :param recipient: int
     :param payload: String
     :return: None
@@ -316,41 +269,33 @@ def lecture_feedback_questions(token, recipient, payload):
         }
     }
     data = json.dumps(json_message)
-    supp = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
-                         data=data,
-                         headers={'Content-type': 'application/json'})
-    if supp.status_code != requests.codes.ok:
-        print(supp.text)
+    return data
 
 
-def give_feedback_choice(token, recipient):
+def give_feedback_choice(recipient):
     """
     Gives the user the choice to select what feedback to give.
-    :param token: String
     :param recipient: int
     """
-    supp = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
-                         data=json.dumps({
-                             "recipient": {"id": recipient},
-                             "message": {
-                                 "text": "What kind of feedback do want to give?",
-                                 "quick_replies": [
-                                     {
-                                         "content_type": "text",
-                                         "title": "Lecture speed",
-                                         "payload": "lecture speed"
-                                     },
-                                     {
-                                         "content_type": "text",
-                                         "title": "Lecture questions",
-                                         "payload": "evaluation_questions"
-                                     }
-                                 ]
-                             }
-                         }),
-                         headers={'Content-type': 'application/json'})
-    if supp.status_code != requests.codes.ok:
-        print(supp.text)
+    data = json.dumps({
+        "recipient": {"id": recipient},
+        "message": {
+            "text": "What kind of feedback do want to give?",
+            "quick_replies": [
+                {
+                    "content_type": "text",
+                    "title": "Lecture speed",
+                    "payload": "lecture speed"
+                },
+                {
+                    "content_type": "text",
+                    "title": "Lecture questions",
+                    "payload": "evaluation_questions"
+                }
+            ]
+        }
+    })
+    return data
 
 
 """
@@ -358,40 +303,35 @@ THIS SECTION FOR GIVING FEEDBACK FOR LECTURES
 """
 
 
-def get_feedback_specific_or_all(token, recipient):
+def get_feedback_specific_or_all(recipient):
     """
     Lets the user choose to get feedback for a specific lecture or all lectures.
-    :param token: String
     :param recipient: int
     """
-    supp = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
-                         data=json.dumps({
-                             "recipient": {"id": recipient},
-                             "message": {
-                                 "text": "Do you want feedback from all the lectures or a specific lecture?",
-                                 "quick_replies": [
-                                     {
-                                         "content_type": "text",
-                                         "title": "All lectures",
-                                         "payload": "all_lectures"
-                                     },
-                                     {
-                                         "content_type": "text",
-                                         "title": "A specific lecture",
-                                         "payload": "a_specific_lecture"
-                                     }
-                                 ]
-                             }
-                         }),
-                         headers={'Content-type': 'application/json'})
-    if supp.status_code != requests.codes.ok:
-        print(supp.text)
+    data = json.dumps({
+        "recipient": {"id": recipient},
+        "message": {
+            "text": "Do you want feedback from all the lectures or a specific lecture?",
+            "quick_replies": [
+                {
+                    "content_type": "text",
+                    "title": "All lectures",
+                    "payload": "all_lectures"
+                },
+                {
+                    "content_type": "text",
+                    "title": "A specific lecture",
+                    "payload": "a_specific_lecture"
+                }
+            ]
+        }
+    })
+    return data
 
 
-def get_feedback_year(token, recipient, years):
+def get_feedback_year(recipient, years):
     """
     Lets the user choose to get feedback for a specific lecture or all lectures.
-    :param token: String
     :param recipient: int
     :param years: list[int]
     """
@@ -416,17 +356,12 @@ def get_feedback_year(token, recipient, years):
 
     # Sends message.
     data = json.dumps(json_message)
-    supp = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
-                         data=data,
-                         headers={'Content-type': 'application/json'})
-    if supp.status_code != requests.codes.ok:
-        print(supp.text)
+    return data
 
 
-def get_feedback_semester(token, recipient, year, semesters):
+def get_feedback_semester(recipient, year, semesters):
     """
     Lets the user choose to get feedback for a specific lecture or all lectures.
-    :param token: String
     :param recipient: int
     :param year: int
     :param semesters: list[String]
@@ -452,17 +387,12 @@ def get_feedback_semester(token, recipient, year, semesters):
 
     # Sends message.
     data = json.dumps(json_message)
-    supp = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
-                         data=data,
-                         headers={'Content-type': 'application/json'})
-    if supp.status_code != requests.codes.ok:
-        print(supp.text)
+    return data
 
 
-def get_feedback_month(token, recipient, year, weeks_list):
+def get_feedback_month(recipient, year, weeks_list):
     """
     Lets the user choose to get feedback for a specific lecture or all lectures.
-    :param token: String
     :param recipient: int
     :param year: String
     :param weeks_list: list[int]
@@ -493,17 +423,12 @@ def get_feedback_month(token, recipient, year, weeks_list):
 
     # Sends message.
     data = json.dumps(json_message)
-    supp = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
-                         data=data,
-                         headers={'Content-type': 'application/json'})
-    if supp.status_code != requests.codes.ok:
-        print(supp.text)
+    return data
 
 
-def get_feedback_week(token, recipient, year, week_list):
+def get_feedback_week(recipient, year, week_list):
     """
     Sends a message to recipient with buttons for selecting what week to feedback from.
-    :param token: String
     :param recipient: int
     :param year: String
     :param week_list: lint[int]
@@ -529,16 +454,11 @@ def get_feedback_week(token, recipient, year, week_list):
 
     # Sends message.
     data = json.dumps(json_message)
-    supp = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
-                         data=data,
-                         headers={'Content-type': 'application/json'})
-    if supp.status_code != requests.codes.ok:
-        print(supp.text)
+    return data
 
 
-def get_feedback_day(token, recipient, year, days, week):
+def get_feedback_day(recipient, year, days, week):
     """
-    :param token: String
     :param recipient: int
     :param year: String
     :param days: List[int]
@@ -562,17 +482,12 @@ def get_feedback_day(token, recipient, year, days, week):
 
     # Sends message.
     data = json.dumps(json_message)
-    supp = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
-                         data=data,
-                         headers={'Content-type': 'application/json'})
-    if supp.status_code != requests.codes.ok:
-        print(supp.text)
+    return data
 
 
-def present_single_lecture_feedback(token, recipient, feedback_list):
+def present_single_lecture_feedback(recipient, feedback_list):
     """
     feedback for one lecture
-    :param token String
     :param recipient int
     :param feedback_list list[lecture_id, [feedbacks]]
     """
@@ -594,16 +509,12 @@ def present_single_lecture_feedback(token, recipient, feedback_list):
                     }
     })
 
-    txt = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
-                        data=data, headers={'Content-type': 'application/json'})
-    if txt.status_code != requests.codes.ok:
-        print(txt.text)
+    return data
 
 
-def present_single_lecture_feedback_questions(token, recipient, feedback_questions):
+def present_single_lecture_feedback_questions(recipient, feedback_questions):
     """
     feedback for one lecture
-    :param token: String
     :param recipient: int
     :param feedback_questions: list[]
     """
@@ -620,10 +531,7 @@ def present_single_lecture_feedback_questions(token, recipient, feedback_questio
                     + " Interest in the next lecture: " + str(feedback_questions[6])
                     }
     })
-    txt = requests.post("https://graph.facebook.com/v2.6/me/messages", params={"access_token": token},
-                        data=data, headers={'Content-type': 'application/json'})
-    if txt.status_code != requests.codes.ok:
-        print(txt.text)
+    return data
 
 
 """
