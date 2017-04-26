@@ -23,10 +23,10 @@ def get_subject_name(code):
 
 def subject_exists_boolean(code):
     """
-      # same as above but returns a boolean value instead
-      :param code: a string subject code such as TDT4145
-      :return: true or false
-      """
+    Same as above but returns a boolean value instead
+    :param code: a string subject code such as TDT4145
+    :return: Boolean
+    """
     try:
         if requests.get(base_url + code).json()["course"] is not None:
             return True

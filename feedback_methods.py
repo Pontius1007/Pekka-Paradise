@@ -10,7 +10,7 @@ def add_entry(user_name, subject_name, feedback):
     :param user_name: String
     :param subject_name: String
     :param feedback: String
-    :return: True or False
+    :return: Boolean
     """
     today = get_today()
     lectures = models.Lecture.query.filter_by(subject=subject_name, year=today[0],
@@ -60,7 +60,7 @@ def get_single_lecture_feed(year, week, day, subject):
     :param year: int
     :param week: int
     :param day: int
-    :param subject string
+    :param subject: string
     :return: feedback_list[lecture_id, list[int]]
     """
     lecture_id = lecture_methods.get_lecture_from_date(year, week, day, subject)
@@ -74,12 +74,12 @@ def get_single_lecture_feed(year, week, day, subject):
 
 def get_single_lecture_feedback_questions(year, week, day, subject):
     """
-    Gets all the feedbacks from a single lecture from the LectureFeedbackEvaluation table.
+    Gets all the feedback from a single lecture from the LectureFeedbackEvaluation table.
     :param year: int
     :param week: int
     :param day: int
     :param subject: String
-    :return:
+    :return: List[lecture_feed1, lecture_feed2... , Lecture_feed5]
     """
     lecture_id = lecture_methods.get_lecture_from_date(year, week, day, subject)
     feedback_question_list = []
@@ -95,6 +95,7 @@ def user_has_feedback_for_lecture(user_name, lecture):
     Checks if user has already given feedback for a lecture.
     :param user_name: String
     :param lecture: int
+    :return: Boolean
     """
     try:
         return models.LectureFeedback.query.filter_by(user_id=user_name, lecture_id=lecture.id).count() > 0
@@ -163,6 +164,7 @@ def user_has_feedback_for_lecture_evaluation(user_name, lecture):
     Checks if user has already given feedbackevaluation for a lecture.
     :param user_name: String
     :param lecture: int
+    :return: Boolean
     """
     try:
         return models.LectureFeedbackEvaluation.query.filter_by(user_id=user_name, lecture_id=lecture.id).count() > 0
@@ -185,6 +187,7 @@ def remove_all_feedback(user_name):
     This method is only used for testing and removes
     test data from database
     :param user_name: String
+    :return: None
     """
     for row in models.LectureFeedback.query.filter_by(user_id=user_name):
         db.session.delete(row)

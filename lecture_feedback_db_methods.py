@@ -25,7 +25,7 @@ def check_lecture_semester(course, start, end, year):
     :param start:
     :param end:
     :param year:
-    :return True or false depending on is the course has lectures in the given weeks:
+    :return Boolean, depending on is the course has lectures in the given weeks:
     """
     try:
         if models.Lecture.query.filter_by(subject=course) is not None:
@@ -44,11 +44,10 @@ def check_lecture_semester(course, start, end, year):
 
 def get_lecture_weeks(subject, year, semester):
     """
-
     :param subject: String
     :param year: int
     :param semester: String
-    :return: list[int]
+    :return: list[int] returns the weeks for subject 
     """
     try:
         week_list = []
