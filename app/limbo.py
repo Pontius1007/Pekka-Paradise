@@ -16,6 +16,8 @@ from config import VERIFY_TOKEN
 
 response_handler = responses
 
+# File for handling user feedback and answering the user
+
 
 @app.route('/', methods=['GET'])
 def handle_verification():
@@ -39,9 +41,6 @@ def handle_messages():
     for sender, incoming_message, payload in messaging_events(payload):
         # The following statements check which options the user selected
         # Response handler contains "templates" for the various messages
-        # Start test
-        print(payload)
-        # End test
         user_name = get_full_name(sender, PAT)
         if "hei" in incoming_message.lower() or "hallo" in incoming_message.lower() or "yo" in incoming_message.lower()\
                 or "hi" in incoming_message.lower():
