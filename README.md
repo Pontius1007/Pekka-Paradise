@@ -6,7 +6,7 @@ Link to the page: https://www.facebook.com/LIMBOBOT/
 Only testers can interact with the bot in it's current state.
 ## Code coverage from Coveralls
 
-[![Coverage Status](https://coveralls.io/repos/github/Pontius1007/Pekka-Paradise/badge.svg?branch=testing)](https://coveralls.io/github/Pontius1007/Pekka-Paradise?branch=testing)
+[![Coverage Status](https://coveralls.io/repos/github/Pontius1007/Pekka-Paradise/badge.svg)](https://coveralls.io/github/Pontius1007/Pekka-Paradise)
 
 ## Virtualenvironment set-up
 Assuming you already have python 3.6 installed, navigate to your local version of the respository and open cmd.
