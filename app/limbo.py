@@ -32,7 +32,7 @@ def handle_verification():
 def handle_messages():
     """
     Sends response to user depending on received message
-    :return: 
+    :return:
     """
     print("Handling Messages")
     payload = request.get_data()
@@ -134,7 +134,7 @@ def handle_messages():
                     send_message(PAT, response_handler.lec_feed(sender))
                 else:
                     send_message(PAT, response_handler.text_message(sender, "Lectures for the subject " + subject +
-                                                                    "does not exist. Likely due to the subject having "
+                                                                    " does not exist. Likely due to the subject having "
                                                                     "no lectures this semester."))
                     send_message(PAT, response_handler.has_course(sender, subject))
 
@@ -234,14 +234,6 @@ def handle_messages():
             week = feedback_methods.get_week()
             day = feedback_methods.get_day()
             subject = user_methods.get_subject_from_user(user_name)
-            schedule = subject_info.printable_schedule(subject_info.get_schedule(subject))
-            if len(schedule) > 640:
-                msg_list = message_split.message_split(schedule)
-                for msg in msg_list:
-                    print(msg)
-                    send_message(PAT, response_handler.text_message(sender, msg))
-            else:
-                send_message(PAT, response_handler.text_message(sender, schedule))
             # Gathers the feedback from today's lecture:
             if lecture_methods.check_lecture_in_db(subject):
                 feedback_list = feedback_methods.get_single_lecture_feed(year, week, day, subject)
@@ -262,9 +254,14 @@ def handle_messages():
 
         elif payload == "get schedule" or "get schedule" in incoming_message.lower():
             subject = user_methods.get_subject_from_user(user_name)
-            send_message(PAT, response_handler.text_message(sender,
-                                                            subject_info.printable_schedule(
-                                                                subject_info.get_schedule(subject))))
+            schedule = subject_info.printable_schedule(subject_info.get_schedule(subject))
+            if len(schedule) > 640:
+                msg_list = message_split.message_split(schedule)
+                for msg in msg_list:
+                    print(msg)
+                    send_message(PAT, response_handler.text_message(sender, msg))
+            else:
+                send_message(PAT, response_handler.text_message(sender, schedule))
             send_message(PAT, response_handler.has_course(sender, user_methods.get_subject_from_user(user_name)))
 
         elif payload == "get info" or "get info" in incoming_message.lower():
@@ -496,5 +493,4 @@ def get_full_name(sender, token):
     headers = {'content-type': 'application/json'}
     response = requests.get(url, headers=headers)
     data = json.loads(response.content)
-    print("DATA:", data)
     return ''.join(data['first_name'] + ' ' + data['last_name'])

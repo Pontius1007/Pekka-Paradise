@@ -1,8 +1,5 @@
 import json
 import random
-
-import requests
-
 import ime_data_fetch
 
 
@@ -340,7 +337,7 @@ def get_feedback_year(recipient, years):
     json_message = {
         "recipient": {"id": recipient},
         "message": {
-            "text": "Select what year you want feedback from",
+            "text": "Select what year you want feedback from:",
             "quick_replies": [
             ]
         }
@@ -371,7 +368,7 @@ def get_feedback_semester(recipient, year, semesters):
     json_message = {
         "recipient": {"id": recipient},
         "message": {
-            "text": "Select what semester you want feedback from",
+            "text": "Select what semester you want feedback from:",
             "quick_replies": [
             ]
         }
@@ -470,7 +467,7 @@ def get_feedback_day(recipient, year, days, week):
     json_message = {
         "recipient": {"id": recipient},
         "message": {
-            "text": "Select what day you want feedback from",
+            "text": "Select what day you want feedback from:",
             "quick_replies": [
             ]
         }
