@@ -56,6 +56,6 @@ When you get to the Page Access Token and VERIFY_TOKEN in the facebook tutorial 
 
 Open the commandline and run the following command:
 
-´heroku run python3 db_create.py´
+`heroku run python3 db_create.py`
 
 This will make the tables in your database.
