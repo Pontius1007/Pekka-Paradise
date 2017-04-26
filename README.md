@@ -59,3 +59,5 @@ Open the commandline and run the following command:
 `heroku run python3 db_create.py`
 
 This will make the tables in your database.
+
+Now you have completed the setup and the bot should be working.
