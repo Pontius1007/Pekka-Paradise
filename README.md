@@ -20,16 +20,6 @@ Assuming you already have python 3.6 installed, navigate to your local version o
 
 `pip install requirements.txt` to install all the needed packages
 
-The next bit is convenient for development an testing of the bot and is not necessary for the installation skip to Heroku set-up if not.
-
-The following commands are for setting the config variables and are for windows (on linux "set" is replaced with "export"):
-
-`set DATABASE_URL=your_database_url_here`
-
-`set PAT=your_pat_here`
-
-`set VERIFY_TOKEN=your_verify_token_here`
-
 ## Heroku set-up
 Make a new user then:
 
@@ -74,3 +64,15 @@ Open the commandline and run the following command:
 This will make the tables in your database.
 
 Now you have completed the setup and the bot should be working.
+
+## Config variables in virtual environment
+
+The next bit is convenient for development an testing of the bot and is not necessary for the installation.
+
+The following commands are for setting the config variables and are for windows (on linux "set" is replaced with "export"):
+
+`set DATABASE_URL=your_database_url_here`
+
+`set PAT=your_pat_here`
+
+`set VERIFY_TOKEN=your_verify_token_here`
