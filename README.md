@@ -52,6 +52,8 @@ VERIFY_TOKEN you set yourself when making the facebook page.
 
 When you get to the Page Access Token and VERIFY_TOKEN in the facebook tutorial set them on you Heroku app.
 
+If your facebook page does not have a "Send message button". Select add button and add a "send message" button. Then hover over the button and select "test button" from the drop-down menu.
+
 ## Creating database tables
 
 Open the commandline and run the following command:
