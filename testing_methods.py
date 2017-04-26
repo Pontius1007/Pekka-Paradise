@@ -3,7 +3,9 @@ import sys
 from io import StringIO
 
 from sqlalchemy.exc import SQLAlchemyError
+from app import responses
 
+import json
 import user_methods
 import random
 import feedback_methods
@@ -20,6 +22,7 @@ class Capturing(list):
     """
     This class is for helping 'catch' or read text written to console
     """
+
     def __enter__(self):
         self._stdout = sys.stdout
         sys.stdout = self._stringio = StringIO()
@@ -27,12 +30,11 @@ class Capturing(list):
 
     def __exit__(self, *args):
         self.extend(self._stringio.getvalue().splitlines())
-        del self._stringio    # free up some memory
+        del self._stringio  # free up some memory
         sys.stdout = self._stdout
 
 
 class IMETest(unittest.TestCase):
-
     def test_subject_exists_boolean(self):
         """
         This method tests the subject_exists_boolean method in ime_data_fetch.py
@@ -102,9 +104,9 @@ class IMETest(unittest.TestCase):
                 try:
                     single_lecture.extend(schedule['course']['summarized'][i]['rooms'][0]['romNavn'])
                 except IndexError:
-                    single_lecture.extend("")
+                    single_lecture.extend("None")
                 lecture_information.append(single_lecture)
-        # self.assertEqual(subject_info.gather_lecture_information(schedule), lecture_information)
+        self.assertEqual(subject_info.gather_lecture_information(schedule), lecture_information)
         self.assertEqual(subject_info.gather_lecture_information(subject_info.get_schedule("tdt123")),
                          "No schedule available")
 
@@ -246,7 +248,6 @@ class IMETest(unittest.TestCase):
 
 
 class UserMethodTests(unittest.TestCase):
-
     def setUp(self):
         """
         Sets the test values which are sent to the database
@@ -302,7 +303,6 @@ class UserMethodTests(unittest.TestCase):
 
 
 class FeedbackMethodsTest(unittest.TestCase):
-
     def setUp(self):
         """
         Populates the database with various test data
@@ -380,6 +380,183 @@ class FeedbackMethodsTest(unittest.TestCase):
         """
         date = datetime.date.today()
         return [date.year, datetime.date.isocalendar(date)[1], datetime.datetime.today().weekday() + 1]
+
+
+class ResponsesTest(unittest.TestCase):
+    """
+    This class test that the various templates in responses.py are generated correctly
+    when given data. It works by feeding data into 'template generators' then asserting
+    that the correct data is in the following output template.
+    """
+    def test_greeting(self):
+        test_data = json.dumps({
+            "recipient": {"id": 1337},
+            "message": {"text": "Hello " + "TEST" + "!\nWhat can I do for you today?" +
+                                "\nIf you are new to the bot and would like some help, please press 'Help' in chat"}})
+        return_data = responses.greeting_message(1337, "TEST USER")
+        self.assertEqual(test_data, return_data)
+
+    def test_text(self):
+        test_data = json.dumps({
+            "recipient": {"id": 12345678},
+            "message": {"text": "THIS IS A TEST MESSAGE"}})
+        return_data = responses.text_message(12345678, "THIS IS A TEST MESSAGE")
+        self.assertEqual(test_data, return_data)
+
+    def test_user_info(self):
+        message = "Hello " + "TESTER" + "!\nYou currently have " + "TST420" + " selected"
+        test_data = json.dumps({
+            "recipient": {"id": 123456789},
+            "message": {"text": message}})
+        return_data = responses.user_info(123456789, "TESTER", "TST420")
+        self.assertEqual(test_data, return_data)
+
+    def test_all_feedback_speed(self):
+        url_slow = ["http://www.bbcactive.com/BBCActiveIdeasandResources/Tenwaystomakelecturesmoredynamic.aspx",
+                    "http://www.bbcactive.com/BBCActiveIdeasandResources/Tenwaystomakelecturesmoredynamic.aspx",
+                    "https://www.missouristate.edu/chhs/4256.htm"]
+        url_fast = ["https://tomprof.stanford.edu/posting/491",
+                    "www.montana.edu%2Ffacultyexcellence%2FPapers%2Flecture.pdf&h=ATOoZvoecXZQokiY2ApCWeP4lMK1h-aZIF3"
+                    "rC6XU_dOtRdx4vBn9fBEcSJMA3i40D5P-QOrdve6qFCxX6rD1MhNwD7VkXnYpyhMRJD8RFnR6zc35vSjRjOBXh0G5ag5C"
+                    "K3zQd1WkxbY98LjG1nQo18bAc0I",
+                    "http://www.bbcactive.com/BBCActiveIdeasandResources/Tenwaystomakelecturesmoredynamic.aspx"]
+
+        test_data1 = json.dumps({
+            "recipient": {"id": 4200},
+            "message": {"text": "Feedback for " + "TST4200" + ":\n" +
+                                "Total number of participants: " + str(100) + "\n"
+                                + str(10) + "% of participants thinks the lectures are too slow.\n"
+                                + str(80) + "% of participants thinks the lectures are OK.\n"
+                                + str(10) + "% of participants thinks the lectures are too fast.\n\n" +
+                                "Your students are happy and you are doing a good job, keep it up!"
+                        }
+        })
+
+        self.assertEqual(responses.all_feedback_speed(4200, "TST4200", [10, 80, 10, 100]), test_data1)
+        self.assertTrue(
+            json.loads(responses.all_feedback_speed(4200, "TST4200", [80, 10, 10, 100]))["message"]["text"].split()[-1]
+            in url_slow)
+        self.assertTrue(
+            json.loads(responses.all_feedback_speed(4200, "TST4200", [10, 10, 80, 100]))["message"]["text"].split()[-1]
+            in url_fast)
+
+    def test_all_feedback_questions(self):
+        test_data = ['1331', '1332', '1333', '1334', '1335', '1336', '1337']
+        tst_id = 123
+        test_in_generated_data = 0
+        generated_text = json.loads(
+            responses.all_feedback_questions(tst_id, "TDT420", test_data))["message"]["text"].split()
+
+        for word in generated_text:
+            if word in test_data:
+                test_in_generated_data += 1
+
+        self.assertTrue(test_in_generated_data == 7)
+        self.assertEqual(json.loads(responses.all_feedback_questions(tst_id, "TDT420", test_data))["recipient"]["id"],
+                         tst_id)
+
+    def test_no_course(self):
+        wanted_string = "You have not chosen a subject \n What would you like to do?:"
+        tst_id = 321
+
+        self.assertEqual(json.loads(responses.no_course(tst_id))["message"]["text"], wanted_string)
+        self.assertEqual(json.loads(responses.no_course(tst_id))["recipient"]["id"], tst_id)
+
+    def test_has_course(self):
+        test_course = "TDT4140"
+        user_id = 1337
+
+        self.assertEqual(json.loads(responses.has_course(user_id, test_course))["recipient"]["id"], user_id)
+        self.assertEqual(json.loads(responses.has_course(user_id, test_course))["message"]["text"].split()[3:5][1],
+                         "Software")
+
+    def test_lec_feed(self):
+        tst_id = 321123
+        wanted_string = "How do you think this lecture is going:"
+
+        self.assertEqual(json.loads(responses.lec_feed(tst_id))["message"]["text"], wanted_string)
+        self.assertEqual(json.loads(responses.lec_feed(tst_id))["recipient"]["id"], tst_id)
+
+    def test_lecture_feedback_questions(self):
+        tst_id = 3211
+
+        json_data = json.loads(responses.lecture_feedback_questions(tst_id, "FirstText TextAfterSplit"))
+        self.assertEqual(json_data["message"]["text"], "How organized was the lecture?")
+        self.assertEqual(json_data["recipient"]["id"], tst_id)
+
+    def test_give_feedback_choice(self):
+        json_data = json.loads(responses.give_feedback_choice(13337))
+
+        self.assertEqual(json_data["recipient"]["id"], 13337)
+        self.assertEqual(json_data["message"]["text"], "What kind of feedback do want to give?")
+
+    def test_get_feedback_spec_or_all(self):
+        json_data = json.loads(responses.get_feedback_specific_or_all(1333))
+
+        self.assertEqual(json_data["recipient"]["id"], 1333)
+        self.assertEqual(json_data["message"]["text"], "Do you want feedback from all the lectures or a specific "
+                                                       "lecture?")
+
+    def test_get_feedback_year(self):
+        json_data = json.loads(responses.get_feedback_year(123456, [2017, 2018]))
+
+        self.assertEqual(json_data["recipient"]["id"], 123456)
+        self.assertEqual(json_data["message"]["text"], "Select what year you want feedback from")
+
+    def test_get_feedback_semester(self):
+        test_id = 420
+        test_year = 240
+        test_semester = ["Semester"]
+
+        json_data = json.loads(responses.get_feedback_semester(test_id, test_year, test_semester))
+        self.assertEqual(json_data["recipient"]["id"], test_id)
+        self.assertEqual(json_data["message"]["text"], "Select what semester you want feedback from")
+
+    def test_get_feedback_month(self):
+        test_id = 421
+        test_year = '241'
+        test_weeks = [123, 125, 126, 127]
+
+        self.assertEqual(
+            json.loads(responses.get_feedback_month(test_id, test_year, [123, 122]))["recipient"]["id"], test_id)
+        self.assertEqual(
+            json.loads(responses.get_feedback_month(test_id, test_year, test_weeks))["message"]["text"],
+            "Select what weeks you want feedback from:")
+
+    def test_get_feedback_week(self):
+        test_id = 4200
+        test_year = '2400'
+        test_weeks = [123, 125, 126, 127]
+
+        json_data = json.loads(responses.get_feedback_week(test_id, test_year, test_weeks))
+        self.assertEqual(json_data["recipient"]["id"], test_id)
+        self.assertEqual(json_data["message"]["text"], "Select what week you want feedback from:")
+
+    def test_get_feedback_day(self):
+        test_year = '1234'
+        test_week = '123'
+        test_id = 1235456
+        test_days = [0, 2, 3]
+
+        json_data = json.loads(responses.get_feedback_day(test_id, test_year, test_days, test_week))
+        self.assertEqual(json_data["recipient"]["id"], test_id)
+        self.assertEqual(json_data["message"]["text"], "Select what day you want feedback from")
+
+    def test_present_lecture_feedback(self):
+        test_id = 11232
+        feedback_test = ['TST420', [1, 1, 1, 1, 1, 1, 1, 2, 2, 2]]
+
+        json_data = json.loads(responses.present_single_lecture_feedback(test_id, feedback_test))
+        self.assertEqual(json_data["message"]["text"].split()[3], str(len(feedback_test[1])))
+        self.assertEqual(json_data["message"]["text"].split()[18], '70%')
+
+    def test_present_lecture_questions(self):
+        test_id = 33333
+        test_feedback = [34, 69, 34, 12, 124, 234, 235]
+
+        json_data = json.loads(responses.present_single_lecture_feedback_questions(test_id, test_feedback))
+        self.assertEqual(json_data["message"]["text"].split()[10], str(test_feedback[1]))
+        self.assertEqual(json_data["message"]["text"].split()[-1], str(test_feedback[-1]))
 
 
 if __name__ == '__main__':

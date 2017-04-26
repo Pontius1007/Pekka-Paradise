@@ -3,7 +3,7 @@ from app import models
 
 def get_year(course):
     """
-    :param course:
+    :param course: String
     :return A list in descending order containing the years of the lectures:
     """
     try:
@@ -21,11 +21,11 @@ def get_year(course):
 
 def check_lecture_semester(course, start, end, year):
     """
-    :param course:
-    :param start:
-    :param end:
-    :param year:
-    :return True or false depending on is the course has lectures in the given weeks:
+    :param course: String
+    :param start: int
+    :param end: int
+    :param year: int
+    :return Boolean, depending on is the course has lectures in the given weeks:
     """
     try:
         if models.Lecture.query.filter_by(subject=course) is not None:
@@ -44,11 +44,10 @@ def check_lecture_semester(course, start, end, year):
 
 def get_lecture_weeks(subject, year, semester):
     """
-
     :param subject: String
     :param year: int
     :param semester: String
-    :return: list[int]
+    :return: list[int] returns the weeks for subject 
     """
     try:
         week_list = []
@@ -69,9 +68,9 @@ def get_lecture_weeks(subject, year, semester):
 
 def get_day_of_lecture_in_week(course, year, week):
     """
-    :param course:
-    :param week:
-    :param year:
+    :param course: String
+    :param week: int
+    :param year: int
     :return A list containing the week-days of a given lecture in a given week:
     """
     try:
