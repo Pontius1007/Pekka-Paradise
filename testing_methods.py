@@ -501,7 +501,7 @@ class ResponsesTest(unittest.TestCase):
         json_data = json.loads(responses.get_feedback_year(123456, [2017, 2018]))
 
         self.assertEqual(json_data["recipient"]["id"], 123456)
-        self.assertEqual(json_data["message"]["text"], "Select what year you want feedback from")
+        self.assertEqual(json_data["message"]["text"], "Select what year you want feedback from:")
 
     def test_get_feedback_semester(self):
         test_id = 420
@@ -510,7 +510,7 @@ class ResponsesTest(unittest.TestCase):
 
         json_data = json.loads(responses.get_feedback_semester(test_id, test_year, test_semester))
         self.assertEqual(json_data["recipient"]["id"], test_id)
-        self.assertEqual(json_data["message"]["text"], "Select what semester you want feedback from")
+        self.assertEqual(json_data["message"]["text"], "Select what semester you want feedback from:")
 
     def test_get_feedback_month(self):
         test_id = 421
@@ -540,7 +540,7 @@ class ResponsesTest(unittest.TestCase):
 
         json_data = json.loads(responses.get_feedback_day(test_id, test_year, test_days, test_week))
         self.assertEqual(json_data["recipient"]["id"], test_id)
-        self.assertEqual(json_data["message"]["text"], "Select what day you want feedback from")
+        self.assertEqual(json_data["message"]["text"], "Select what day you want feedback from:")
 
     def test_present_lecture_feedback(self):
         test_id = 11232
