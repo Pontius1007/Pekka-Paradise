@@ -9,7 +9,8 @@ Only testers can interact with the bot in it's current state.
 [![Coverage Status](https://coveralls.io/repos/github/Pontius1007/Pekka-Paradise/badge.svg)](https://coveralls.io/github/Pontius1007/Pekka-Paradise)
 
 ## Virtualenvironment set-up
-Assuming you already have python 3.6 installed, navigate to your local version of the respository and open cmd.
+
+Assuming you already have python 3.6 installed, navigate to your local version of the respository and open cmd. 
 
 `pip install virtualenv` to install virtual env
 
@@ -18,6 +19,16 @@ Assuming you already have python 3.6 installed, navigate to your local version o
 `venv\Scripts\activate` to activate the vitual environment (on windows)
 
 `pip install requirements.txt` to install all the needed packages
+
+The next bit is convenient for development an testing of the bot and is not necessary for the installation skip to Heroku set-up if not.
+
+The following commands are for setting the config variables and are for windows (on linux "set" is replaced with "export"):
+
+`set DATABASE_URL=your_database_url_here`
+
+`set PAT=your_pat_here`
+
+`set VERIFY_TOKEN=your_verify_token_here`
 
 ## Heroku set-up
 Make a new user then:
